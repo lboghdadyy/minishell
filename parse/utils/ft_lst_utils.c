@@ -1,21 +1,20 @@
 #include "../../minishell.h"
 
-t_list	*ft_lstnew()
+t_token	*ft_lstnew(TokenType type, char *value)
 {
-	t_list		*elt;
+	t_token		*elt;
 
-	elt = malloc(sizeof(t_list));
+	elt = malloc(sizeof(t_token));
 	if (!elt)
 		return (NULL);
-	// elt->command = command;
-	// elt->flags = flags;
-	// elt->operator = c;
+	elt->type = type;
+	elt->value = value;
 	elt->next = NULL;
 	return (elt);
 }
 
 
-t_list	*ft_lstlast(t_list *lst)
+t_token	*ft_lstlast(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -28,9 +27,9 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_list**lst, t_list*new)
+void	ft_lstadd_back(t_token **lst, t_token *new)
 {
-	t_list	*tmp;
+	t_token	*tmp;
 
 	if (!new)
 		return ;
@@ -43,9 +42,9 @@ void	ft_lstadd_back(t_list**lst, t_list*new)
 	tmp->next = new;
 }
 
-void	ft_lstclear(t_list **lst)
+void	ft_lstclear(t_token **lst)
 {
-	t_list	*temp;
+	t_token	*temp;
 
 	while (*lst)
 	{

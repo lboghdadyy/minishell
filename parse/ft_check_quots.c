@@ -30,6 +30,8 @@ int    ft_check_quots(char *command)
         if (command[index] == '\'')
         {
             resault = ft_check_end(command + index, '\'');
+            if (resault)
+                break;
             index++;
             while (command[index] != '\'' && command[index])
                 index++;
@@ -37,6 +39,8 @@ int    ft_check_quots(char *command)
         if (command[index] == '\"')
         {
             resault = ft_check_end(command + index, '\"');
+            if (resault)
+                break;
             index++;
             while (command[index] != '\"' && command[index])
                 index++;

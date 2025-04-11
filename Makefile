@@ -9,7 +9,15 @@ SRC=minishell.c \
 	parse/ft_parse_command.c \
 	parse/utils/ft_strjoin.c \
 	parse/utils/ft_lst_utils.c \
-	parse/utils/ft_syntax_error.c
+	parse/utils/ft_syntax_error.c \
+	parse/ft_split_command.c \
+	parse/ft_token_type.c \
+	parse/utils/ft_substr.c \
+	parse/utils/ft_is_space.c \
+	parse/ft_split_based.c \
+	parse/utils/ft_split.c \
+	parse/utils/ft_strchr.c \
+	parse/utils/ft_strdup.c
 OBJ=$(SRC:.c=.o)
 HEADER=minishell.h
 
