@@ -19,6 +19,9 @@ char* token_type_to_string(TokenType type) {
     else if (type == TOKEN_SEMICOLON) {
         return "SEMICOLON";
     }
+    else {
+        return "UNKNOWN";
+    }
 }
 
 void    ft_parse_command(char *string)
