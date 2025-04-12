@@ -13,7 +13,7 @@ int ft_lenght_sub(char *command, int index)
     return (len);
 }
 
-TokenType ft_token_type(char *string)
+t_tokentype ft_token_type(char *string)
 {
     if (!string)
         return TOKEN_WORD;

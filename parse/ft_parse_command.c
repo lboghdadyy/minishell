@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-char* token_type_to_string(TokenType type) {
+char* token_type_to_string(t_tokentype type) {
     if (type == TOKEN_WORD) {
         return "WORD";
     }
