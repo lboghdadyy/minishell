@@ -49,7 +49,11 @@ t_token *ft_split_command(char **command)
 
     if (!command)
         return NULL;
-    (1) && (index = 0, index2 = 0, lst = NULL, new_node = NULL, special_char_found = false);
+    index = 0;
+    lst = NULL;
+    new_node = NULL;
+    special_char_found = false;
+    index2 = 0;
     while (command[index])
     {
         special_char_found = false;

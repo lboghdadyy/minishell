@@ -24,6 +24,13 @@ char* token_type_to_string(TokenType type) {
     }
 }
 
+void print_token_list(t_token *head) {
+    while (head) {
+        printf("Type: %s | Value: %s\n", token_type_to_string(head->type), head->value);
+        head = head->next;
+    }
+}
+
 void    ft_parse_command(char *string)
 {
     t_token *lst;
@@ -34,5 +41,6 @@ void    ft_parse_command(char *string)
         lst = ft_split_command(ft_split(string));
         if (!lst)
             return ;
+        print_token_list(lst);
     }
 }

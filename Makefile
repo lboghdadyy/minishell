@@ -23,8 +23,8 @@ HEADER=minishell.h
 
 all : $(NAME)
 
-$(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) -lreadline $(OBJ) -o $@
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $@ -lreadline -lncurses
 
 %.o : %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
