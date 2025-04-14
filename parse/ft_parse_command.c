@@ -85,6 +85,8 @@ t_token    *ft_parse_command(char *string)
         lst = ft_split_command(ft_split(string));
         if (!lst)
             return (NULL);
+        if (ft_logic_syntax(lst))
+            return (ft_lstclear(&lst), NULL);
     }
     return (lst);
 }

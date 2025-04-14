@@ -17,7 +17,8 @@ SRC= minishell.c \
 	parse/ft_split_based.c \
 	parse/utils/ft_split.c \
 	parse/utils/ft_strchr.c \
-	parse/utils/ft_strdup.c
+	parse/utils/ft_strdup.c \
+	parse/ft_logic_syntax.c
 OBJ= $(SRC:.c=.o)
 HEADER= minishell.h
 

@@ -61,5 +61,6 @@ t_tokentype	ft_token_type(char *string);
 void		ft_split_based(char **command, int index1, t_token **lst);
 char		*ft_strdup(char *src);
 bool		ft_check_heredoc(char *string);
+int			ft_logic_syntax(t_token *lst);
 
 #endif
