@@ -13,7 +13,6 @@ t_token	*ft_lstnew(t_tokentype type, char *value)
 	return (elt);
 }
 
-
 t_token	*ft_lstlast(t_token *lst)
 {
 	if (!lst)
@@ -50,6 +49,7 @@ void	ft_lstclear(t_token **lst)
 	{
 		temp = *lst;
 		*lst = (*lst)->next;
+		free(temp->value);
 		free(temp);
 	}
 }

@@ -17,7 +17,6 @@ t_tokentype ft_token_type(char *string)
 {
     if (!string)
         return TOKEN_WORD;
-        
     if (ft_check_pip(string))
         return TOKEN_PIPE;
     if (ft_check_redirect_in(string))
@@ -26,13 +25,12 @@ t_tokentype ft_token_type(char *string)
         return TOKEN_REDIRECT_OUT;
     if (ft_check_append(string))
         return TOKEN_APPEND;
-    if (ft_check_semicolon(string))
-        return TOKEN_SEMICOLON;
-    
+    if (ft_check_heredoc(string))
+        return TOKEN_HERDOC;
     return TOKEN_WORD;
 }
 
-static void *ft_cleanup(t_token **lst, char **command)
+void    *ft_cleanup(t_token **lst, char **command)
 {
     ft_lstclear(lst);
     free_tab(command);
@@ -60,7 +58,7 @@ t_token *ft_split_command(char **command)
         index2 = 0;
         while (command[index][index2] && !special_char_found)
         {
-            if (ft_strchr("|<>;", command[index][index2]))
+            if (ft_strchr("|<>", command[index][index2]))
             {
                 special_char_found = true;
                 ft_split_based(command, index, &lst);
@@ -74,7 +72,6 @@ t_token *ft_split_command(char **command)
             ft_strdup(command[index]));
             if (!new_node)
                 return ft_cleanup(&lst, command);
-                
             ft_lstadd_back(&lst, new_node);
         }
         index++;

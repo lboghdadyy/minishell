@@ -15,7 +15,9 @@ typedef enum e_tokentype {
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,
 	TOKEN_APPEND,
-	TOKEN_SEMICOLON,
+	TOKEN_HERDOC,
+	TOKEN_DOUBLEQ,
+	TOKEN_SINGLEQ,
 }	t_tokentype;
 
 typedef struct s_token {
@@ -24,10 +26,20 @@ typedef struct s_token {
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_exec
+{
+    int                fd_in;
+    int                fd_out;
+    int                here_doc;
+    char            *cmd;
+    char            **opt;
+    struct s_exec    *next;
+}    t_exec;
+
 void		ft_exit(char *error);
 int			ft_check_quots(char *command);
 size_t		ft_strlen(char *str);
-void		ft_parse_command(char *string);
+t_token    *ft_parse_command(char *string);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_syntax_error(void);
 char		*ft_substr(char *s, unsigned int start, size_t len);
@@ -44,10 +56,10 @@ int			ft_is_space(char c);
 bool		ft_check_pip(char *string);
 bool		ft_check_redirect_in(char *string);
 bool		ft_check_redirect_out(char *string);
-bool		ft_check_semicolon(char *string);
 bool		ft_check_append(char *string);
 t_tokentype	ft_token_type(char *string);
 void		ft_split_based(char **command, int index1, t_token **lst);
 char		*ft_strdup(char *src);
+bool		ft_check_heredoc(char *string);
 
 #endif
