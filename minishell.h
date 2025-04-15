@@ -8,6 +8,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <stdbool.h>
+# include "garbage.h"
 
 typedef enum e_tokentype {
 	TOKEN_WORD,
@@ -19,6 +20,7 @@ typedef enum e_tokentype {
 	TOKEN_DOUBLEQ,
 	TOKEN_SINGLEQ,
 }	t_tokentype;
+// remove Tall Names like TOKEN_WORD -> WORD for norm;
 
 typedef struct s_token {
 	t_tokentype		type;
@@ -30,7 +32,6 @@ typedef struct s_exec
 {
     int                fd_in;
     int                fd_out;
-    int                here_doc;
     char            *cmd;
     char            **opt;
     struct s_exec    *next;
@@ -62,5 +63,15 @@ void		ft_split_based(char **command, int index1, t_token **lst);
 char		*ft_strdup(char *src);
 bool		ft_check_heredoc(char *string);
 int			ft_logic_syntax(t_token *lst);
+
+// exec
+void	execution(t_exec *exec);
+int		ft_lstsize(t_exec *exec);
+int		is_builtin(char *cmd);
+void	execute_builtin(t_exec *exec);
+
+// exec_utils
+void	ft_putstr_fd(char *s, int fd);
+int	ft_strcmp(char *s1, char *s2);
 
 #endif

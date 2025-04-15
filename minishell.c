@@ -4,6 +4,7 @@ int	main(int argc, char **argv)
 {
 	char	*input;
 	t_token *lst;
+	// t_exec	*exec;// 3merha wela n3merha ?
 
 	if (argc != 1)
 		ft_exit("no arguments\n");
@@ -20,9 +21,6 @@ int	main(int argc, char **argv)
 			continue ;
 		free(input);
 		ft_lstclear(&lst);
-		// if is exec
-		//     do execve;
-		// else if built-ins
-		//     execve;
+		// execution(exec); // I need more to work
 	}
 }
