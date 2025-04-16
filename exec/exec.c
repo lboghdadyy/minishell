@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad < sbaghdad@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/16 06:45:26 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:49:18 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ t_exec	*convert_token_to_exec(t_token *lst)
 		if (!node->opt)
 			return (NULL);
 		i = 0;
-		while (lst && lst->type != TOKEN_PIPE)
+		while (lst && lst->type != PIPE)
 		{
-			if (lst->type == TOKEN_WORD)
+			if (lst->type == WORD)
 			{
 				node->opt[i] = ft_strdup(lst->value);
 				if (i == 0)
@@ -57,7 +57,7 @@ t_exec	*convert_token_to_exec(t_token *lst)
 		}
 		node->opt[i] = NULL;
 		add_back(&head, node);
-		if (lst && lst->type == TOKEN_PIPE)
+		if (lst && lst->type == PIPE)
 			lst = lst->next;
 	}
 	return (head);
