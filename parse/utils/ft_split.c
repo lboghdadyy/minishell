@@ -41,8 +41,14 @@ int get_word_len(char *s, int i)
 	bool double_quots = false;
 	bool single_quots = false;
 
-	if (ft_strchr("|<>", s[i]))
+	if (s[i] == '|')
 		return (1);
+	if (ft_strchr("<>", s[i]))
+	{
+		while (ft_strchr("<>", s[i]) && s[i])
+			i++;
+		return (i - start);
+	}
 	while (s[i])
 	{
 		if (ft_strchr("|<>", s[i]) && !single_quots && !double_quots)
