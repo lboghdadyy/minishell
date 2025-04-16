@@ -2,17 +2,17 @@
 
 char* token_type_to_string(t_tokentype type)
 {
-    if (type == TOKEN_PIPE) {
+    if (type == PIPE) {
         return "PIPE";
     }
-    else if (type == TOKEN_REDIRECT_IN) {
+    else if (type == REDIRECT_IN) {
         return "REDIRECT_IN";
     }
-    else if (type == TOKEN_REDIRECT_OUT)
+    else if (type == REDIRECT_OUT)
         return "REDIRECT_OUT";
-    else if (type == TOKEN_APPEND)
+    else if (type == APPEND)
         return "APPEND";
-    else if (type == TOKEN_HERDOC)
+    else if (type == HERDOC)
         return ("HEREDOC");
     else
     {
@@ -40,13 +40,6 @@ int     ft_count_operator(char *string, int index, char c)
     return count;
 }
 
-int     ft_check_double(char *string, int index)
-{
-    if (string[index -1] == '|' || string[index + 1] == '|')
-        return 1;
-    return 0;   
-}
-
 int ft_check_syntax(char *string)
 {
     int index;
@@ -59,11 +52,6 @@ int ft_check_syntax(char *string)
         if (string[index] == '<' || string[index] == '>')
         {
             if (ft_count_operator(string, index, string[index]) > 2)
-                return (ft_syntax_error(), 1);
-        }
-        if (string[index] == '|')
-        {
-            if (ft_check_double(string, index))
                 return (ft_syntax_error(), 1);
         }
         index++;
@@ -87,6 +75,7 @@ t_token    *ft_parse_command(char *string)
             return (NULL);
         if (ft_logic_syntax(lst))
             return (ft_lstclear(&lst), NULL);
+        // ft_expand(lst);
     }
     return (lst);
 }

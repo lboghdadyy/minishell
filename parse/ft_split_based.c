@@ -6,10 +6,16 @@ void    ft_split_based(char **command, int index1, t_token **lst)
     int     rest_point;
     char     *extraxted;
     t_token *tmp;
+    bool     found_quots = false;
     
     while (command[index1][i])
     {
-        if (!ft_strchr("|<>;", command[index1][i]))
+        if (command[index1][i] == '\"' || command[index1][i] == '\'')
+        {
+            found_quots = !found_quots;
+            i++;
+        }
+        else if (!ft_strchr("|<>;", command[index1][i]) && found_quots)
         {
             rest_point = i;
             while (!ft_strchr("|<>;", command[index1][i]))

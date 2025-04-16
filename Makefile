@@ -1,6 +1,6 @@
 CC= cc
 RM= rm -rf
-CFLAGS= -Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra -Werror #-fsanitize=address -g3
 NAME= minishell
 SRC= minishell.c \
 	parse/utils/ft_exit.c \
@@ -18,8 +18,9 @@ SRC= minishell.c \
 	parse/utils/ft_split.c \
 	parse/utils/ft_strchr.c \
 	parse/utils/ft_strdup.c \
-	parse/ft_logic_syntax.c
-	
+	parse/ft_logic_syntax.c \
+	parse/utils/ft_strlcpy.c \
+	garbage.c
 OBJ= $(SRC:.c=.o)
 HEADER= minishell.h
 

@@ -26,16 +26,15 @@ int		clear_fds(int fd, int save);
 
 
 typedef enum e_tokentype {
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIRECT_IN,
-	TOKEN_REDIRECT_OUT,
-	TOKEN_APPEND,
-	TOKEN_HERDOC,
-	TOKEN_DOUBLEQ,
-	TOKEN_SINGLEQ,
+	WORD,
+	PIPE,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	APPEND,
+	HERDOC,
+	DOUBLEQ,
+	SINGLEQ,
 }	t_tokentype;
-// remove Tall Names like TOKEN_WORD -> WORD for norm;
 
 typedef struct s_token {
 	t_tokentype		type;
@@ -78,6 +77,7 @@ void		ft_split_based(char **command, int index1, t_token **lst);
 char		*ft_strdup(char *src);
 bool		ft_check_heredoc(char *string);
 int			ft_logic_syntax(t_token *lst);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 
 // exec
 void	execution(t_exec *exec, char **env);

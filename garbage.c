@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   garbage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad < sbaghdad@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 08:59:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/16 06:45:18 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:39:13 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage.h"
 
-t_garbage	*ft_lstlast(t_garbage *lst)
+t_garbage	*ft_lstlast_garbage(t_garbage *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -28,10 +28,10 @@ void	add_to_garabage(t_garbage **lst, t_garbage *new)
 	if (!*lst)
 		*lst = new;
 	else
-		ft_lstlast(*lst)->next = new;
+		ft_lstlast_garbage(*lst)->next = new;
 }
 
-t_garbage	*ft_lstnew(void *adress)
+t_garbage	*ft_new_garbage(void *adress)
 {
 	t_garbage	*new;
 
@@ -57,7 +57,7 @@ void	clear_it(t_garbage *garbage)
 		free(garbage);
 		garbage = clear;
 	}
-	clear_fds(0, 0);
+	// clear_fds(0, 0);
 }
 
 void	*ft_malloc(size_t size, int flag)
@@ -76,6 +76,6 @@ void	*ft_malloc(size_t size, int flag)
 		clear_it(garbage);
 		exit(1);
 	}
-	add_to_garabage(&garbage, ft_lstnew(ret));
+	add_to_garabage(&garbage, ft_new_garbage(ret));
 	return (ret);
 }

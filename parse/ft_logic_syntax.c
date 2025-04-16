@@ -3,19 +3,21 @@
 int ft_logic_syntax(t_token *lst)
 {
     t_token *tmp;
+    t_token *next;
 
     tmp = lst;
     while (tmp)
     {
-        if (tmp->type == TOKEN_PIPE && tmp->next->type != TOKEN_WORD)
+        next = tmp->next;
+        if (tmp->type == PIPE && (!next || next->type == PIPE))
             return (ft_syntax_error(), 1);
-        if (tmp->type == TOKEN_HERDOC && tmp->next->type != TOKEN_WORD)
+        if (tmp->type == HERDOC && (!next || next->type != WORD))
             return (ft_syntax_error(), 1);
-        if (tmp->type == TOKEN_REDIRECT_IN && tmp->next->type != TOKEN_WORD)
+        if (tmp->type == REDIRECT_IN && (!next || next->type != WORD))
             return (ft_syntax_error(), 1);
-        if (tmp->type == TOKEN_REDIRECT_OUT && tmp->next->type != TOKEN_WORD)
+        if (tmp->type == REDIRECT_OUT && (!next || next->type != WORD))
             return (ft_syntax_error(), 1);
-        if (tmp->type == TOKEN_APPEND && tmp->next->type != TOKEN_WORD)
+        if (tmp->type == APPEND && (!next || next->type != WORD))
             return (ft_syntax_error(), 1);
         tmp = tmp->next;
     }

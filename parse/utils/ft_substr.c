@@ -2,16 +2,18 @@
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
-	char	*new_str;
-	size_t	i;
-	size_t	j;
+	char	*str;
+	size_t	tot_len;
 
-	if (!s || !(new_str = (char *)malloc(len + 1)))
-		return (0);
-	i = start;
-	j = 0;
-	while (i < ft_strlen(s) && j < len)
-		new_str[j++] = s[i++];
-	new_str[j] = '\0';
-	return (new_str);
+	if (s == NULL)
+		return (NULL);
+	if (start >= ft_strlen(s) || !len)
+		return (NULL);
+	if (len > ft_strlen(s + start))
+		tot_len = ft_strlen(s + start) + 1;
+	else
+		tot_len = len + 1;
+	str = ft_malloc(tot_len, ALLOC);
+	ft_strlcpy(str, s + start, tot_len);
+	return (str);
 }

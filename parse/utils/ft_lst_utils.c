@@ -4,7 +4,7 @@ t_token	*ft_lstnew(t_tokentype type, char *value)
 {
 	t_token		*elt;
 
-	elt = malloc(sizeof(t_token));
+	elt = ft_malloc(sizeof(t_token), ALLOC);
 	if (!elt)
 		return (NULL);
 	elt->type = type;
