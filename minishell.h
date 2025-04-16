@@ -8,7 +8,22 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <stdbool.h>
-# include "garbage.h"
+
+// garbage
+# define ALLOC 1
+# define CLEAR 2
+
+void	*ft_malloc(size_t size, int flag);
+
+typedef struct s_garbage
+{
+	void				*address;
+	struct s_garbage	*next;
+
+}	t_garbage;
+
+int		clear_fds(int fd, int save);
+
 
 typedef enum e_tokentype {
 	TOKEN_WORD,
@@ -65,13 +80,31 @@ bool		ft_check_heredoc(char *string);
 int			ft_logic_syntax(t_token *lst);
 
 // exec
-void	execution(t_exec *exec);
+void	execution(t_exec *exec, char **env);
 int		ft_lstsize(t_exec *exec);
 int		is_builtin(char *cmd);
-void	execute_builtin(t_exec *exec);
+void	execute_builtin(t_exec *exec, char **env);
+t_exec	*convert_token_to_exec(t_token *lst);
+int		count_until_pipe(t_token *lst);
+
+// builtins
+int		ft_echo(char **opt);
+int		ft_env(char **env);
+// int		ft_cd(char **opt, char **env);
+// int		ft_pwd(void);
+// int		ft_export(char **opt, char **env);
+// int		ft_unset(char **opt, char **env);
+// int		ft_exit_exec(char **opt);
 
 // exec_utils
 void	ft_putstr_fd(char *s, int fd);
-int	ft_strcmp(char *s1, char *s2);
+// # i use ft_strdup
+int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(char *s1, char *s2, size_t n);
+
+// exec_list
+int		ft_lstsize(t_exec *exec);
+t_exec	*new_node(void);
+void	add_back(t_exec **head, t_exec *new);
 
 #endif
