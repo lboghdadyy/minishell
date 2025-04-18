@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   garbage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad < sbaghdad@student.1337.ma>       +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 08:59:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/16 12:39:13 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/04/18 09:30:41 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "garbage.h"
+#include "minishell.h"
 
 t_garbage	*ft_lstlast_garbage(t_garbage *lst)
 {

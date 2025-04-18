@@ -1,7 +1,11 @@
-CC= cc
-RM= rm -rf
-CFLAGS= -Wall -Wextra -Werror #-fsanitize=address -g3
 NAME= minishell
+
+CC= cc
+
+RM= rm -rf
+
+CFLAGS= -Wall -Wextra -Werror #-fsanitize=address -g3
+
 SRC= minishell.c \
 	parse/utils/ft_exit.c \
 	parse/utils/ft_strlen.c \
@@ -20,8 +24,11 @@ SRC= minishell.c \
 	parse/utils/ft_strdup.c \
 	parse/ft_logic_syntax.c \
 	parse/utils/ft_strlcpy.c \
-	garbage.c
+	garbage.c \
+	exec/builtins.c exec/exec.c exec/exec_list.c exec/exec_utils.c
+
 OBJ= $(SRC:.c=.o)
+
 HEADER= minishell.h
 
 all: $(NAME)

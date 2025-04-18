@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad < sbaghdad@student.1337.ma>       +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/16 12:49:18 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/04/18 09:42:22 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	count_until_pipe(t_token *lst)
 	int	count;
 
 	count = 0;
-	while (lst && lst->type != TOKEN_PIPE)
+	while (lst && lst->type != PIPE)
 	{
-		if (lst->type == TOKEN_WORD)
+		if (lst->type == WORD)
 			count++;
 		lst = lst->next;
 	}
@@ -38,11 +38,9 @@ t_exec	*convert_token_to_exec(t_token *lst)
 	current = NULL;
 	while (lst)
 	{
-		node = new_node(); // protect if fail
+		node = new_node();
 		ac = count_until_pipe(lst);
 		node->opt = ft_malloc(sizeof(char *) * ac + 1, ALLOC);
-		if (!node->opt)
-			return (NULL);
 		i = 0;
 		while (lst && lst->type != PIPE)
 		{
@@ -72,8 +70,8 @@ void	execution(t_exec *exec, char **env)
 		// setup child
 		if (is_builtin(exec->cmd))
 			execute_builtin(exec, env);
-		else
-			execute_cmd(exec);
+		// else
+		// 	execute_cmd(exec);
 		exec = exec->next;
-	}		
+	}
 }

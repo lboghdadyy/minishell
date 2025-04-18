@@ -5,6 +5,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -36,12 +37,6 @@ typedef enum e_tokentype {
 	SINGLEQ,
 }	t_tokentype;
 
-typedef struct s_token {
-	t_tokentype		type;
-	char			*value;
-	struct s_token	*next;
-}	t_token;
-
 typedef struct s_exec
 {
     int                fd_in;
@@ -50,6 +45,13 @@ typedef struct s_exec
     char            **opt;
     struct s_exec    *next;
 }    t_exec;
+
+typedef struct s_token {
+	t_tokentype		type;
+	char			*value;
+	struct s_token	*next;
+}	t_token;
+
 
 void		ft_exit(char *error);
 int			ft_check_quots(char *command);
@@ -90,11 +92,11 @@ int		count_until_pipe(t_token *lst);
 // builtins
 int		ft_echo(char **opt);
 int		ft_env(char **env);
-// int		ft_cd(char **opt, char **env);
-// int		ft_pwd(void);
-// int		ft_export(char **opt, char **env);
-// int		ft_unset(char **opt, char **env);
-// int		ft_exit_exec(char **opt);
+int		ft_cd(char **opt, char **env);
+int		ft_pwd(void);
+int		ft_export(char **opt, char **env);
+int		ft_unset(char **opt, char **env);
+int		ft_exit_exec(char **opt);
 
 // exec_utils
 void	ft_putstr_fd(char *s, int fd);

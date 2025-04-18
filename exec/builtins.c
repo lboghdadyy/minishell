@@ -6,54 +6,102 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/16 06:45:00 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/18 09:45:44 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env(char **env)
+int	ft_env(char **env)
 {
 	while (*env)
 	{
-		ft_putstr_fd(*env++, 1);
-		ft_putstr_fd("\n", 1);
+		if (ft_strchr(*env, '='))
+		{
+			ft_putstr_fd(*env, 1);
+			ft_putstr_fd("\n", 1);
+		}
+		env++;
 	}
+	return (0);
 }
 
-int	ft_echo(t_exec *exec)
+int	is_valid_option(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (!str || str[0] != '-' || str[1] != 'n')
+		return (0);
+	while (str[++i])
+	{
+		if (str[i] != 'n')
+			return (0);
+	}
+	return (1);
+}
+
+int	ft_echo(char **cmd)
 {
 	int	nline;
 	int	i;
 
 	i = 1;
 	nline = 0;
-	if (ft_strcmp(exec->opt[1], "-n") && exec->opt[1])
+	while (cmd[i] && is_valid_option(cmd[i]))
+	{
 		nline = 1;
-	ft_putstr_fd(exec->opt[i], 1);
+		i++;
+	}
+	while (cmd[i])
+	{
+		ft_putstr_fd(cmd[i], 1);
+		if (cmd[i + 1])
+			write(1, " ", 1);
+		i++;
+	}
 	if (!nline)
-		ft_putstr_fd("\n", 1);
+		write(1, "\n", 1);
 	return (0);
 }
 
-int		ft_cd(char **opt, char **env)
+int	ft_pwd(void)
 {
+	char	*a;
+
+	a = getcwd(NULL, 0);
+	if (a)
+	{
+		ft_putstr_fd(a, 1);
+		ft_putstr_fd("\n", 1);
+		free(a);
+		return (0);
+	}
+	// perror("pwd :"); error handling
+	return (1);
+}
+
+int	ft_export(char **opt, char **env)
+{
+	(void)opt;
+	(void)env;
 	return 0;
 }
-int		ft_pwd(void)
+int ft_unset(char **opt, char **env)
 {
+	(void)opt;
+	(void)env;
 	return 0;
 }
-int		ft_export(char **opt, char **env)
+int ft_cd(char **opt, char **env)
 {
+	(void)opt;
+	(void)env;
 	return 0;
 }
-int		ft_unset(char **opt, char **env)
+int	ft_exec_exit(char **opt)
 {
-	return 0;
-}
-int		ft_exit_exec(char **opt)
-{
+	(void)opt;
 	return 0;
 }
 
@@ -95,4 +143,3 @@ void	execute_builtin(t_exec *exec, char **env)
 	else if (!ft_strcmp(exec->cmd, "exit"))
 		ft_exec_exit(exec->opt);
 }
-

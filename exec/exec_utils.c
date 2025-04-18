@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 06:19:28 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/16 06:41:46 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/18 09:46:35 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-
