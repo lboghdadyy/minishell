@@ -43,10 +43,8 @@ int     ft_count_operator(char *string, int index, char c)
 int ft_check_syntax(char *string)
 {
     int index;
-    int count;
 
     index = 0;
-    count = 0;
     while (string[index])
     {
         if (string[index] == '<' || string[index] == '>')

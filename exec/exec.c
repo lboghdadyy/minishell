@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/18 09:42:22 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/19 15:23:28 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ t_exec	*convert_token_to_exec(t_token *lst)
 {
 	t_exec	*head;
 	t_exec	*node;
-	t_exec	*current;
 	int		ac;
 	int		i;
 
 	head = NULL;
-	current = NULL;
 	while (lst)
 	{
 		node = new_node();
@@ -61,15 +59,15 @@ t_exec	*convert_token_to_exec(t_token *lst)
 	return (head);
 }
 
-void	execution(t_exec *exec, char **env)
+void	execution(t_exec *exec, t_env **env, char **envp)
 {
 	if (ft_lstsize(exec) == 1 && is_builtin(exec->cmd))
-		return (execute_builtin(exec, env)); // execute the builtin without forking and return
+		return (execute_builtin(exec, env, envp)); // execute the builtin without forking and return
 	while (exec)
 	{
 		// setup child
 		if (is_builtin(exec->cmd))
-			execute_builtin(exec, env);
+			execute_builtin(exec, env, envp);
 		// else
 		// 	execute_cmd(exec);
 		exec = exec->next;

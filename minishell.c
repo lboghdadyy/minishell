@@ -5,6 +5,7 @@ int	main(int argc, char **argv, char **env)
 	char	*input;
 	t_token *lst;
 	t_exec	*exec;
+	t_env	*envp;
 
 	if (argc != 1)
 		ft_exit("no arguments\n");
@@ -22,7 +23,7 @@ int	main(int argc, char **argv, char **env)
 		exec = convert_token_to_exec(lst);
 		free(input);
 		ft_lstclear(&lst);
-		(void)env;
-		execution(exec, env); // I need more to work
+		envp = init_env(env);
+		execution(exec, &envp, env); // I need more to work
 	}
 }

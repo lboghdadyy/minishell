@@ -6,11 +6,37 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/18 09:45:44 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/19 15:21:13 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_env	*init_env(char **envp)
+{
+	t_env	*env = NULL;
+	char	*equal;
+	char	*key;
+	char	*value;
+
+	while (*envp)
+	{
+		equal = strchr(*envp, '=');
+		if (equal)
+		{
+			key = ft_substr(*envp, 0, equal - *envp);
+			value = ft_strdup(equal + 1);
+		}
+		else
+		{
+			key = ft_strdup(*envp);
+			value = NULL;
+		}
+		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
+		envp++;
+	}
+	return (env);
+}
 
 int	ft_env(char **env)
 {
@@ -81,19 +107,113 @@ int	ft_pwd(void)
 	return (1);
 }
 
-int	ft_export(char **opt, char **env)
+int is_valid_export(char *opt)
+{
+	int i = 0;
+
+	if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' && opt[i] <= 'z') || opt[i] == '_'))
+		return (1);
+	i++;
+	while (opt[i])
+	{
+		if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' && opt[i] <= 'z') || (opt[i] >= '0' && opt[i] <= '9') || opt[i] == '_'))
+		{
+			if (opt[i] == '+' && opt[i+1] == '=')
+				return (0);
+			else if (opt[i] == '=')
+				return (0);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+t_env	*find_env(t_env	*env, char *key)
+{
+	while (env)
+	{
+		if (!ft_strcmp(env->key, key))
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+int	ft_export(char **opt, t_env **env)
+{
+	int i = 0;
+	char *key, *value, *equal;
+	t_env	*tmp;
+
+	if (!opt[1])
+	{
+		tmp = *env;
+		while (tmp)
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(tmp->key, 1);
+			if (tmp->value)
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(tmp->value, 1);
+				ft_putstr_fd("\"", 1);
+			}
+			ft_putstr_fd("\n", 1);
+			tmp = tmp->next;
+		}
+		return (0);
+	}
+	while (opt[++i])
+	{
+		if (is_valid_export(opt[i]))
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(opt[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			continue;
+		}
+		if ((equal = ft_strstr(opt[i], "+=")))
+		{
+			key = ft_substr(opt[i], 0, equal - opt[i]);
+			value = ft_strdup(equal + 2);
+			tmp = find_env(*env, key);
+			if (tmp && tmp->value)
+				tmp->value = ft_strjoin(tmp->value, value);
+			else if (tmp)
+				tmp->value = value;
+			else
+				ft_lstadd_back_exec(env, ft_lstnew_exec(key, value));
+		}
+		else
+		{
+			equal = ft_strchr(opt[i], '=');
+			if (equal)
+			{
+				key = ft_substr(opt[i], 0, equal - opt[i]);
+				value = ft_strdup(equal + 1);
+			}
+			else
+			{
+				key = ft_strdup(opt[i]);
+				value = NULL;
+			}
+			tmp = find_env(*env, key);
+			if (tmp)
+				tmp->value = value;
+			else
+				ft_lstadd_back_exec(env, ft_lstnew_exec(key, value));
+		}
+	}
+	return (0);
+}
+int ft_unset(char **opt, t_env **env)
 {
 	(void)opt;
 	(void)env;
 	return 0;
 }
-int ft_unset(char **opt, char **env)
-{
-	(void)opt;
-	(void)env;
-	return 0;
-}
-int ft_cd(char **opt, char **env)
+int ft_cd(char **opt, t_env **env)
 {
 	(void)opt;
 	(void)env;
@@ -126,7 +246,7 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	execute_builtin(t_exec *exec, char **env)
+void	execute_builtin(t_exec *exec, t_env **env, char **envp)
 {
 	if (!ft_strcmp(exec->cmd, "echo"))
 		ft_echo(exec->opt);
@@ -139,7 +259,7 @@ void	execute_builtin(t_exec *exec, char **env)
 	else if (!ft_strcmp(exec->cmd, "unset"))
 		ft_unset(exec->opt, env);
 	else if (!ft_strcmp(exec->cmd, "env"))
-		ft_env(env);
+		ft_env(envp);
 	else if (!ft_strcmp(exec->cmd, "exit"))
 		ft_exec_exit(exec->opt);
 }

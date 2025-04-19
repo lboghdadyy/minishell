@@ -23,7 +23,7 @@ typedef struct s_garbage
 
 }	t_garbage;
 
-int		clear_fds(int fd, int save);
+// int		clear_fds(int fd, int save); ?
 
 
 typedef enum e_tokentype {
@@ -37,6 +37,12 @@ typedef enum e_tokentype {
 	SINGLEQ,
 }	t_tokentype;
 
+typedef struct s_token {
+	t_tokentype		type;
+	char			*value;
+	struct s_token	*next;
+}	t_token;
+
 typedef struct s_exec
 {
     int                fd_in;
@@ -46,12 +52,11 @@ typedef struct s_exec
     struct s_exec    *next;
 }    t_exec;
 
-typedef struct s_token {
-	t_tokentype		type;
+typedef struct s_env {
+	char			*key;
 	char			*value;
-	struct s_token	*next;
-}	t_token;
-
+	struct s_env	*next;
+}	t_env;
 
 void		ft_exit(char *error);
 int			ft_check_quots(char *command);
@@ -82,25 +87,30 @@ int			ft_logic_syntax(t_token *lst);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 
 // exec
-void	execution(t_exec *exec, char **env);
+void	execution(t_exec *exec, t_env **env, char **envp);
 int		ft_lstsize(t_exec *exec);
 int		is_builtin(char *cmd);
-void	execute_builtin(t_exec *exec, char **env);
+void	execute_builtin(t_exec *exec, t_env **env, char **envp);
 t_exec	*convert_token_to_exec(t_token *lst);
 int		count_until_pipe(t_token *lst);
 
 // builtins
 int		ft_echo(char **opt);
 int		ft_env(char **env);
-int		ft_cd(char **opt, char **env);
+int		ft_cd(char **opt, t_env **env);
 int		ft_pwd(void);
-int		ft_export(char **opt, char **env);
-int		ft_unset(char **opt, char **env);
-int		ft_exit_exec(char **opt);
+//export
+t_env	*init_env(char **envp);
+t_env	*find_env(t_env	*env, char *key);
+int		ft_export(char **opt, t_env **env);
+int		is_valid_export(char *opt);
+int		ft_unset(char **opt, t_env **env);
+int		ft_exec_exit(char **opt);
 
 // exec_utils
 void	ft_putstr_fd(char *s, int fd);
-// # i use ft_strdup
+char	*ft_strstr(char *str, char *to_find);
+// # I use ft_strdup, ft_substr, ft_strjoin, ft_strchr
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 
@@ -108,5 +118,8 @@ int		ft_strncmp(char *s1, char *s2, size_t n);
 int		ft_lstsize(t_exec *exec);
 t_exec	*new_node(void);
 void	add_back(t_exec **head, t_exec *new);
+void	ft_lstadd_back_exec(t_env **lst, t_env *new);
+t_env	*ft_lstnew_exec(char *key, char *value);
+t_env	*ft_lstlast_exec(t_env *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 03:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/16 06:41:42 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/18 14:45:41 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,34 @@ void	add_back(t_exec **head, t_exec *new)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
+}
+
+t_env	*ft_lstnew_exec(char *key, char *value)
+{
+	t_env	*new;
+
+	new = ft_malloc(sizeof(t_env), ALLOC);
+	new->key = key;
+	new->value = value;
+	new->next = NULL;
+	return (new);
+}
+
+t_env	*ft_lstlast_exec(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	ft_lstadd_back_exec(t_env **lst, t_env *new)
+{
+	if (!lst || !new)
+		return ;
+	if (!*lst)
+		*lst = new;
+	else
+		ft_lstlast_exec(*lst)->next = new;
 }
