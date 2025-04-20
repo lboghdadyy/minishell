@@ -104,7 +104,9 @@ t_env	*init_env(char **envp);
 t_env	*find_env(t_env	*env, char *key);
 int		ft_export(char **opt, t_env **env);
 int		is_valid_export(char *opt);
-int		ft_unset(char **opt, t_env **env);
+void	swap_env(t_env *a, t_env *b);
+void	bubble_sort_env(t_env *env);
+void	ft_unset(char **opt, t_env **env);
 int		ft_exec_exit(char **opt);
 
 // exec_utils
