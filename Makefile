@@ -1,12 +1,13 @@
-NAME= minishell
+NAME = minishell
 
-CC= cc
+CC = cc
+RM = rm -rf
 
-RM= rm -rf
+# Enable sanitizer/debug by uncommenting these
+# CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror
 
-CFLAGS= -Wall -Wextra -Werror #-fsanitize=address -g3
-
-SRC= minishell.c \
+SRC = minishell.c \
 	parse/utils/ft_exit.c \
 	parse/utils/ft_strlen.c \
 	parse/ft_check_quots.c \
@@ -25,11 +26,19 @@ SRC= minishell.c \
 	parse/ft_logic_syntax.c \
 	parse/utils/ft_strlcpy.c \
 	garbage.c \
-	exec/builtins.c exec/exec.c exec/exec_list.c exec/exec_utils.c
+	parse/ft_quotes_type.c \
+	parse/utils/ft_strstr.c \
+	parse/ft_expend.c \
+	parse/utils/ft_strlcat.c \
+	parse/ft_total_len.c \
+	exec/builtins.c \
+	exec/exec.c \
+	exec/exec_list.c \
+	exec/exec_utils.c
 
-OBJ= $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
-HEADER= minishell.h
+HEADER = minishell.h
 
 all: $(NAME)
 
@@ -47,4 +56,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: clean
+.PHONY: all clean fclean re

@@ -27,6 +27,10 @@ t_tokentype ft_token_type(char *string)
         return APPEND;
     if (ft_check_heredoc(string))
         return HERDOC;
+    if (ft_check_quotes_type(string) == SINGLE)
+        return (SINGLEQ);
+    if (ft_check_quotes_type(string) == COUPLE)
+        return (DOUBLEQ);
     return WORD;
 }
 

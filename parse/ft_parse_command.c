@@ -14,18 +14,22 @@ char* token_type_to_string(t_tokentype type)
         return "APPEND";
     else if (type == HERDOC)
         return ("HEREDOC");
+    else if (type == SINGLEQ)
+        return ("SINGLE QUOTES");
+    else if (type == DOUBLEQ)
+        return ("DOUBLE QUOTES");
     else
     {
         return "WORD";
     }
 }
 
-void print_token_list(t_token *head) {
-    while (head) {
-        printf("Type: %s | Value: %s\n", token_type_to_string(head->type), head->value);
-        head = head->next;
-    }
-}
+// void print_token_list(t_token *head) {
+//     while (head) {
+//         printf("Type: {%s} | Value: {%s}\n", token_type_to_string(head->type), head->value);
+//         head = head->next;
+//     }
+// }
 
 int     ft_count_operator(char *string, int index, char c)
 {
@@ -43,8 +47,10 @@ int     ft_count_operator(char *string, int index, char c)
 int ft_check_syntax(char *string)
 {
     int index;
+    int count;
 
     index = 0;
+    count = 0;
     while (string[index])
     {
         if (string[index] == '<' || string[index] == '>')
@@ -71,10 +77,10 @@ t_token    *ft_parse_command(char *string)
         lst = ft_split_command(ft_split(string));
         if (!lst)
             return (NULL);
-        // print_token_list(lst);
         if (ft_logic_syntax(lst))
             return (ft_lstclear(&lst), NULL);
-        // ft_expand(lst);
+        // print_token_list(lst);
+        ft_expand(lst);
     }
     return (lst);
 }
