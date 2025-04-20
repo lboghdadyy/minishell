@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/19 15:31:45 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/19 20:40:25 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,44 @@ int is_valid_export(char *opt)
 	return (0);
 }
 
+void	swap_env(t_env *a, t_env *b)
+{
+	char	*tmp_key;
+	char	*tmp_value;
+
+	tmp_key = a->key;
+	tmp_value = a->value;
+	a->key = b->key;
+	a->value = b->value;
+	b->key = tmp_key;
+	b->value = tmp_value;
+}
+
+void	bubble_sort_env(t_env *env)
+{
+	int		swap;
+	t_env	*ptr;
+
+	if (!env)
+		return ;
+
+	swap = 1;
+	while (swap)
+	{
+		swap = 0;
+		ptr = env;
+		while (ptr && ptr->next)
+		{
+			if (ft_strcmp(ptr->key, ptr->next->key) > 0)
+			{
+				swap_env(ptr, ptr->next);
+				swap = 1;
+			}
+			ptr = ptr->next;
+		}
+	}
+}
+
 t_env	*find_env(t_env	*env, char *key)
 {
 	while (env)
@@ -149,6 +187,7 @@ int	ft_export(char **opt, t_env **env)
 	if (!opt[1])
 	{
 		tmp = *env;
+		bubble_sort_env(tmp);
 		while (tmp)
 		{
 			ft_putstr_fd("declare -x ", 1);
@@ -171,7 +210,7 @@ int	ft_export(char **opt, t_env **env)
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(opt[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
-			continue;
+			continue ;
 		}
 		if ((equal = ft_strstr(opt[i], "+=")))
 		{
@@ -207,11 +246,37 @@ int	ft_export(char **opt, t_env **env)
 	}
 	return (0);
 }
-int ft_unset(char **opt, t_env **env)
+void	delet_node(t_env **env, char *key)
 {
-	(void)opt;
-	(void)env;
-	return 0;
+	t_env *head = (*env)->next;
+	t_env *prev = NULL;
+	if(!*env)
+		return ;
+	if(!ft_strcmp((*env)->key, key))
+	{
+		*env = (*env)->next;
+		return;
+	}
+	prev = *env;
+	while(head)
+	{
+		if(!ft_strcmp(head->key, key))
+		{
+			prev->next = head->next;
+			return;
+		}
+		prev = head;
+		head = head->next; 
+	}
+}
+
+void	ft_unset(char **opt, t_env **env)
+{
+	while (*opt)
+	{
+		delet_node(env, *opt);
+		opt++;
+	}
 }
 int ft_cd(char **opt, t_env **env)
 {
