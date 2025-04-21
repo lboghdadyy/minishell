@@ -34,7 +34,8 @@ SRC = minishell.c \
 	exec/builtins.c \
 	exec/exec.c \
 	exec/exec_list.c \
-	exec/exec_utils.c
+	exec/exec_utils.c \
+	exec/ft_split_exec.c
 
 OBJ = $(SRC:.c=.o)
 

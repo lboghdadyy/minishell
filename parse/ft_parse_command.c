@@ -80,7 +80,7 @@ t_token    *ft_parse_command(char *string)
         if (ft_logic_syntax(lst))
             return (ft_lstclear(&lst), NULL);
         // print_token_list(lst);
-        ft_expand(lst);
+        // ft_expand(lst);
     }
     return (lst);
 }

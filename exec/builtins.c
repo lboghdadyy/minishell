@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/19 20:40:25 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/21 10:29:52 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_env	*init_env(char **envp)
 
 	while (*envp)
 	{
-		equal = strchr(*envp, '=');
+		equal = ft_strchr(*envp, '=');
 		if (equal)
 		{
 			key = ft_substr(*envp, 0, equal - *envp);
