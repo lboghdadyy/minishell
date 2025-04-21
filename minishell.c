@@ -37,6 +37,6 @@ int	main(int argc, char **argv, char **env)
 		exec = convert_token_to_exec(lst);
 		free(input);
 		ft_lstclear(&lst);
-		execution(exec, &envp, env); // I need more to work
+		execution(exec, &envp); // I need more to work
 	}
 }

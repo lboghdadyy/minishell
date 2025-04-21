@@ -31,10 +31,17 @@ SRC = minishell.c \
 	parse/ft_expend.c \
 	parse/utils/ft_strlcat.c \
 	parse/ft_total_len.c \
+	exec/exec_main.c \
+	exec/exec_child.c \
 	exec/builtins.c \
-	exec/exec.c \
 	exec/exec_list.c \
+	exec/exec_more_list.c \
+	exec/parse_to_exec.c \
 	exec/exec_utils.c \
+	exec/export.c \
+	exec/unset.c \
+	exec/echo.c \
+	exec/env.c \
 	exec/ft_split_exec.c
 
 OBJ = $(SRC:.c=.o)
@@ -57,4 +64,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: clean

@@ -1,49 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_list.c                                        :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 03:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:03:17 by oufarah          ###   ########.fr       */
+/*   Created: 2025/04/21 16:24:12 by oufarah           #+#    #+#             */
+/*   Updated: 2025/04/21 16:26:07 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_lstsize_env(t_env *env)
+void	delet_node(t_env **env, char *key)
 {
-	int	size;
+	t_env	*head;
+	t_env	*prev;
 
-	size = 0;
-	while (env)
-	{
-		size++;
-		env = env->next;
-	}
-	return (size);
-}
-
-t_exec	*new_node(void)
-{
-	t_exec	*ret;
-
-	ret = ft_malloc(sizeof(t_exec), ALLOC);
-	ret->fd_in = 0;
-	ret->fd_out = 1;
-	ret->cmd = NULL;
-	ret->opt = NULL;
-	ret->next = NULL;
-	return (ret);
-}
-
-void	ft_lstadd_back_exec(t_env **lst, t_env *new)
-{
-	if (!lst || !new)
+	head = (*env)->next;
+	prev = NULL;
+	if (!*env)
 		return ;
-	if (!*lst)
-		*lst = new;
-	else
-		ft_lstlast_exec(*lst)->next = new;
+	if (!ft_strcmp((*env)->key, key))
+	{
+		*env = (*env)->next;
+		return ;
+	}
+	prev = *env;
+	while (head)
+	{
+		if (!ft_strcmp(head->key, key))
+		{
+			prev->next = head->next;
+			return ;
+		}
+		prev = head;
+		head = head->next;
+	}
+}
+
+void	ft_unset(char **opt, t_env **env)
+{
+	while (*opt)
+	{
+		delet_node(env, *opt);
+		opt++;
+	}
 }

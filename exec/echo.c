@@ -1,49 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_list.c                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 03:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:03:17 by oufarah          ###   ########.fr       */
+/*   Created: 2025/04/21 16:14:46 by oufarah           #+#    #+#             */
+/*   Updated: 2025/04/21 16:14:46 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_lstsize_env(t_env *env)
+int	is_valid_option(char *str)
 {
-	int	size;
+	int	i;
 
-	size = 0;
-	while (env)
+	i = 1;
+	if (!str || str[0] != '-' || str[1] != 'n')
+		return (0);
+	while (str[++i])
 	{
-		size++;
-		env = env->next;
+		if (str[i] != 'n')
+			return (0);
 	}
-	return (size);
+	return (1);
 }
 
-t_exec	*new_node(void)
+int	ft_echo(char **cmd)
 {
-	t_exec	*ret;
+	int	nline;
+	int	i;
 
-	ret = ft_malloc(sizeof(t_exec), ALLOC);
-	ret->fd_in = 0;
-	ret->fd_out = 1;
-	ret->cmd = NULL;
-	ret->opt = NULL;
-	ret->next = NULL;
-	return (ret);
-}
-
-void	ft_lstadd_back_exec(t_env **lst, t_env *new)
-{
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-		*lst = new;
-	else
-		ft_lstlast_exec(*lst)->next = new;
+	i = 1;
+	nline = 0;
+	while (cmd[i] && is_valid_option(cmd[i]))
+	{
+		nline = 1;
+		i++;
+	}
+	while (cmd[i])
+	{
+		ft_putstr_fd(cmd[i], 1);
+		if (cmd[i + 1])
+			write(1, " ", 1);
+		i++;
+	}
+	if (!nline)
+		write(1, "\n", 1);
+	return (0);
 }

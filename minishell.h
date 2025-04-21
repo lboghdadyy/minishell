@@ -96,44 +96,68 @@ size_t  	ft_total_len(char   *value);
 int 		skip_variable(char *value, int index);
 void     	ft_expand(t_token *lst);
 
+// exec_child
+void	setup_child(int *fd, t_env *path, t_exec *head, int bltn);
+int		parent_thing(int *fd, t_exec *head);
+void	cmd_not_found(char *cmd);
+int		check_exit_status(void);
+int		ignore_first_cmd(int res, int get);
+
 // exec
-int		execution(t_exec *exec, t_env **env, char **envp);
-int		ft_lstsize(t_exec *exec);
-int		is_builtin(char *cmd);
-void	execute_builtin(t_exec *exec, t_env **env, char **envp);
+int		execution(t_exec *exec, t_env **env);
+int		execute_cmd(t_exec *head, t_env **env);
+char	*get_cmd_path(char *cmd, char *path);
+int		is_empty(char *s);
+void	call_execve(t_exec *head, t_env *env);
+
+//parse_to_exec
 t_exec	*convert_token_to_exec(t_token *lst);
 int		count_until_pipe(t_token *lst);
 
-// builtins
-int		ft_echo(char **opt);
-int		ft_env(char **env);
-int		ft_cd(char **opt, t_env **env);
-int		ft_pwd(void);
-//export
-t_env	*init_env(char **envp);
-t_env	*find_env(t_env	*env, char *key);
-int		ft_export(char **opt, t_env **env);
-int		is_valid_export(char *opt);
-void	swap_env(t_env *a, t_env *b);
-void	bubble_sort_env(t_env *env);
-void	ft_unset(char **opt, t_env **env);
-int		ft_exec_exit(char **opt);
-
-// exec_utils
-void	ft_putstr_fd(char *s, int fd);
-char	*ft_strstr(char *str, char *to_find);
+// ft_split_exec
 char	**ft_split_exec(char const *s, char c);
-char	*get_cmd_path(char *cmd, char *path);
-// # I use ft_strdup, ft_substr, ft_strjoin, ft_strchr
+
+//  exec_utils
+void	ft_putstr_fd(char *s, int fd);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
+char	*ft_strstr(char *str, char *to_find);
 
 // exec_list
-int		ft_lstsize(t_exec *exec);
+int		ft_lstsize_env(t_env *env);
 t_exec	*new_node(void);
-void	add_back(t_exec **head, t_exec *new);
 void	ft_lstadd_back_exec(t_env **lst, t_env *new);
+
+//exec_more_list
+int		ft_lstsize(t_exec *exec);
 t_env	*ft_lstnew_exec(char *key, char *value);
 t_env	*ft_lstlast_exec(t_env *lst);
+void	add_back(t_exec **head, t_exec *new);
 
+// export
+int 	is_valid_export(char *opt);
+void	swap_env(t_env *a, t_env *b);
+void	bubble_sort_env(t_env *env);
+t_env	*find_env(t_env	*env, char *key);
+int		ft_export(char **opt, t_env **env);
+
+//unset
+void	delet_node(t_env **env, char *key);
+void	ft_unset(char **opt, t_env **env);
+
+//echo
+int		is_valid_option(char *str);
+int		ft_echo(char **cmd);
+
+//env
+t_env	*init_env(char **envp);
+char	**convert_t_env(t_env *env);
+int		ft_env(t_env *env);
+
+//builtins
+int		ft_pwd(void);
+int 	ft_cd(char **opt, t_env **env);//not yet
+int		ft_exec_exit(char **opt); //not yet
+int		is_builtin(char *cmd);
+void	execute_builtin(t_exec *exec, t_env **env);
 #endif
