@@ -5,6 +5,8 @@ char *ft_strdup(char *src)
 	int i = 0;
 	char *res;
 
+	if (!src)
+		return (NULL);
 	while(src[i])
 		i++;
 	res = ft_malloc(sizeof(*res) * i + 1, ALLOC);

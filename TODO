@@ -1,0 +1,18 @@
+export x="ls    -la" : tab
+
+x="a b"
+
+export $x=$x => export (a  b=a  b) => a, b=a, b,
+
+
+export a b=a b
+
+export x="ls -la"
+
+
+'"'"$HOME"'"'
+
+echo ".$HOME..$PWD..."
+
+
+update in env

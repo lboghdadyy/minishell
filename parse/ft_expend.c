@@ -4,35 +4,33 @@ int skip_variable(char *value, int index)
 {
     int count;
 
-    count = index + 1;
-    while (value[count] && !ft_strchr("\" $", value[count]))
+    count = index;
+    count++;
+    if (value[count] == '$')
+        return 2;
+    while (value[count] && !ft_strchr("\" $.", value[count]))
         count++;
     return (count - index);
 }
 
-size_t ft_len_wo_variable(char *value)
+size_t  ft_len_wo_quotes(char *value)
 {
-    int index;
     size_t count;
+    int     i;
 
-    index = 0;
+    i = 0;
     count = 0;
-    while(value[index])
+    while (value[i])
     {
-        if (value[index] == '$')
-            index += skip_variable(value, index);
-        else
-        {
-            index++;
-            count++;
-        }
-    }
+		if (!ft_strchr("\'\"", value[i]))
+			count++;
+		i++;
+	}
     return (count);
 }
 
-void	ft_get_env(char *new_value, t_token *lst, int *r, int *index)
+char	*ft_get_env(t_token *lst, int *index)
 {
-	int		i = 0;
 	char	*sub;
 	char	*found;
 	size_t	skipped;
@@ -42,51 +40,54 @@ void	ft_get_env(char *new_value, t_token *lst, int *r, int *index)
 	*index += skipped;
 	found = getenv(sub);
 	free(sub);
-	if (!found)
-		return;
-	while (found[i])
-	{
-        new_value[*r] = found[i];
-		i++;
-		(*r)++;
-	}
-    new_value[*r] = '\0';
+	return (found);
+}
+
+void    ft_remove_quotes(t_token *tmp)
+{
+    int     index = 0;
+    char    *clean;
+    int     index_tmp = 0;
+
+    clean = ft_malloc(ft_len_wo_quotes(tmp->value) + 1, ALLOC);
+    while (tmp->value[index_tmp])
+    {
+        if (tmp->value[index_tmp] != '\'' && tmp->value[index_tmp] != '\"')
+        {
+            clean[index] = tmp->value[index_tmp];
+            index++;
+        }
+        index_tmp++;
+    }
+    free(tmp->value);
+    tmp->value = clean;
 }
 
 void    ft_expand_value(t_token *lst)
 {
-    char    *new_value;
-    int     r = 0;
+    char    *new_value = NULL;
     int     index = 0;
-    bool    in_single_quote = false;
-    size_t  total_len = ft_total_len(lst->value);
+    int     back_to_index;
+    int    SINGLEQ = 0;
+    char    *sub;
 
-    if (!ft_strchr(lst->value, '$') && !ft_strchr(lst->value, '\"') && !ft_strchr(lst->value, '\''))
-        return ;
-    new_value = ft_malloc(total_len, ALLOC);
     while (lst->value[index])
     {
-        if (lst->value[index] == '\'' || lst->value[index] == '\"')
+        back_to_index = index;
+        while (lst->value[index] && lst->value[index] != '$')
         {
             if (lst->value[index] == '\'')
-            {
-                if (in_single_quote == false)
-                    in_single_quote = true;
-                else
-                    in_single_quote = false;
-            }
+                SINGLEQ++;
             index++;
         }
-        else if (lst->value[index] == '$' && in_single_quote == false)
-            ft_get_env(new_value, lst, &r, &index);
-        else
+        sub = ft_substr(lst->value, back_to_index, index - back_to_index);
+        new_value = ft_strjoin(new_value, sub);
+        if (lst->value[index] == '$' && SINGLEQ % 2 == 0)
         {
-            new_value[r] = lst->value[index];
-            r++;
-            index++;
+            sub = ft_get_env(lst, &index);
+            new_value = ft_strjoin(new_value, sub);
         }
     }
-    new_value[r] = '\0';
     free(lst->value);
     lst->value = new_value;
 }
@@ -100,7 +101,9 @@ void     ft_expand(t_token *lst)
     {
         if (tmp->type == WORD || tmp->type == DOUBLEQ || tmp->type == SINGLEQ)
         {
-			ft_expand_value(tmp);
+            if (ft_strchr(tmp->value, '$'))
+			    ft_expand_value(tmp);
+            ft_remove_quotes(tmp);
             tmp->type = WORD;
         }
         tmp = tmp->next;

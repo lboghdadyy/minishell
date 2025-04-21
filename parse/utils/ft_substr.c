@@ -7,7 +7,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 	if (s == NULL)
 		return (NULL);
-	if (start >= ft_strlen(s) || !len)
+	if (start > ft_strlen(s) || !len)
 		return (NULL);
 	if (len > ft_strlen(s + start))
 		tot_len = ft_strlen(s + start) + 1;

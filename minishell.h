@@ -92,6 +92,7 @@ char		*ft_strdup(char *src);
 bool		ft_check_heredoc(char *string);
 int			ft_logic_syntax(t_token *lst);
 size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
+size_t		ft_strlcat(char *s1, char *s2, size_t n);
 size_t  	ft_total_len(char   *value);
 int 		skip_variable(char *value, int index);
 void     	ft_expand(t_token *lst);
