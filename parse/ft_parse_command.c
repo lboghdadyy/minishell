@@ -24,12 +24,12 @@ char* token_type_to_string(t_tokentype type)
     }
 }
 
-// void print_token_list(t_token *head) {
-//     while (head) {
-//         printf("Type: {%s} | Value: {%s}\n", token_type_to_string(head->type), head->value);
-//         head = head->next;
-//     }
-// }
+void print_token_list(t_token *head) {
+    while (head) {
+        printf("Type: {%s} | Value: {%s}\n", token_type_to_string(head->type), head->value);
+        head = head->next;
+    }
+}
 
 int     ft_count_operator(char *string, int index, char c)
 {
@@ -79,8 +79,6 @@ t_token    *ft_parse_command(char *string)
             return (NULL);
         if (ft_logic_syntax(lst))
             return (ft_lstclear(&lst), NULL);
-        // print_token_list(lst);
-        // ft_expand(lst);
     }
     return (lst);
 }

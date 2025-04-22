@@ -19,6 +19,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 1)
 		ft_exit("no arguments\n");
+
 	envp = init_env(env);
 	(void)argv;
 	rl_catch_signals = 0;
@@ -33,7 +34,7 @@ int	main(int argc, char **argv, char **env)
 		lst = ft_parse_command(input);
 		if (!lst)
 			continue ;
-		ft_expand(lst);
+		ft_expand(lst, envp);
 		exec = convert_token_to_exec(lst);
 		free(input);
 		ft_lstclear(&lst);

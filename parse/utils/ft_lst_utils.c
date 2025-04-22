@@ -49,7 +49,7 @@ void	ft_lstclear(t_token **lst)
 	{
 		temp = *lst;
 		*lst = (*lst)->next;
-		free(temp->value);
-		free(temp);
+		// free(temp->value);
+		// free(temp);
 	}
 }

@@ -63,7 +63,9 @@ typedef struct s_env {
 	char			*value;
 	struct s_env	*next;
 }	t_env;
-
+// debug
+void print_token_list(t_token *head);
+// end debug
 void		ft_exit(char *error);
 int ft_check_quotes_type(char *string);
 int    		ft_check_quots(char *command);
@@ -95,7 +97,7 @@ size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t		ft_strlcat(char *s1, char *s2, size_t n);
 size_t  	ft_total_len(char   *value);
 int 		skip_variable(char *value, int index);
-void     	ft_expand(t_token *lst);
+void		ft_expand(t_token *lst, t_env *envp);
 
 // exec_child
 void	setup_child(int *fd, t_env *path, t_exec *head, int bltn);

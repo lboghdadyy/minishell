@@ -16,3 +16,5 @@ echo ".$HOME..$PWD..."
 
 
 update in env
+
+'"'$HOME'"'

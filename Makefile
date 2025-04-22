@@ -4,8 +4,8 @@ CC = cc
 RM = rm -rf
 
 # Enable sanitizer/debug by uncommenting these
-# CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+# CFLAGS = -Wall -Wextra -Werror
 
 SRC = minishell.c \
 	parse/utils/ft_exit.c \

@@ -34,12 +34,12 @@ t_tokentype ft_token_type(char *string)
     return WORD;
 }
 
-void    *ft_cleanup(t_token **lst, char **command)
-{
-    ft_lstclear(lst);
-    free_tab(command);
-    return NULL;
-}
+// void    *ft_cleanup(t_token **lst, char **command)
+// {
+//     ft_lstclear(lst);
+//     free_tab(command);
+//     return NULL;
+// }
 
 t_token *ft_split_command(char **command)
 {

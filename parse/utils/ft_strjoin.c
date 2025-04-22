@@ -12,9 +12,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s1 && !s2)
 		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	string = malloc(len);
-	if (string == NULL)
-		return (NULL);
+	string = ft_malloc(len, ALLOC);
 	ft_strlcpy(string, s1, len);
 	ft_strlcat(string, s2, len);
 	return (string);

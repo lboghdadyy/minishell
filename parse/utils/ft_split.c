@@ -97,7 +97,6 @@ char **ft_split(char *s)
 			break;
 		word_len = get_word_len(s, i);
 		lst[j++] = ft_substr(s, i, word_len);
-
 		i += word_len;
 	}
 	lst[j] = NULL;

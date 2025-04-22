@@ -16,7 +16,7 @@ size_t  ft_total_len(char   *value)
             sub = ft_substr(value, index + 1, skip_variable(value, index));
             found = getenv(sub);
             count += ft_strlen(found);
-            free(sub);
+            // free(sub);
             index += skip_variable(value, index);
         }
         else if (value[index] == '\'' || value[index] == '\"')
