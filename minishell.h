@@ -19,6 +19,10 @@
 # define ALLOC 1
 # define CLEAR 2
 
+# define WHITE "\033[0;37m"
+# define RED "\033[0;31m"
+
+
 void	*ft_malloc(size_t size, int flag);
 
 typedef struct s_garbage

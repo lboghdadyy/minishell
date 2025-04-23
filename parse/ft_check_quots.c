@@ -5,47 +5,34 @@ int    ft_check_end(char  *command, char  c)
     int    index;
     int    count;
 
-    index = 0;
+    index = 1;
     count = 0;
-    while (command[index])
-    {
-        if (command[index] == c)
-            count++;
+    while (command[index] && command[index] != c)
         index++;
-    }
-    if (count % 2 == 0)
-        return (0);
-    return (ft_syntax_error(), 1);
+    if (command[index] == c)
+        return (index);
+    return (ft_syntax_error(), -1);
 }
 
 int    ft_check_quots(char *command)
 {
     int     index;
     int     resault;
+    char    c;
 
     index = 0;
-    resault = 0;
+    resault = -1;
     while (command[index])
     {
-        if (command[index] == '\'')
+        if (command[index] == '\'' || command[index] == '\"')
         {
-            resault = ft_check_end(command + index, '\'');
-            if (resault)
-                break;
-            index++;
-            while (command[index] != '\'' && command[index])
-                index++;
-        }
-        if (command[index] == '\"')
-        {
-            resault = ft_check_end(command + index, '\"');
-            if (resault)
-                break;
-            index++;
-            while (command[index] != '\"' && command[index])
-                index++;
+            c = command[index];
+            resault = ft_check_end(command + index, c);
+            if (resault == -1)
+                return (1);
+            index += resault;
         }
         index++;
     }
-    return (resault);
+    return (0);
 }

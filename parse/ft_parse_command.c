@@ -70,6 +70,7 @@ t_token    *ft_parse_command(char *string)
     lst = NULL;
     if (string)
     {
+        
         if (ft_check_quots(string))
             return (NULL);
         if (ft_check_syntax(string))
