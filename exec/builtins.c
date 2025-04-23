@@ -6,15 +6,17 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/23 10:29:44 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:53:32 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_env *env)
 {
 	char	*a;
+	t_env	*pwd_env;
+	t_env	*oldpwd_env;
 
 	a = getcwd(NULL, 0);
 	if (a)
@@ -23,6 +25,27 @@ int	ft_pwd(void)
 		ft_putstr_fd("\n", 1);
 		free(a);
 		return (0);
+	}
+	else
+	{
+		pwd_env = find_env(env, "PWD");
+		if (!pwd_env)
+		{
+			oldpwd_env = find_env(env, "OLDPWD");
+			if (!oldpwd_env)
+				return (perror("pwd") ,1);
+			ft_putstr_fd(oldpwd_env->value, 1);
+			oldpwd_env->value = ft_strjoin(oldpwd_env->value, "/..");
+			ft_putstr_fd("\n", 1);
+			return (0);
+		}
+		else
+		{
+			ft_putstr_fd(pwd_env->value, 1);
+			pwd_env->value = ft_strjoin(pwd_env->value, "/..");
+			ft_putstr_fd("\n", 1);
+			return (0);
+		}
 	}
 	// perror("pwd :"); error handling
 	return (1);
@@ -62,7 +85,7 @@ void	execute_builtin(t_exec *exec, t_env **env)
 	else if (!ft_strcmp(exec->cmd, "cd"))
 		ft_cd(exec->opt, env);
 	else if (!ft_strcmp(exec->cmd, "pwd"))
-		ft_pwd();
+		ft_pwd(*env);
 	else if (!ft_strcmp(exec->cmd, "export"))
 		ft_export(exec->opt, env);
 	else if (!ft_strcmp(exec->cmd, "unset"))

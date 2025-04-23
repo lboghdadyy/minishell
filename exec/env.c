@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:15:31 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/23 10:31:25 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:54:04 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ t_env	*init_env(char **envp)
 		envp++;
 	}
 	return (env);
+}
+
+char	*get_env_value(t_env **env, char *path)
+{
+	t_env	*tmp;
+	char	*value;
+
+	tmp = find_env(*env, path);
+	if (!tmp)
+		return (NULL);
+	value = ft_strdup(tmp->value);
+	return (value);
 }
 
 t_env	*find_env(t_env	*env, char *key)
@@ -78,10 +90,13 @@ int	ft_env(t_env *env)
 {
 	while (env)
 	{
-		ft_putstr_fd(env->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(env->value, 1);
-		ft_putstr_fd("\n", 1);
+		if (env->value)
+		{
+			ft_putstr_fd(env->key, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(env->value, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		env = env->next;
 	}
 	return (0);

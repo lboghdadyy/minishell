@@ -102,7 +102,6 @@ size_t		ft_strlcat(char *s1, char *s2, size_t n);
 size_t  	ft_total_len(char   *value);
 int 		skip_variable(char *value, int index);
 void		ft_expand(t_token *lst, t_env *envp);
-
 // exec_child
 void	setup_child(int *fd, t_env *path, t_exec *head, int bltn);
 int		parent_thing(int *fd, t_exec *head);
@@ -160,10 +159,14 @@ int		ft_echo(char **cmd);
 t_env	*init_env(char **envp);
 char	**convert_t_env(t_env *env);
 int		ft_env(t_env *env);
+char	*get_env_value(t_env **env, char *path);
+
+// cd
+int		change_dir(char *path, t_env **env);
+int		ft_cd(char **opt, t_env **env);
 
 //builtins
-int		ft_pwd(void);
-int 	ft_cd(char **opt, t_env **env);//not yet
+int		ft_pwd(t_env *env);
 int		ft_exec_exit(char **opt); //not yet
 int		is_builtin(char *cmd);
 void	execute_builtin(t_exec *exec, t_env **env);
