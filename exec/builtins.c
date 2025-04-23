@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:14:33 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:29:44 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ int	ft_pwd(void)
 	}
 	// perror("pwd :"); error handling
 	return (1);
-}
-
-int	ft_cd(char **opt, t_env **env)
-{
-	(void)opt;
-	(void)env;
-	return (0);
 }
 
 int	ft_exec_exit(char **opt)

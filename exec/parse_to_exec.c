@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:24:01 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:37:44 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_exec	*convert_token_to_exec(t_token *lst)
 	{
 		node = new_node();
 		ac = count_until_pipe(lst);
-		node->opt = ft_malloc(sizeof(char *) * ac + 1, ALLOC);
+		node->opt = ft_malloc(sizeof(char *) * (ac + 1), ALLOC);
 		i = 0;
 		while (lst && lst->type != PIPE)
 		{

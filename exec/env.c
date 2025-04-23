@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:15:31 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:16:07 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:31:25 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ t_env	*init_env(char **envp)
 		envp++;
 	}
 	return (env);
+}
+
+t_env	*find_env(t_env	*env, char *key)
+{
+	while (env)
+	{
+		if (!ft_strcmp(env->key, key))
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
 }
 
 char	**convert_t_env(t_env *env)

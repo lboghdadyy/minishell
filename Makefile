@@ -42,6 +42,7 @@ SRC = minishell.c \
 	exec/unset.c \
 	exec/echo.c \
 	exec/env.c \
+	exec/cd.c \
 	exec/ft_split_exec.c
 
 OBJ = $(SRC:.c=.o)

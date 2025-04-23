@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:24:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:26:07 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:33:22 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	delet_node(t_env **env, char *key)
 	t_env	*head;
 	t_env	*prev;
 
+	if (!env || !*env)
+		return ;
 	head = (*env)->next;
 	prev = NULL;
 	if (!*env)

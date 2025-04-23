@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:20:47 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:22:48 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:31:18 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,6 @@ void	bubble_sort_env(t_env *env)
 			ptr = ptr->next;
 		}
 	}
-}
-
-t_env	*find_env(t_env	*env, char *key)
-{
-	while (env)
-	{
-		if (!ft_strcmp(env->key, key))
-			return (env);
-		env = env->next;
-	}
-	return (NULL);
 }
 
 int	ft_export(char **opt, t_env **env)
