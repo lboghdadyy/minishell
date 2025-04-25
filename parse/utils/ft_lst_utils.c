@@ -10,6 +10,8 @@ t_token	*ft_lstnew(t_tokentype type, char *value)
 	elt->type = type;
 	elt->value = value;
 	elt->next = NULL;
+	elt->previous = NULL;
+	elt->fd_reder = -1;
 	return (elt);
 }
 
@@ -39,17 +41,5 @@ void	ft_lstadd_back(t_token **lst, t_token *new)
 	}
 	tmp = ft_lstlast(*lst);
 	tmp->next = new;
-}
-
-void	ft_lstclear(t_token **lst)
-{
-	t_token	*temp;
-
-	while (*lst)
-	{
-		temp = *lst;
-		*lst = (*lst)->next;
-		// free(temp->value);
-		// free(temp);
-	}
+	new->previous = tmp;
 }

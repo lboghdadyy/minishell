@@ -50,6 +50,7 @@ typedef struct s_token {
 	t_tokentype		type;
 	char			*value;
 	struct s_token	*next;
+	struct s_token	*previous;
 	int				fd_reder;
 }	t_token;
 
@@ -83,7 +84,6 @@ char		*ft_strchr( char *s, int c);
 t_token		*ft_lstnew(t_tokentype type, char *value);
 t_token		*ft_lstlast(t_token *lst);
 void		ft_lstadd_back(t_token **lst, t_token *new);
-void		ft_lstclear(t_token **lst);
 int			ft_is_space(char c);
 char		**ft_split(char *s);
 void		free_tab(char **str);

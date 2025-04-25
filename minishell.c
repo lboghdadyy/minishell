@@ -34,7 +34,7 @@ char	*ft_getprompt(void)
 
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (RED"~ shell >");
+		return (RED"~ shell >"WHITE);
 	last_word = ft_last_word(path);
 	prompt = ft_strjoin(RED"~ ", last_word);
 	prompt = ft_strjoin(prompt, " 𒌐 "WHITE);
@@ -70,7 +70,6 @@ int	main(int argc, char **argv, char **env)
 		ft_expand(lst, envp);
 		exec = convert_token_to_exec(lst);
 		free(input);
-		ft_lstclear(&lst);
 		execution(exec, &envp); // I need more to work
 	}
 }
