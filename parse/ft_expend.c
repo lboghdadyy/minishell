@@ -5,9 +5,9 @@ int skip_variable(char *value, int index)
     int count;
 
     count = index + 1;
-    if (value[count] == '$')
-        return 2;
-    while (value[count] && !ft_strchr("\"\' $.+", value[count]))
+    if (ft_strchr("\"\' $.+][", value[count]))
+        return (2);
+    while (value[count] && !ft_strchr("\"\' $.+][", value[count]))
         count++;
     return (count - index);
 }
@@ -136,9 +136,9 @@ void    ft_expand_value(t_token *lst, t_env *envp)
         }
         else if (!lst->value[index + 1])
         {
+            index++;
             sub = ft_substr(lst->value, back_to_index, index - back_to_index);
             new_value = ft_strjoin(new_value, sub);
-            index++;
         }
         else if (lst->value[index] == '\'')
         {

@@ -3,10 +3,8 @@
 int    ft_check_end(char  *command, char  c)
 {
     int    index;
-    int    count;
 
     index = 1;
-    count = 0;
     while (command[index] && command[index] != c)
         index++;
     if (command[index] == c)
