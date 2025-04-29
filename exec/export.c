@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:20:47 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/24 16:12:08 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/29 16:36:50 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_export(char **opt, t_env **env)
 	char	*value;
 	char	*equal;
 	t_env	*tmp;
-
+	
 	i = 0;
 	if (!opt[1])
 	{
@@ -111,6 +111,12 @@ int	ft_export(char **opt, t_env **env)
 			ft_putstr_fd(opt[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			continue ;
+		}
+		tmp = find_env(*env, opt[i]);
+		if (tmp)
+		{
+			if (tmp->value && !ft_strchr(opt[i], '='))
+				continue;
 		}
 		equal = ft_strstr(opt[i], "+=");
 		if (equal)

@@ -162,8 +162,8 @@ int		ft_env(t_env *env);
 char	*get_env_value(t_env **env, char *path);
 
 // cd
-int		change_dir(char *path, t_env **env);
-int		ft_cd(char **opt, t_env **env);
+int		change_dir(char *path, t_env **env, char **hold_pwd);
+char	*ft_cd(char **opt, t_env **env);
 
 //builtins
 int		ft_pwd(t_env *env);

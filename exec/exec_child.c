@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:17:37 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:31:57 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	cmd_not_found(char *cmd)
 {
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": command not found\n", ft_strlen(": command not found\n"));
-	ft_malloc(0, CLEAR);
+	// ft_malloc(0, CLEAR);
 	exit(127);
 }
 

@@ -6,44 +6,78 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:07:07 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/24 16:07:53 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/29 18:26:09 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	change_dir(char *path, t_env **env)
+int	change_dir(char *path, t_env **env, char **hold_pwd)
 {
 	char	*oldpwd;
 	char	*newpwd;
+	char	*av[3];
 
-	if (chdir(path) == -1)
-		return (perror("cd"), 1);
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		oldpwd = ft_strdup(get_env_value(env, "PWD"));
+	else
+	{
+		av[0] = ft_strdup("export");
+		av[1] = ft_strjoin("OLDPWD=", oldpwd);
+		av[2] = NULL;
+		ft_export(av, env);
+	}
+	if (chdir(path) == -1)
+		return (perror("cd"), 1);
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
 	{
-		ft_putstr_fd("minishell: cd: error retrieving current directory: \
-					getcwd: cannot access parent directories\n", 2);
+		ft_putstr_fd("minishell: cd: error retrieving current directory: ", 2);
+		ft_putstr_fd("getcwd: cannot access parent directories\n", 2);
 		newpwd = ft_strdup(path);
+		if (!ft_strcmp(path, ".") || !ft_strcmp(path, ".."))
+		{
+			av[0] = ft_strdup("export");
+			if (find_env(*env, "PWD"))
+				av[1] = ft_strjoin("PWD+=/", path);
+			else
+			{
+				av[1] = ft_strjoin("PWD=", ft_strjoin(*hold_pwd, "/.."));
+				*hold_pwd = av[1];
+			}
+			av[2] = NULL;
+			ft_export(av, env);
+		}
+	}
+	else
+	{
+		*hold_pwd = ft_strdup(newpwd);
+		av[0] = ft_strdup("export");
+		av[1] = ft_strjoin("PWD=", newpwd);
+		av[2] = NULL;
+		ft_export(av, env);
+		free(newpwd);
 	}
 	free(oldpwd);
-	free(newpwd);
 	return (0);
 }
 
-int	ft_cd(char **opt, t_env **env)
+char	*ft_cd(char **opt, t_env **env)
 {
-	char	*home;
+	char		*home;
+	static char	*hold_pwd;
 
-	home = get_env_value(env, "HOME");
-	if (!home)
-		return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
+	if (!opt && !env)
+		return (hold_pwd);
 	if (!opt[1])
-		return (change_dir(home, env));
+	{
+		home = get_env_value(env, "HOME");
+		if (!home)
+			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
+		return (change_dir(home, env, &hold_pwd), NULL);	
+	}
 	else if (opt[1])
-		return (change_dir(opt[1], env));
-	return (0);
+		return (change_dir(opt[1], env, &hold_pwd), NULL);
+	return (NULL);
 }
