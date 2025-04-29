@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/23 16:53:32 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:06:41 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_pwd(t_env *env)
 		{
 			oldpwd_env = find_env(env, "OLDPWD");
 			if (!oldpwd_env)
-				return (perror("pwd") ,1);
+				return (perror("pwd"), 1);
 			ft_putstr_fd(oldpwd_env->value, 1);
 			oldpwd_env->value = ft_strjoin(oldpwd_env->value, "/..");
 			ft_putstr_fd("\n", 1);
@@ -47,7 +47,7 @@ int	ft_pwd(t_env *env)
 			return (0);
 		}
 	}
-	// perror("pwd :"); error handling
+	perror("pwd");
 	return (1);
 }
 

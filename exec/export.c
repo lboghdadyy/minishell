@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:20:47 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/23 10:31:18 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:12:08 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ int	is_valid_export(char *opt)
 	int	i;
 
 	i = 0;
-	if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' && opt[i] <= 'z') || opt[i] == '_'))
+	if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' && opt[i] <= 'z') \
+		|| opt[i] == '_'))
 		return (1);
 	i++;
 	while (opt[i])
 	{
-		if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' && opt[i] <= 'z') || (opt[i] >= '0' && opt[i] <= '9') || opt[i] == '_'))
+		if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' \
+			&& opt[i] <= 'z') || (opt[i] >= '0' && opt[i] <= '9') \
+			|| opt[i] == '_'))
 		{
 			if (opt[i] == '+' && opt[i +1] == '=')
 				return (0);
@@ -74,10 +77,13 @@ void	bubble_sort_env(t_env *env)
 
 int	ft_export(char **opt, t_env **env)
 {
-	int i = 0;
-	char *key, *value, *equal;
+	int		i;
+	char	*key;
+	char	*value;
+	char	*equal;
 	t_env	*tmp;
 
+	i = 0;
 	if (!opt[1])
 	{
 		tmp = *env;
@@ -106,7 +112,8 @@ int	ft_export(char **opt, t_env **env)
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			continue ;
 		}
-		if ((equal = ft_strstr(opt[i], "+=")))
+		equal = ft_strstr(opt[i], "+=");
+		if (equal)
 		{
 			key = ft_substr(opt[i], 0, equal - opt[i]);
 			value = ft_strdup(equal + 2);
