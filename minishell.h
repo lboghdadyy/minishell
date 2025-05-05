@@ -19,9 +19,10 @@
 # define ALLOC 1
 # define CLEAR 2
 
+
+
 # define WHITE "\033[0;37m"
 # define RED "\033[0;31m"
-
 
 void	*ft_malloc(size_t size, int flag);
 
@@ -128,6 +129,7 @@ void	ft_putstr_fd(char *s, int fd);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strstr(char *str, char *to_find);
+int		ft_atoi(const char *str);
 
 // exec_list
 int		ft_lstsize_env(t_env *env);
@@ -165,9 +167,12 @@ char	*get_env_value(t_env **env, char *path);
 int		change_dir(char *path, t_env **env, char **hold_pwd);
 char	*ft_cd(char **opt, t_env **env);
 
+// exit
+int	is_valid_exit(char	*opt);
+int		ft_exec_exit(char **opt);
+
 //builtins
 int		ft_pwd(t_env *env);
-int		ft_exec_exit(char **opt); //not yet
 int		is_builtin(char *cmd);
 void	execute_builtin(t_exec *exec, t_env **env);
 #endif

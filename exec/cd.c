@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:07:07 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/29 18:26:09 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/05 02:26:28 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*ft_cd(char **opt, t_env **env)
 		home = get_env_value(env, "HOME");
 		if (!home)
 			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
-		return (change_dir(home, env, &hold_pwd), NULL);	
+		return (change_dir(home, env, &hold_pwd), NULL);
 	}
 	else if (opt[1])
 		return (change_dir(opt[1], env, &hold_pwd), NULL);

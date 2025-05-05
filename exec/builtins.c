@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/29 18:21:47 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/04 22:58:57 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,6 @@ int	ft_pwd(t_env *env)
 	}
 	perror("pwd");
 	return (1);
-}
-
-int	ft_exec_exit(char **opt)
-{
-	(void)opt;
-	return (0);
 }
 
 int	is_builtin(char *cmd)

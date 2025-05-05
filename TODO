@@ -18,3 +18,5 @@ echo ".$HOME..$PWD..."
 update in env
 
 '"'$HOME'"'
+
+# stil work on exit and exit status , more fixing t9abi in env !

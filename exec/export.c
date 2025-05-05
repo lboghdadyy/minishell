@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:20:47 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/29 16:36:50 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/05 02:30:40 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,20 @@ int	ft_export(char **opt, t_env **env)
 	char	*value;
 	char	*equal;
 	t_env	*tmp;
-	
+
 	i = 0;
+	tmp = NULL;
 	if (!opt[1])
 	{
 		tmp = *env;
 		bubble_sort_env(tmp);
 		while (tmp)
 		{
+			if (tmp->key && !ft_strcmp("_", tmp->key))
+			{
+				tmp = tmp->next;
+				continue ;
+			}
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(tmp->key, 1);
 			if (tmp->value)
@@ -116,7 +122,7 @@ int	ft_export(char **opt, t_env **env)
 		if (tmp)
 		{
 			if (tmp->value && !ft_strchr(opt[i], '='))
-				continue;
+				continue ;
 		}
 		equal = ft_strstr(opt[i], "+=");
 		if (equal)

@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:15:31 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/23 16:54:04 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/05 02:28:27 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,25 @@ t_env	*init_env(char **envp)
 	char	*equal;
 	char	*key;
 	char	*value;
+	char	*pwd;
 
 	env = NULL;
+	pwd = getcwd(NULL, 0);
+	if (!envp || !*envp)
+	{
+		key = ft_strdup("OLDPWD");
+		value = NULL;
+		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
+		key = ft_strdup("PATH");
+		value = ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
+		key = ft_strdup("PWD");
+		value = pwd;
+		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, ft_strdup(value)));
+		key = ft_strdup("SHLVL");
+		value = ft_strdup("1");
+		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
+	}
 	while (*envp)
 	{
 		equal = ft_strchr(*envp, '=');
@@ -36,6 +53,7 @@ t_env	*init_env(char **envp)
 		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
 		envp++;
 	}
+	free(pwd);
 	return (env);
 }
 
@@ -88,6 +106,12 @@ char	**convert_t_env(t_env *env)
 
 int	ft_env(t_env *env)
 {
+	char	*av[3];
+
+	av[0] = ft_strdup("export");
+	av[1] = ft_strjoin("_=", "/usr/bin/env");
+	av[2] = NULL;
+	ft_export(av, &env);
 	while (env)
 	{
 		if (env->value)
