@@ -49,6 +49,7 @@ int	main(int argc, char **argv, char **env)
 	t_exec	*exec;
 	t_env	*envp;
 	char	*prompt;
+	char	*expanded;
 
 	if (argc != 1)
 		ft_exit("no arguments\n");
@@ -61,15 +62,21 @@ int	main(int argc, char **argv, char **env)
 		prompt = ft_getprompt();
 		input = readline(prompt);
 		if (!input)
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (*input)
 			add_history(input);
-		lst = ft_parse_command(input);
+		expanded = ft_expand_value(input, envp);
+		free(input);
+		lst = ft_parse_command(expanded);
 		if (!lst)
 			continue ;
 		ft_expand(lst, envp);
+        if (ft_redirection_operators(lst, envp) == 1)
+			continue ;
 		exec = convert_token_to_exec(lst);
-		free(input);
 		execution(exec, &envp); // I need more to work
 	}
 }

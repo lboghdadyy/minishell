@@ -43,8 +43,10 @@ SRC = minishell.c \
 	exec/echo.c \
 	exec/env.c \
 	exec/cd.c \
-	exec/exit.c \
-	exec/ft_split_exec.c
+	exec/ft_split_exec.c \
+	parse/ft_redirection_operators.c \
+	parse/utils/ft_strcomp.c \
+	exec/exit.c
 
 OBJ = $(SRC:.c=.o)
 

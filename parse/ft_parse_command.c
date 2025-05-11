@@ -1,32 +1,5 @@
 #include "../minishell.h"
 
-char* token_type_to_string(t_tokentype type)
-{
-    if (type == PIPE)
-        return "PIPE";
-    else if (type == REDIRECT_IN)
-        return "REDIRECT_IN";
-    else if (type == REDIRECT_OUT)
-        return "REDIRECT_OUT";
-    else if (type == APPEND)
-        return "APPEND";
-    else if (type == HERDOC)
-        return ("HEREDOC");
-    else if (type == SINGLEQ)
-        return ("SINGLE QUOTES");
-    else if (type == DOUBLEQ)
-        return ("DOUBLE QUOTES");
-    else
-        return "WORD";
-}
-
-void print_token_list(t_token *head) {
-    while (head) {
-        printf("Type: {%s} | Value: {%s}\n", token_type_to_string(head->type), head->value);
-        head = head->next;
-    }
-}
-
 int     ft_count_operator(char *string, int index, char c)
 {
     int count;

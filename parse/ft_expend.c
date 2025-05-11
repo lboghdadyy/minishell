@@ -7,7 +7,7 @@ int skip_variable(char *value, int index)
     count = index + 1;
     if (ft_strchr("\"\' $.+][", value[count]))
         return (2);
-    while (value[count] && !ft_strchr("\"\' $.+][", value[count]))
+    while (value[count] && !ft_strchr("\"\' $.+][[]", value[count]))
         count++;
     return (count - index);
 }
@@ -48,15 +48,15 @@ size_t  ft_len_wo_quotes(char *value)
     return (count);
 }
 
-char	*ft_get_env(t_token *lst, int *index, t_env *envp)
+char	*ft_get_env(char    *value, int *index, t_env *envp)
 {
 	char	*sub;
 	char	*found;
 	size_t	skipped;
     t_env   *tmp;
 
-	skipped = skip_variable(lst->value, *index);
-    sub = ft_substr(lst->value, *index + 1, skipped - 1);
+	skipped = skip_variable(value, *index);
+    sub = ft_substr(value, *index + 1, skipped - 1);
 	*index += skipped;
 	tmp = find_env(envp, sub);
     if (!tmp)
@@ -102,15 +102,7 @@ void    ft_remove_quotes(t_token *tmp)
     tmp->value = clean;
 }
 
-// void    ft_extract(char *new_value, char *value, int index, int back_to_index)
-// {
-//     char    *sub;
-
-//     sub = ft_substr(lst->value, back_to_index, index - back_to_index);
-//     new_value = ft_strjoin(new_value, sub);
-// }
-
-void    ft_expand_value(t_token *lst, t_env *envp)
+char    *ft_expand_value(char    *value, t_env *envp)
 {
     char    *new_value = NULL;
     int     index = 0;
@@ -119,28 +111,28 @@ void    ft_expand_value(t_token *lst, t_env *envp)
     bool    single_quots = false;
     char    *sub;
 
-    while (lst->value[index])
+    while (value[index])
     {
         if (reset)
         {
             back_to_index = index;
             reset = false;
         }
-        if (lst->value[index] == '$' && !single_quots && lst->value[index + 1] && !ft_strchr(". ", lst->value[index + 1]))
+        if (value[index] == '$' && !single_quots && value[index + 1] && !ft_strchr(". ", value[index + 1]))
         {
-            sub = ft_substr(lst->value, back_to_index, index - back_to_index);
+            sub = ft_substr(value, back_to_index, index - back_to_index);
             new_value = ft_strjoin(new_value, sub);
-            sub = ft_get_env(lst, &index, envp);
+            sub = ft_get_env(value, &index, envp);
             new_value = ft_strjoin(new_value, sub);
             reset = true;
         }
-        else if (!lst->value[index + 1])
+        else if (!value[index + 1])
         {
             index++;
-            sub = ft_substr(lst->value, back_to_index, index - back_to_index);
+            sub = ft_substr(value, back_to_index, index - back_to_index);
             new_value = ft_strjoin(new_value, sub);
         }
-        else if (lst->value[index] == '\'')
+        else if (value[index] == '\'')
         {
             single_quots = !single_quots;
             index++;
@@ -148,7 +140,7 @@ void    ft_expand_value(t_token *lst, t_env *envp)
         else
             index++;
     }
-    lst->value = new_value;
+    return (new_value);
 }
 
 bool    check_vars(char *value)
@@ -171,11 +163,6 @@ void     ft_expand(t_token *lst, t_env *envp)
     tmp = lst;
     while (tmp)
     {
-        if (ft_strchr(tmp->value, '$'))
-        {
-            if (check_vars(tmp->value))
-                ft_expand_value(tmp, envp);
-        }
         if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ)
         {
             ft_remove_quotes(tmp);
@@ -183,5 +170,5 @@ void     ft_expand(t_token *lst, t_env *envp)
         }
         tmp = tmp->next;
     }
-
+    (void)envp;
 }

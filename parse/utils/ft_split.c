@@ -1,32 +1,5 @@
 #include "../../minishell.h"
 
-void	free_tab(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-
-char *ft_white_space(char	*string)
-{
-	int index;
-
-	index = 0;
-	while (string[index])
-	{
-		if (ft_is_space(string[index]))
-			return (string + index);
-		index++;
-	}
-	return (NULL);
-}
-
 int skip_spaces(char *s, int i)
 {
 	while (s[i] && ft_is_space(s[i]))

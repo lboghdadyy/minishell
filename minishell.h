@@ -16,6 +16,12 @@
 // garbage
 # define SINGLE 20
 # define COUPLE 10
+
+# define RED_OUT 30
+# define RED_IN 31
+# define APPE 32
+# define HERED 33
+
 # define ALLOC 1
 # define CLEAR 2
 
@@ -25,6 +31,7 @@
 # define RED "\033[0;31m"
 
 void	*ft_malloc(size_t size, int flag);
+int		clear_fds(char	*file, int type, int save);
 
 typedef struct s_garbage
 {
@@ -69,9 +76,7 @@ typedef struct s_env {
 	char			*value;
 	struct s_env	*next;
 }	t_env;
-// debug
-void print_token_list(t_token *head);
-// end debug
+
 void		ft_exit(char *error);
 int ft_check_quotes_type(char *string);
 int    		ft_check_quots(char *command);
@@ -103,6 +108,9 @@ size_t		ft_strlcat(char *s1, char *s2, size_t n);
 size_t  	ft_total_len(char   *value);
 int 		skip_variable(char *value, int index);
 void		ft_expand(t_token *lst, t_env *envp);
+int			ft_redirection_operators(t_token *lst, t_env *env);
+int			ft_strcomp(char *s1, char *s2);
+char		*ft_expand_value(char    *value, t_env *envp);
 // exec_child
 void	setup_child(int *fd, t_env *path, t_exec *head, int bltn);
 int		parent_thing(int *fd, t_exec *head);

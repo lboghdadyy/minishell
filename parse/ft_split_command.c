@@ -1,18 +1,5 @@
 #include "../minishell.h"
 
-int ft_lenght_sub(char *command, int index)
-{
-    int len;
-
-    len = 0;
-    while (!ft_strchr(" \'\"\t|", command[index]) && command[index])
-    {
-        index++;
-        len++;
-    }
-    return (len);
-}
-
 t_tokentype ft_token_type(char *string)
 {
     if (!string)
@@ -33,13 +20,6 @@ t_tokentype ft_token_type(char *string)
         return (DOUBLEQ);
     return WORD;
 }
-
-// void    *ft_cleanup(t_token **lst, char **command)
-// {
-//     ft_lstclear(lst);
-//     free_tab(command);
-//     return NULL;
-// }
 
 t_token *ft_split_command(char **command)
 {
