@@ -1,46 +1,28 @@
 #include "minishell.h"
 
-void	handler(int sig)
+void	handler(int sig, siginfo_t *siginfo, void *no)
 {
-	(void)sig;
-	ft_putstr_fd("\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("\n", 1);
+		ft_malloc(0, CLEAR);
+		exit(1);
+	}
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	(void)siginfo;
+	(void)no;
 	// set exit status to 130;
 }
 
-char	*ft_last_word(char *s)
-{
-	int	i;
+#include <sys/types.h>
+#include <dirent.h>
 
-	i = 0;
-	while (s[i])
-		i++;
-	i -= 1;
-	while (s[i] != '/' && i >= 0)
-		i--;
-	if (i == 0)
-		return (NULL);
-	i += 1;
-	return (s + i);
-}
-
-char	*ft_getprompt(void)
-{
-	char	*path;
-	char	*prompt;
-	char	*last_word;
-
-	path = getcwd(NULL, 0);
-	if (!path)
-		return (RED"~ shell >"WHITE);
-	last_word = ft_last_word(path);
-	prompt = ft_strjoin(RED"~ ", last_word);
-	prompt = ft_strjoin(prompt, " 𒌐 "WHITE);
-	free(path);
-	return (prompt);
-}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -48,19 +30,26 @@ int	main(int argc, char **argv, char **env)
 	t_token *lst;
 	t_exec	*exec;
 	t_env	*envp;
-	char	*prompt;
 	char	*expanded;
-
+	struct sigaction	sa;
+	
+    DIR *dir = opendir("parse");
+    if (dir == NULL) {
+        perror("opendir");
+        return 1;
+    }
+    closedir(dir);
 	if (argc != 1)
 		ft_exit("no arguments\n");
 	envp = init_env(env);
 	(void)argv;
 	rl_catch_signals = 0;
-	signal(SIGINT, handler);
+	sa.sa_sigaction = &handler;
+	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
 	while (1337)
 	{
-		prompt = ft_getprompt();
-		input = readline(prompt);
+		input = readline(RED"minishell➤ "WHITE);
 		if (!input)
 		{
 			printf("exit\n");
@@ -69,14 +58,14 @@ int	main(int argc, char **argv, char **env)
 		if (*input)
 			add_history(input);
 		expanded = ft_expand_value(input, envp);
+		// printf("%s\n", expanded);
 		free(input);
 		lst = ft_parse_command(expanded);
 		if (!lst)
 			continue ;
 		ft_expand(lst, envp);
-        if (ft_redirection_operators(lst, envp) == 1)
-			continue ;
-		exec = convert_token_to_exec(lst);
+		exec = convert_token_to_exec(lst, envp);
 		execution(exec, &envp); // I need more to work
 	}
+	ft_malloc(0, CLEAR);
 }

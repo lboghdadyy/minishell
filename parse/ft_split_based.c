@@ -15,10 +15,10 @@ void    ft_split_based(char **command, int index1, t_token **lst)
             found_quots = !found_quots;
             i++;
         }
-        else if (!ft_strchr("|<>;", command[index1][i]) && found_quots)
+        else if (!ft_strchr("|<>", command[index1][i]) && found_quots)
         {
             rest_point = i;
-            while (!ft_strchr("|<>;", command[index1][i]))
+            while (!ft_strchr("|<>", command[index1][i]))
                 i++;
             extraxted = ft_substr(command[index1], rest_point, i - rest_point);
             if (!extraxted)
@@ -31,7 +31,7 @@ void    ft_split_based(char **command, int index1, t_token **lst)
         else
         {
             rest_point = i;
-            while (ft_strchr("|<>;", command[index1][i]))
+            while (ft_strchr("|<>", command[index1][i]))
                 i++;
             extraxted = ft_substr(command[index1], rest_point, i - rest_point);
             if (!extraxted)

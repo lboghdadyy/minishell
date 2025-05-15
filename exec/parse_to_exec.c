@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/23 10:37:44 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:06:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	count_until_pipe(t_token *lst)
 	return (count);
 }
 
-t_exec	*convert_token_to_exec(t_token *lst)
+t_exec	*convert_token_to_exec(t_token *lst, t_env	*env)
 {
 	t_exec	*head;
 	t_exec	*node;
@@ -42,25 +42,38 @@ t_exec	*convert_token_to_exec(t_token *lst)
 		i = 0;
 		while (lst && lst->type != PIPE)
 		{
-			if (lst->type == WORD || lst->type >= 6)
+			if (lst->type == WORD)
 			{
 				node->opt[i] = ft_strdup(lst->value);
 				if (i == 0)
 					node->cmd = node->opt[0];
 				i++;
 			}
-			else if (lst->type == HERDOC || lst->type == REDIRECT_IN)
+			else if (lst->type == HERDOC)
 			{
 				if (node->fd_in != 0)
 					close(node->fd_in);
-				node->fd_in = lst->fd_reder;
+				node->fd_in = ft_handle_heredoc(lst, env);
 				lst = lst->next;
 			}
-			else if (lst->type == APPEND || lst->type == REDIRECT_OUT)
+			else if (lst->type == REDIRECT_IN)
+			{
+				if (node->fd_in != 0)
+					close(node->fd_in);
+				node->fd_in = open(lst->next->value, O_RDONLY);
+			}
+			else if (lst->type == APPEND)
 			{
 				if (node->fd_out != 1)
 					close(node->fd_out);
-				node->fd_out = lst->fd_reder;
+				node->fd_out = open(lst->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+				lst = lst->next;
+			}
+			else if (lst->type == REDIRECT_OUT)
+			{
+				if (node->fd_out != 1)
+					close(node->fd_out);
+				node->fd_out = open(lst->next->value, O_RDWR | O_CREAT, 0644);
 				lst = lst->next;
 			}
 			lst = lst->next;

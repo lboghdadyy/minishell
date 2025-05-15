@@ -1,7 +1,7 @@
 
 #include "../../minishell.h"
 
-int	ft_strcomp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
     if (!s1 || !s2)
 	{

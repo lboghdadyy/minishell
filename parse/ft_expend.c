@@ -5,9 +5,9 @@ int skip_variable(char *value, int index)
     int count;
 
     count = index + 1;
-    if (ft_strchr("\"\' $.+][", value[count]))
-        return (2);
-    while (value[count] && !ft_strchr("\"\' $.+][[]", value[count]))
+    if (value[count] == '$')
+        return 2;
+    while (value[count] && !ft_strchr("\"\' \t$.+[]=", value[count]))
         count++;
     return (count - index);
 }
@@ -109,6 +109,7 @@ char    *ft_expand_value(char    *value, t_env *envp)
     bool    reset = true;
     int     back_to_index;
     bool    single_quots = false;
+    bool    double_quotes = false;
     char    *sub;
 
     while (value[index])
@@ -118,7 +119,13 @@ char    *ft_expand_value(char    *value, t_env *envp)
             back_to_index = index;
             reset = false;
         }
-        if (value[index] == '$' && !single_quots && value[index + 1] && !ft_strchr(". ", value[index + 1]))
+        if (!value[index + 1])
+        {
+            index++;
+            sub = ft_substr(value, back_to_index, index - back_to_index);
+            new_value = ft_strjoin(new_value, sub);
+        }
+        else if (value[index] == '$' && !single_quots && value[index + 1] && !ft_strchr(" \".", value[index + 1]))
         {
             sub = ft_substr(value, back_to_index, index - back_to_index);
             new_value = ft_strjoin(new_value, sub);
@@ -126,15 +133,10 @@ char    *ft_expand_value(char    *value, t_env *envp)
             new_value = ft_strjoin(new_value, sub);
             reset = true;
         }
-        else if (!value[index + 1])
-        {
-            index++;
-            sub = ft_substr(value, back_to_index, index - back_to_index);
-            new_value = ft_strjoin(new_value, sub);
-        }
         else if (value[index] == '\'')
         {
             single_quots = !single_quots;
+            double_quotes = !double_quotes;
             index++;
         }
         else

@@ -92,7 +92,6 @@ t_token		*ft_lstlast(t_token *lst);
 void		ft_lstadd_back(t_token **lst, t_token *new);
 int			ft_is_space(char c);
 char		**ft_split(char *s);
-void		free_tab(char **str);
 int			ft_is_space(char c);
 bool		ft_check_pip(char *string);
 bool		ft_check_redirect_in(char *string);
@@ -108,9 +107,9 @@ size_t		ft_strlcat(char *s1, char *s2, size_t n);
 size_t  	ft_total_len(char   *value);
 int 		skip_variable(char *value, int index);
 void		ft_expand(t_token *lst, t_env *envp);
-int			ft_redirection_operators(t_token *lst, t_env *env);
-int			ft_strcomp(char *s1, char *s2);
+int			ft_handle_heredoc(t_token *lst, t_env *env);
 char		*ft_expand_value(char    *value, t_env *envp);
+char	*ft_get_env(char    *value, int *index, t_env *envp);
 // exec_child
 void	setup_child(int *fd, t_env *path, t_exec *head, int bltn);
 int		parent_thing(int *fd, t_exec *head);
@@ -126,7 +125,7 @@ int		is_empty(char *s);
 void	call_execve(t_exec *head, t_env *env);
 
 //parse_to_exec
-t_exec	*convert_token_to_exec(t_token *lst);
+t_exec	*convert_token_to_exec(t_token *lst, t_env *env);
 int		count_until_pipe(t_token *lst);
 
 // ft_split_exec
