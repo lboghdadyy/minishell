@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 06:19:28 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/15 16:08:48 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:03:46 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,4 @@ char	*ft_strstr(char *str, char *to_find)
 		j = 0;
 	}
 	return (0);
-}
-
-int	ft_atoi(const char *str)
-{
-	unsigned long	res;
-	int				sig;
-
-	res = 0;
-	sig = 1;
-	while (*str == 32 || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
-			sig *= -1;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		res = res * 10 + (*(str++) - 48);
-		if (res > 9223372036854775807 && sig == -1)
-			return (0);
-		if (res > 9223372036854775807 && sig == 1)
-			return (-1);
-	}
-	return ((int)res * sig);
 }

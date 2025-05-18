@@ -110,6 +110,7 @@ void		ft_expand(t_token *lst, t_env *envp);
 int			ft_handle_heredoc(t_token *lst, t_env *env);
 char		*ft_expand_value(char    *value, t_env *envp);
 char	*ft_get_env(char    *value, int *index, t_env *envp);
+
 // exec_child
 void	setup_child(int *fd, t_env *path, t_exec *head, int bltn);
 int		parent_thing(int *fd, t_exec *head);
@@ -124,9 +125,18 @@ char	*get_cmd_path(char *cmd, char *path);
 int		is_empty(char *s);
 void	call_execve(t_exec *head, t_env *env);
 
+//parse_to_exec_more
+void	handle_heredoc(t_token **lst, t_exec *node, t_env *env);
+void	handle_redirect_in(t_token **lst, t_exec *node);
+void	handle_append(t_token **lst, t_exec *node);
+void	handle_redirect_out(t_token **lst, t_exec *node);
+
 //parse_to_exec
-t_exec	*convert_token_to_exec(t_token *lst, t_env *env);
 int		count_until_pipe(t_token *lst);
+void	handle_word(t_token *lst, t_exec *node, int *i);
+void	handle_redirects(t_token **lst, t_exec *node, t_env *env);
+void	fill_node(t_token **lst, t_exec *node, t_env *env);
+t_exec	*convert_token_to_exec(t_token *lst, t_env *env);
 
 // ft_split_exec
 char	**ft_split_exec(char const *s, char c);
@@ -136,7 +146,8 @@ void	ft_putstr_fd(char *s, int fd);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strstr(char *str, char *to_find);
-int		ft_atoi(const char *str);
+int		ft_atoi(const char *str, int *flag);
+char	*ft_itoa(int n);
 
 // exec_list
 int		ft_lstsize_env(t_env *env);
@@ -149,12 +160,16 @@ t_env	*ft_lstnew_exec(char *key, char *value);
 t_env	*ft_lstlast_exec(t_env *lst);
 void	add_back(t_exec **head, t_exec *new);
 
-// export
+// export more
 int 	is_valid_export(char *opt);
 void	swap_env(t_env *a, t_env *b);
 void	bubble_sort_env(t_env *env);
-t_env	*find_env(t_env	*env, char *key);
-int		ft_export(char **opt, t_env **env);
+void	print_sorted_env(t_env *env, int fd);
+
+// export
+void	handle_plus_equal(char *opt, t_env **env);
+void	handle_equal_or_none(char *opt, t_env **env);
+int		ft_export(char **opt, t_env **env, int fd);
 
 //unset
 void	delet_node(t_env **env, char *key);
@@ -162,24 +177,36 @@ void	ft_unset(char **opt, t_env **env);
 
 //echo
 int		is_valid_option(char *str);
-int		ft_echo(char **cmd);
+int		ft_echo(char **cmd, int fd);
 
 //env
+void	init_default_env(t_env **env, char *pwd);
 t_env	*init_env(char **envp);
-char	**convert_t_env(t_env *env);
-int		ft_env(t_env *env);
 char	*get_env_value(t_env **env, char *path);
+t_env	*find_env(t_env	*env, char *key);
+int		ft_env(t_env *env, int fd);
+
+// itoa
+char	*ft_itoa(int n);
+int		ft_atoi(const char *str, int *flag);
 
 // cd
+void	update_oldpwd(t_env **env, char *oldpwd);
+void	getcwd_fail(char *path, t_env **env, char **hold_pwd, char *newpwd);
 int		change_dir(char *path, t_env **env, char **hold_pwd);
 char	*ft_cd(char **opt, t_env **env);
 
 // exit
-int	is_valid_exit(char	*opt);
+int		is_valid_exit(char	*opt);
 int		ft_exec_exit(char **opt);
+int		store_exit_status(int sts, int set);
 
 //builtins
-int		ft_pwd(t_env *env);
 int		is_builtin(char *cmd);
-void	execute_builtin(t_exec *exec, t_env **env);
+char	**convert_t_env(t_env *env);
+void	execute_builtin(t_exec *exec, t_env **env, bool forked);
+
+// pwd
+int		ft_pwd(t_env *env, int fd);
+int		pwd_and_oldpwd(t_env *env, int fd);
 #endif

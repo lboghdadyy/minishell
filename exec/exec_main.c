@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/03 21:45:51 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:28:28 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	execute_cmd(t_exec *head, t_env **env)
 		if (is_builtin(head->cmd))
 		{
 			setup_child(fd, NULL, head, 1);
-			execute_builtin(head, env);
+			execute_builtin(head, env, true);
 			exit(0);
 		}
 		else
@@ -100,7 +100,7 @@ int	execution(t_exec *exec, t_env **env)
 	int	fd;
 
 	if (ft_lstsize(exec) == 1 && is_builtin(exec->cmd))
-		return (execute_builtin(exec, env), 1);
+		return (execute_builtin(exec, env, false), 1);
 	fd = dup(STDIN_FILENO);
 	if (fd == -1)
 		return (perror("dup()"), ft_malloc(0, CLEAR), 0);

@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:15:31 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/15 16:08:58 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:56:49 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	init_default_env(t_env **env, char *pwd)
+{
+	char	*path;
+
+	path = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
+	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("OLDPWD"), NULL));
+	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("PATH"),
+			ft_strdup(path)));
+	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("PWD"), ft_strdup(pwd)));
+	ft_lstadd_back_exec(env, ft_lstnew_exec(ft_strdup("SHLVL"), \
+			ft_strdup("1")));
+}
 
 t_env	*init_env(char **envp)
 {
@@ -23,21 +36,8 @@ t_env	*init_env(char **envp)
 	env = NULL;
 	pwd = getcwd(NULL, 0);
 	if (!envp || !*envp)
-	{
-		key = ft_strdup("OLDPWD");
-		value = NULL;
-		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
-		key = ft_strdup("PATH");
-		value = ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
-		key = ft_strdup("PWD");
-		value = pwd;
-		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, ft_strdup(value)));
-		key = ft_strdup("SHLVL");
-		value = ft_strdup("1");
-		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
-	}
-	while (*envp)
+		init_default_env(&env, pwd);
+	while (envp && *envp)
 	{
 		equal = ft_strchr(*envp, '=');
 		if (equal)
@@ -46,10 +46,7 @@ t_env	*init_env(char **envp)
 			value = ft_strdup(equal + 1);
 		}
 		else
-		{
-			key = ft_strdup(*envp);
-			value = NULL;
-		}
+			(1) && (key = ft_strdup(*envp), value = NULL);
 		ft_lstadd_back_exec(&env, ft_lstnew_exec(key, value));
 		envp++;
 	}
@@ -80,46 +77,22 @@ t_env	*find_env(t_env	*env, char *key)
 	return (NULL);
 }
 
-char	**convert_t_env(t_env *env)
-{
-	char	**ret;
-	char	*tmp;
-	int		i;
-	int		size;
-
-	i = 0;
-	size = ft_lstsize_env(env);
-	ret = ft_malloc(sizeof(char *) * (size + 1), ALLOC);
-	while (env)
-	{
-		if (env->key && env->value)
-		{
-			tmp = ft_strjoin(env->key, "=");
-			ret[i] = ft_strjoin(tmp, env->value);
-			i++;
-		}
-		env = env->next;
-	}
-	ret[i] = NULL;
-	return (ret);
-}
-
-int	ft_env(t_env *env)
+int	ft_env(t_env *env, int fd)
 {
 	char	*av[3];
 
 	av[0] = ft_strdup("export");
 	av[1] = ft_strjoin("_=", "/usr/bin/env");
 	av[2] = NULL;
-	ft_export(av, &env);
+	ft_export(av, &env, 1);
 	while (env)
 	{
 		if (env->value)
 		{
-			ft_putstr_fd(env->key, 1);
-			ft_putstr_fd("=", 1);
-			ft_putstr_fd(env->value, 1);
-			ft_putstr_fd("\n", 1);
+			ft_putstr_fd(env->key, fd);
+			ft_putstr_fd("=", fd);
+			ft_putstr_fd(env->value, fd);
+			ft_putstr_fd("\n", fd);
 		}
 		env = env->next;
 	}

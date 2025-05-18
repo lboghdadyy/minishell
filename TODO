@@ -72,3 +72,30 @@ ls: command not found
 
 ~ minishell 𒌐 chmod 000 e
 ~ minishell 𒌐 < Makefile > e > uuuy
+
+
+in syntac err set exit stuts to 2 !!!!!
+
+echo $"?" in minishell
+$?
+in bash
+?
+
+e$ echo "JEEEE" > messi > car > "" >> ls
+in bash => bash: : No such file or directory
+in minishell it's pass
+
+cat | cat | cat | cat | cat | cat
+
+cntr + C
+cntr + C
+cntr + C
+cntr + C
+cntr + C
+cntr + D
+exit status
+
+
+mkdir -p 1/2/3
+cd ..
+double free !!!

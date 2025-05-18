@@ -17,6 +17,7 @@ void	handler(int sig, siginfo_t *siginfo, void *no)
 	}
 	(void)siginfo;
 	(void)no;
+	store_exit_status(130, 1);
 	// set exit status to 130;
 }
 
@@ -33,12 +34,12 @@ int	main(int argc, char **argv, char **env)
 	char	*expanded;
 	struct sigaction	sa;
 	
-    DIR *dir = opendir("parse");
-    if (dir == NULL) {
-        perror("opendir");
-        return 1;
-    }
-    closedir(dir);
+    // DIR *dir = opendir("parse");
+    // if (dir == NULL) {
+    //     perror("opendir");
+    //     return 1;
+    // }
+    // closedir(dir);
 	if (argc != 1)
 		ft_exit("no arguments\n");
 	envp = init_env(env);

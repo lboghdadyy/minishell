@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:14:46 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:14:46 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:54:42 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_valid_option(char *str)
 	return (1);
 }
 
-int	ft_echo(char **cmd)
+int	ft_echo(char **cmd, int fd)
 {
 	int	nline;
 	int	i;
@@ -41,12 +41,13 @@ int	ft_echo(char **cmd)
 	}
 	while (cmd[i])
 	{
-		ft_putstr_fd(cmd[i], 1);
+		ft_putstr_fd(cmd[i], fd);
 		if (cmd[i + 1])
-			write(1, " ", 1);
+			write(fd, " ", 1);
 		i++;
 	}
 	if (!nline)
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
+	store_exit_status(0, 1);
 	return (0);
 }

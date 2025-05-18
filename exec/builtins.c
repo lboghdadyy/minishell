@@ -6,47 +6,34 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/04 22:58:57 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/17 15:57:09 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_pwd(t_env *env)
+char	**convert_t_env(t_env *env)
 {
-	char	*a;
-	t_env	*pwd_env;
-	char	*from_cd;
+	char	**ret;
+	char	*tmp;
+	int		i;
+	int		size;
 
-	a = getcwd(NULL, 0);
-	if (a)
+	i = 0;
+	size = ft_lstsize_env(env);
+	ret = ft_malloc(sizeof(char *) * (size + 1), ALLOC);
+	while (env)
 	{
-		ft_putstr_fd(a, 1);
-		ft_putstr_fd("\n", 1);
-		free(a);
-		return (0);
-	}
-	else
-	{
-		pwd_env = find_env(env, "PWD");
-		if (!pwd_env)
+		if (env->key && env->value)
 		{
-			from_cd = ft_cd(NULL, NULL);
-			if (!from_cd)
-				return (perror("pwd"), 1);
-			ft_putstr_fd(from_cd, 1);
-			ft_putstr_fd("\n", 1);
-			return (0);
+			tmp = ft_strjoin(env->key, "=");
+			ret[i] = ft_strjoin(tmp, env->value);
+			i++;
 		}
-		else
-		{
-			ft_putstr_fd(pwd_env->value, 1);
-			ft_putstr_fd("\n", 1);
-			return (0);
-		}
+		env = env->next;
 	}
-	perror("pwd");
-	return (1);
+	ret[i] = NULL;
+	return (ret);
 }
 
 int	is_builtin(char *cmd)
@@ -70,20 +57,22 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	execute_builtin(t_exec *exec, t_env **env)
+void	execute_builtin(t_exec *exec, t_env **env, bool forked)
 {
 	if (!ft_strcmp(exec->cmd, "echo"))
-		ft_echo(exec->opt);
+		ft_echo(exec->opt, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "cd"))
 		ft_cd(exec->opt, env);
 	else if (!ft_strcmp(exec->cmd, "pwd"))
-		ft_pwd(*env);
+		ft_pwd(*env, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "export"))
-		ft_export(exec->opt, env);
+		ft_export(exec->opt, env, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "unset"))
 		ft_unset(exec->opt, env);
 	else if (!ft_strcmp(exec->cmd, "env"))
-		ft_env(*env);
+		ft_env(*env, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "exit"))
 		ft_exec_exit(exec->opt);
+	if (forked)
+		exit(store_exit_status(0, 0));
 }

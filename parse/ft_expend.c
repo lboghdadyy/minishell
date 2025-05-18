@@ -58,6 +58,10 @@ char	*ft_get_env(char    *value, int *index, t_env *envp)
 	skipped = skip_variable(value, *index);
     sub = ft_substr(value, *index + 1, skipped - 1);
 	*index += skipped;
+    if (sub && sub[0] == '?')
+    {
+        return (ft_itoa(store_exit_status(0, 0))); // i add it to exit status echo $?
+    }
 	tmp = find_env(envp, sub);
     if (!tmp)
         return (NULL);
