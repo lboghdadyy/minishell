@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 16:41:03 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/18 21:54:53 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 		handle_append(lst, node);
 	else if ((*lst)->type == REDIRECT_OUT)
 		handle_redirect_out(lst, node);
-	if ((*lst)->type != WORD)
+	if (*lst && (*lst)->type != WORD)
 		*lst = (*lst)->next;
 }
 
@@ -62,7 +62,8 @@ void	fill_node(t_token **lst, t_exec *node, t_env *env)
 			handle_word(*lst, node, &i);
 		else
 			handle_redirects(lst, node, env);
-		*lst = (*lst)->next;
+		if (*lst)
+			*lst = (*lst)->next;
 	}
 	node->opt[i] = NULL;
 }

@@ -1,29 +1,32 @@
 #include "minishell.h"
 
-void	handler(int sig, siginfo_t *siginfo, void *no)
+void	handler(int sig)
 {
-	if (sig == SIGQUIT)
-	{
-		ft_putstr_fd("\n", 1);
-		ft_malloc(0, CLEAR);
-		exit(1);
-	}
-	if (sig == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	(void)siginfo;
-	(void)no;
+	ft_putstr_fd("\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 	store_exit_status(130, 1);
-	// set exit status to 130;
+	(void)sig;
 }
 
-#include <sys/types.h>
-#include <dirent.h>
+void ft_dupfds(int action)
+{
+	static int	fds[3];
 
+	if (action == 0)
+	{
+		fds[0] = dup(0);
+		fds[1] = dup(1);
+		fds[2] = dup(2);
+	}
+	else
+	{
+		dup2(fds[0], 0);
+		dup2(fds[1], 1);
+		dup2(fds[2], 2);
+	}
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -32,7 +35,6 @@ int	main(int argc, char **argv, char **env)
 	t_exec	*exec;
 	t_env	*envp;
 	char	*expanded;
-	struct sigaction	sa;
 	
     // DIR *dir = opendir("parse");
     // if (dir == NULL) {
@@ -45,12 +47,12 @@ int	main(int argc, char **argv, char **env)
 	envp = init_env(env);
 	(void)argv;
 	rl_catch_signals = 0;
-	sa.sa_sigaction = &handler;
-	sigaction(SIGQUIT, &sa, NULL);
-	sigaction(SIGINT, &sa, NULL);
+	ft_dupfds(0);
+	signal(SIGQUIT, SIG_IGN);
 	while (1337)
 	{
-		input = readline(RED"minishell➤ "WHITE);
+		signal(SIGINT, &handler);
+		input = readline("minishell➤ ");
 		if (!input)
 		{
 			printf("exit\n");
@@ -59,7 +61,6 @@ int	main(int argc, char **argv, char **env)
 		if (*input)
 			add_history(input);
 		expanded = ft_expand_value(input, envp);
-		// printf("%s\n", expanded);
 		free(input);
 		lst = ft_parse_command(expanded);
 		if (!lst)
@@ -67,6 +68,6 @@ int	main(int argc, char **argv, char **env)
 		ft_expand(lst, envp);
 		exec = convert_token_to_exec(lst, envp);
 		execution(exec, &envp); // I need more to work
+		ft_dupfds(1);
 	}
-	ft_malloc(0, CLEAR);
 }

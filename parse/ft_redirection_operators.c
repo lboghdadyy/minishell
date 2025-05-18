@@ -1,38 +1,58 @@
 #include "../minishell.h"
 
+
+
 char    *ft_expand_herdoc(char    *value, t_env *envp)
 {
-    char    *new_value = NULL;
-    int     index = 0;
-    bool    reset = true;
-    int     back_to_index;
-    char    *sub;
+	char    *new_value = NULL;
+	int     index = 0;
+	bool    reset = true;
+	int     back_to_index;
+	char    *sub;
 
-    while (value[index])
-    {
-        if (reset)
-        {
-            back_to_index = index;
-            reset = false;
-        }
-        if (value[index] == '$' && value[index + 1] && !ft_strchr(". ", value[index + 1]))
-        {
-            sub = ft_substr(value, back_to_index, index - back_to_index);
-            new_value = ft_strjoin(new_value, sub);
-            sub = ft_get_env(value, &index, envp);
-            new_value = ft_strjoin(new_value, sub);
-            reset = true;
-        }
-        else if (!value[index + 1])
-        {
-            index++;
-            sub = ft_substr(value, back_to_index, index - back_to_index);
-            new_value = ft_strjoin(new_value, sub);
-        }
-        else
-            index++;
-    }
-    return (new_value);
+	while (value[index])
+	{
+		if (reset)
+		{
+			back_to_index = index;
+			reset = false;
+		}
+		if (value[index] == '$' && value[index + 1] && !ft_strchr(". ", value[index + 1]))
+		{
+			sub = ft_substr(value, back_to_index, index - back_to_index);
+			new_value = ft_strjoin(new_value, sub);
+			sub = ft_get_env(value, &index, envp);
+			new_value = ft_strjoin(new_value, sub);
+			reset = true;
+		}
+		else if (!value[index + 1])
+		{
+			index++;
+			sub = ft_substr(value, back_to_index, index - back_to_index);
+			new_value = ft_strjoin(new_value, sub);
+		}
+		else
+			index++;
+	}
+	return (new_value);
+}
+
+int	signal_status(int action)
+{
+	static int sig = 0;
+
+	if (action == 0)
+	{
+		sig = 0;
+		return (-1);
+	}
+	else if (action == 1)
+	{
+		sig = 1;
+		return (-1);
+	}
+	else
+		return (sig);
 }
 
 int	ft_handle_heredoc(t_token *lst, t_env *env)
@@ -42,7 +62,6 @@ int	ft_handle_heredoc(t_token *lst, t_env *env)
     char    *expanded;
 	int		fd[2];
 
-	
     if (pipe(fd) == -1)
         return (-1);
     while (1)
@@ -72,4 +91,3 @@ int	ft_handle_heredoc(t_token *lst, t_env *env)
     close(fd[1]);
     return fd[0];
 }
-
