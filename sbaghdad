@@ -1,0 +1,11 @@
+exec
+garbage.c
+garbage.o
+Makefile
+minishell
+minishell.c
+minishell.h
+minishell.o
+parse
+sbaghdad
+TODO

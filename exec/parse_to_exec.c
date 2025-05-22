@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/18 21:54:53 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:59:32 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,32 @@ void	handle_word(t_token *lst, t_exec *node, int *i)
 	(*i)++;
 }
 
-void	handle_redirects(t_token **lst, t_exec *node, t_env *env)
+int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 {
+	int status;
+	
+	status = 0;
 	if ((*lst)->type == HERDOC)
-		handle_heredoc(lst, node, env);
-	else if ((*lst)->type == REDIRECT_IN)
-		handle_redirect_in(lst, node);
+		status = handle_heredoc(lst, node, env);
+	else if ((*lst)->type == R_IN)
+		status = handle_redirect_in(lst, node);
 	else if ((*lst)->type == APPEND)
-		handle_append(lst, node);
-	else if ((*lst)->type == REDIRECT_OUT)
-		handle_redirect_out(lst, node);
+		status = handle_append(lst, node);
+	else if ((*lst)->type == R_OUT)
+		status = handle_redirect_out(lst, node);
 	if (*lst && (*lst)->type != WORD)
 		*lst = (*lst)->next;
+	return (status);
 }
 
-void	fill_node(t_token **lst, t_exec *node, t_env *env)
+int	fill_node(t_token **lst, t_exec *node, t_env *env)
 {
 	int	i;
 	int	ac;
+	t_token *tmp;
 
 	i = 0;
+	tmp = *lst;
 	ac = count_until_pipe(*lst);
 	node->opt = ft_malloc(sizeof(char *) * (ac + 1), ALLOC);
 	while (*lst && (*lst)->type != PIPE)
@@ -61,11 +67,15 @@ void	fill_node(t_token **lst, t_exec *node, t_env *env)
 		if ((*lst)->type == WORD)
 			handle_word(*lst, node, &i);
 		else
-			handle_redirects(lst, node, env);
+		{
+			if (handle_redirects(lst, node, env))
+				return (1);
+		}
 		if (*lst)
 			*lst = (*lst)->next;
 	}
 	node->opt[i] = NULL;
+	return (0);
 }
 
 t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
@@ -77,7 +87,8 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 	while (lst)
 	{
 		node = new_node();
-		fill_node(&lst, node, env);
+		if (fill_node(&lst, node, env))
+			return (NULL);
 		add_back(&head, node);
 		if (lst && lst->type == PIPE)
 			lst = lst->next;

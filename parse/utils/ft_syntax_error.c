@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_syntax_error.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 16:54:11 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/20 15:05:08 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-void    ft_syntax_error()
+void	ft_syntax_error(void)
 {
-    write(2, "Syntax error\n", 13);
+	ft_putstr_fd("minishell : Syntax error\n", 2);
 }

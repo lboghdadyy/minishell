@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_redirection_operators.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/21 17:41:00 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-
+int	sig_f;
 
 char    *ft_expand_herdoc(char    *value, t_env *envp)
 {
@@ -37,57 +49,37 @@ char    *ft_expand_herdoc(char    *value, t_env *envp)
 	return (new_value);
 }
 
-int	signal_status(int action)
+void	handle_sigint(int sig)
 {
-	static int sig = 0;
-
-	if (action == 0)
-	{
-		sig = 0;
-		return (-1);
-	}
-	else if (action == 1)
-	{
-		sig = 1;
-		return (-1);
-	}
-	else
-		return (sig);
+	(void)sig;
+	exit(127);
 }
 
-int	ft_handle_heredoc(t_token *lst, t_env *env)
+int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 {
-	t_token	*tmp = lst;
 	char	*input;
-    char    *expanded;
-	int		fd[2];
+	char	*expanded;
 
-    if (pipe(fd) == -1)
-        return (-1);
-    while (1)
-    {
-        input = readline("> ");
-        if (!input || strcmp(input, tmp->next->value) == 0)
-        {
-            free(input);
-            break;
-        }
-        if (ft_strchr(input, '$'))
-        {
-            expanded = ft_expand_herdoc(input, env);
-            if (expanded)
-            {
-                write(fd[1], expanded, strlen(expanded));
-                write(fd[1], "\n", 1);
-            }
-        }
-        else
-        {
-            write(fd[1], input, strlen(input));
-            write(fd[1], "\n", 1);
-        }
-        free(input);
-    }
-    close(fd[1]);
-    return fd[0];
+
+	sig_f = 0;
+	if (fd_out == -1)
+		return (1);
+	while (1)
+	{
+		write(1, "> ", 1);
+		input = get_next_line(NULL);
+		if (!input || !ft_strcmp(input, lst->next->value))
+			break;
+		if (strchr(input, '$'))
+			expanded = ft_expand_herdoc(input, env);
+		else
+			expanded = input;
+		ft_putstr_fd(expanded, fd_out);
+		write(fd_out, "\n", 1);
+		free(input);
+	}
+	free(input);
+	close(fd_out);
+	exit (0);
+	return (1);
 }

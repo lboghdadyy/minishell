@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 19:37:47 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/18 21:10:50 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:44:22 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,93 +37,75 @@ char	*cut_it(char *str)
 	return (cut);
 }
 
-char	*change_index(char	*rest)
+char	*change_index(char	*readed)
 {
 	int		i;
 	int		j;
 	char	*str;
 
-	if (!rest)
+	if (!readed)
 		return (NULL);
 	(1) && (i = 0, j = 0);
-	while (rest[i] != '\n' && rest[i])
+	while (readed[i] != '\n' && readed[i])
 		i++;
-	if (rest[i] == '\n')
+	if (readed[i] == '\n')
 		i++;
-	if (rest[i] == '\0')
-		return (free(rest), NULL);
-	str = ft_malloc(ft_strlen(rest + i) + 1, ALLOC);
+	if (readed[i] == '\0')
+		return (free(readed), NULL);
+	str = ft_malloc(ft_strlen(readed + i) + 1, ALLOC);
 	if (!str)
-		return (free(str), free(rest), NULL);
-	while (rest[i])
+		return (free(readed), NULL);
+	while (readed[i])
 	{
-		str[j] = rest[i];
+		str[j] = readed[i];
 		j++;
 		i++;
 	}
 	str[j] = '\0';
-
+	free(readed);
 	return (str);
 }
 
-void herdoc_signal(int sig)
-{
-	(void)sig;
-	signal_status(1);
-}
-
-char	*get_it(int fd, char *rest)
+char	*get_it(int fd, char *readed)
 {
 	char	*buffer;
 	int		bytes;
 	char	*tmp;
 
 	bytes = 1;
-	signal(SIGINT, &herdoc_signal);
-	while (!ft_strchr(rest, '\n'))
+	while (!ft_strchr(readed, '\n'))
 	{
-		if (signal_status(-1))
-		{
-			close(0);
-			break;
-		}
-		buffer = ft_malloc((size_t)BUFFER_SIZE + 1, ALLOC);
-		bytes = read(fd, buffer, (size_t)BUFFER_SIZE);
-		if (bytes == 0 && rest)
-			return (rest);
-		else if ((bytes == 0 && !rest) || bytes == -1)
+		buffer = ft_malloc(BUFFER_SIZE + 1, ALLOC);
+		if (!buffer)
+			return (NULL);
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes == 0 && readed)
+			return (free(buffer), readed);
+		else if ((bytes == 0 && !readed) || bytes == -1)
 			return (NULL);
 		buffer[bytes] = '\0';
-		tmp = ft_strjoin(rest, buffer);
-		rest = tmp;
+		tmp = ft_strjoin(readed, buffer);
+		readed = tmp;
 	}
-	tmp = NULL;
-	if (signal_status(-1))
-		return (NULL);
-	return (rest);
+	return (readed);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(char *prompt)
 {
-	static char	*after_new_line;
+	static char	*readed;
 	char		*line;
 	char		*tmp;
 
-	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	after_new_line = get_it(fd, after_new_line);
-	if (!after_new_line)
+	ft_putstr_fd(prompt, 1);
+	readed = get_it(0, readed);
+	if (!readed)
 	{
-		free(after_new_line);
 		return (NULL);
 	}
-	line = cut_it(after_new_line);
+	line = cut_it(readed);
 	if (!line)
-	{
-		return (free (after_new_line), line);
-	}
-	tmp = change_index(after_new_line);
-	after_new_line = tmp;
+		return (line);
+	tmp = change_index(readed);
+	readed = tmp;
 	return (line);
 }

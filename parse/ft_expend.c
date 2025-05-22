@@ -7,8 +7,17 @@ int skip_variable(char *value, int index)
 	count = index + 1;
 	if (value[count] == '$')
 		return 2;
-	while (value[count] && !ft_strchr("\"\' \t$.+[]=", value[count]))
+	if (value[count] == '{')
+	{
+		while (value[count] != '}')
+			count++;
 		count++;
+		return (count - index);
+	}
+	while (value[count] && !ft_strchr("\"\' \t$.+[]={}", value[count]))
+	{
+		count++;
+	}
 	return (count - index);
 }
 
@@ -48,6 +57,8 @@ char	*ft_get_env(char *value, int *index, t_env *envp)
 
 	skipped = skip_variable(value, *index);
 	sub = ft_substr(value, *index + 1, skipped - 1);
+	if (ft_strchr(sub, '{') || ft_strchr(sub, '}'))
+		sub = ft_remove_bracets(sub);
 	*index += skipped;
 	tmp = find_env(envp, sub);
 	if (!tmp)
@@ -84,50 +95,6 @@ void	ft_remove_quotes(t_token *tmp)
 	tmp->value = clean;
 }
 
-char	*ft_expand_value(char *value, t_env *envp)
-{
-	char	*new_value;
-	int		index;
-	bool	reset;
-	int		back_to_index;
-	bool	s_q = false;
-	char	*sub;
-
-	(1) && (new_value = NULL, index = 0, reset = true, s_q = false);
-	while (value[index])
-	{
-		if (reset)
-			(1) && (back_to_index = index, reset = false);
-		if (!value[index + 1])
-		{
-			index++;
-			sub = ft_substr(value, back_to_index, index - back_to_index);
-			new_value = ft_strjoin(new_value, sub);
-		}
-		else if (value[index] == '$' && !s_q && value[index + 1] && !ft_strchr(" \".", value[index + 1]))
-		{
-			sub = ft_substr(value, back_to_index, index - back_to_index);
-			new_value = ft_strjoin(new_value, sub);
-			if (value[index] == '$' && value[index + 1] == '?')
-			{
-				new_value = ft_strjoin(new_value, ft_itoa(store_exit_status(0, 0)));
-				index += 2;
-			}
-			else
-			{
-				sub = ft_get_env(value, &index, envp);
-				new_value = ft_strjoin(new_value, sub);
-			}
-			reset = true;
-		}
-		else if (value[index] == '\'')
-			(1) && (s_q = !s_q, index++);
-		else
-			index++;
-	}
-	return (new_value);
-}
-
 void	ft_expand(t_token *lst, t_env *envp)
 {
 	t_token *tmp;
@@ -135,12 +102,13 @@ void	ft_expand(t_token *lst, t_env *envp)
 	tmp = lst;
 	while (tmp)
 	{
-		if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ)
+		if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ || tmp->type == WORD)
 		{
+			if (ft_strchr(tmp->value, '$'))
+				tmp->value = ft_expand_value(tmp->value, envp, 1);
 			ft_remove_quotes(tmp);
 			tmp->type = WORD;
 		}
 		tmp = tmp->next;
 	}
-	(void)envp;
 }

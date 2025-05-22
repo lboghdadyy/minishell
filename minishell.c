@@ -5,27 +5,9 @@ void	handler(int sig)
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	// rl_redisplay();
 	store_exit_status(130, 1);
 	(void)sig;
-}
-
-void ft_dupfds(int action)
-{
-	static int	fds[3];
-
-	if (action == 0)
-	{
-		fds[0] = dup(0);
-		fds[1] = dup(1);
-		fds[2] = dup(2);
-	}
-	else
-	{
-		dup2(fds[0], 0);
-		dup2(fds[1], 1);
-		dup2(fds[2], 2);
-	}
 }
 
 int	main(int argc, char **argv, char **env)
@@ -43,13 +25,11 @@ int	main(int argc, char **argv, char **env)
     // }
     // closedir(dir);
 	if (argc != 1)
-		ft_exit("no arguments\n");
+		return (ft_putstr_fd("minishell : no arguments\n", 2), 1);
 	envp = init_env(env);
 	(void)argv;
-	rl_catch_signals = 0;
-	ft_dupfds(0);
 	signal(SIGQUIT, SIG_IGN);
-	while (1337)
+	while (20052002)
 	{
 		signal(SIGINT, &handler);
 		input = readline("minishell➤ ");
@@ -60,14 +40,22 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (*input)
 			add_history(input);
-		expanded = ft_expand_value(input, envp);
+		if (ft_parse_command(input))
+			continue;
+		expanded = ft_expand_value(input, envp, 0);
 		free(input);
-		lst = ft_parse_command(expanded);
+		lst = ft_split_command(ft_split(expanded));
 		if (!lst)
 			continue ;
 		ft_expand(lst, envp);
+		if (ft_stop_redirect(lst))
+		{
+			exec = convert_token_to_exec(lst, envp);
+			continue ;
+		}
 		exec = convert_token_to_exec(lst, envp);
+		if (!exec)
+			continue ;
 		execution(exec, &envp); // I need more to work
-		ft_dupfds(1);
 	}
 }

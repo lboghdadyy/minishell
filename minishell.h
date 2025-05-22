@@ -41,17 +41,18 @@ typedef struct s_garbage
 }	t_garbage;
 
 // int		clear_fds(int fd, int save); ?
-
+# define BUFFER_SIZE 1024
 
 typedef enum e_tokentype {
 	WORD,
 	PIPE,
-	REDIRECT_IN,
-	REDIRECT_OUT,
+	R_IN,
+	R_OUT,
 	APPEND,
 	HERDOC,
 	DOUBLEQ,
 	SINGLEQ,
+	DELEMTER,
 }	t_tokentype;
 
 typedef struct s_token {
@@ -76,12 +77,11 @@ typedef struct s_env {
 	char			*value;
 	struct s_env	*next;
 }	t_env;
-
-void		ft_exit(char *error);
-int ft_check_quotes_type(char *string);
+// extern char	*input1;
+int 		ft_check_quotes_type(char *string);
 int    		ft_check_quots(char *command);
 size_t		ft_strlen(char *str);
-t_token    *ft_parse_command(char *string);
+int    		ft_parse_command(char *string);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_syntax_error(void);
 char		*ft_substr(char *s, unsigned int start, size_t len);
@@ -98,25 +98,28 @@ bool		ft_check_redirect_in(char *string);
 bool		ft_check_redirect_out(char *string);
 bool		ft_check_append(char *string);
 t_tokentype	ft_token_type(char *string);
-void		ft_split_based(char **command, int index1, t_token **lst);
 char		*ft_strdup(char *src);
 bool		ft_check_heredoc(char *string);
-int			ft_logic_syntax(t_token *lst);
 size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t		ft_strlcat(char *s1, char *s2, size_t n);
-size_t  	ft_total_len(char   *value);
 int 		skip_variable(char *value, int index);
 void		ft_expand(t_token *lst, t_env *envp);
-int			ft_handle_heredoc(t_token *lst, t_env *env);
-char		*ft_expand_value(char    *value, t_env *envp);
-char	*ft_get_env(char    *value, int *index, t_env *envp);
+int			ft_handle_heredoc(t_token *lst, t_env *env, int fd_out);
+char		*ft_expand_value(char *value, t_env *envp, int status);
+char		*ft_get_env(char    *value, int *index, t_env *envp);
+int			ft_check_braces(char *string);
+char		*ft_remove_bracets(char *string);
+int			check_br(char *string);
+int			ft_stop_redirect(t_token *lst);
+char		*get_next_line(char *prompt);
+void		handler(int sig);
 
 // exec_child
-void	setup_child(int *fd, t_env *path, t_exec *head, int bltn);
-int		parent_thing(int *fd, t_exec *head);
-void	cmd_not_found(char *cmd);
-int		check_exit_status(void);
-int		ignore_first_cmd(int res, int get);
+void		setup_child(int *fd, t_env *path, t_exec *head, int bltn);
+int			parent_thing(int *fd, t_exec *head);
+void		cmd_not_found(char *cmd);
+int			check_exit_status(void);
+int			ignore_first_cmd(int res, int get);
 
 // exec
 int		execution(t_exec *exec, t_env **env);
@@ -126,16 +129,16 @@ int		is_empty(char *s);
 void	call_execve(t_exec *head, t_env *env);
 
 //parse_to_exec_more
-void	handle_heredoc(t_token **lst, t_exec *node, t_env *env);
-void	handle_redirect_in(t_token **lst, t_exec *node);
-void	handle_append(t_token **lst, t_exec *node);
-void	handle_redirect_out(t_token **lst, t_exec *node);
+int		handle_heredoc(t_token **lst, t_exec *node, t_env *env);
+int		handle_redirect_in(t_token **lst, t_exec *node);
+int		handle_append(t_token **lst, t_exec *node);
+int		handle_redirect_out(t_token **lst, t_exec *node);
 
 //parse_to_exec
 int		count_until_pipe(t_token *lst);
 void	handle_word(t_token *lst, t_exec *node, int *i);
-void	handle_redirects(t_token **lst, t_exec *node, t_env *env);
-void	fill_node(t_token **lst, t_exec *node, t_env *env);
+int		handle_redirects(t_token **lst, t_exec *node, t_env *env);
+int		fill_node(t_token **lst, t_exec *node, t_env *env);
 t_exec	*convert_token_to_exec(t_token *lst, t_env *env);
 
 // ft_split_exec
@@ -209,4 +212,8 @@ void	execute_builtin(t_exec *exec, t_env **env, bool forked);
 // pwd
 int		ft_pwd(t_env *env, int fd);
 int		pwd_and_oldpwd(t_env *env, int fd);
+char    *ft_strdup2(char *src);
+
+void	handler(int sig);
+void handle_sigint(int sig);
 #endif

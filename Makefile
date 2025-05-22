@@ -8,7 +8,6 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 # CFLAGS = -Wall -Wextra -Werror
 
 SRC = minishell.c \
-	parse/utils/ft_exit.c \
 	parse/utils/ft_strlen.c \
 	parse/ft_check_quots.c \
 	parse/ft_parse_command.c \
@@ -19,18 +18,14 @@ SRC = minishell.c \
 	parse/ft_token_type.c \
 	parse/utils/ft_substr.c \
 	parse/utils/ft_is_space.c \
-	parse/ft_split_based.c \
 	parse/utils/ft_split.c \
 	parse/utils/ft_strchr.c \
 	parse/utils/ft_strdup.c \
-	parse/ft_logic_syntax.c \
 	parse/utils/ft_strlcpy.c \
 	garbage.c \
 	parse/ft_quotes_type.c \
-	parse/utils/ft_strstr.c \
 	parse/ft_expend.c \
 	parse/utils/ft_strlcat.c \
-	parse/ft_total_len.c \
 	exec/exec_main.c \
 	exec/exec_child.c \
 	exec/builtins.c \
@@ -50,7 +45,12 @@ SRC = minishell.c \
 	exec/ft_itoa_atoi.c \
 	exec/pwd.c \
 	exec/export_more.c \
-	exec/parse_to_exec_more.c
+	exec/parse_to_exec_more.c \
+	parse/ft_expand_value.c \
+	parse/ft_check_bracets.c \
+	parse/ft_remove_bracets.c \
+	parse/ft_logic_syntax.c \
+	parse/get_next_line.c
 
 OBJ = $(SRC:.c=.o)
 

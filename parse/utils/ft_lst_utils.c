@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lst_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/19 17:23:25 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 t_token	*ft_lstnew(t_tokentype type, char *value)
@@ -5,8 +17,6 @@ t_token	*ft_lstnew(t_tokentype type, char *value)
 	t_token		*elt;
 
 	elt = ft_malloc(sizeof(t_token), ALLOC);
-	if (!elt)
-		return (NULL);
 	elt->type = type;
 	elt->value = value;
 	elt->next = NULL;

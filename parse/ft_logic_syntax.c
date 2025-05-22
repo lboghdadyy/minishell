@@ -1,27 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_logic_syntax.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 16:29:05 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/22 13:47:18 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int ft_logic_syntax(t_token *lst)
+int	ft_stop_redirect(t_token *lst)
 {
-    t_token *tmp;
-    t_token *next;
-    t_token *previous;
+	t_token	*tmp;
+	bool	f;
 
-    tmp = lst;
-    while (tmp)
-    {
-        next = tmp->next;
-        previous = tmp->previous;
-        if (tmp->type == PIPE && (!next || next->type == PIPE || !previous))
-            return (ft_syntax_error(), 1);
-        if (tmp->type == HERDOC && (!next || (next->type != WORD &&  next->type != SINGLEQ && next->type != DOUBLEQ )))
-            return (ft_syntax_error(), 1);
-        if (tmp->type == REDIRECT_IN && (!next || (next->type != WORD &&  next->type != SINGLEQ && next->type != DOUBLEQ )))
-            return (ft_syntax_error(), 1);
-        if (tmp->type == REDIRECT_OUT && (!next || (next->type != WORD &&  next->type != SINGLEQ && next->type != DOUBLEQ ) ))
-            return (ft_syntax_error(), 1);
-        if (tmp->type == APPEND && (!next || (next->type != WORD &&  next->type != SINGLEQ && next->type != DOUBLEQ )))
-            return (ft_syntax_error(), 1);
-        tmp = tmp->next;
-    }
-    return 0;
+	tmp = lst;
+	f = false;
+	while (tmp)
+	{
+		if (tmp->type == WORD)
+			f = true;
+		tmp = tmp->next;
+	}
+	if (f)
+		return (0);
+	return (1);
 }

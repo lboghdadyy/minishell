@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 06:19:28 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 16:03:46 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/22 15:37:09 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,19 @@ char	*ft_strstr(char *str, char *to_find)
 		j = 0;
 	}
 	return (0);
+}
+
+char    *ft_strdup2(char *src)
+{
+    int i;
+    char    *res;
+
+    if (!src)
+        return (NULL);
+    res = malloc(ft_strlen(src) + 1);
+    i = -1;
+    while(src[++i])
+        res[i] = src[i];
+    res[i] = '\0';
+    return (res);
 }

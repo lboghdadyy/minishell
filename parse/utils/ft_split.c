@@ -1,27 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 20:18:55 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/19 20:47:35 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-int skip_spaces(char *s, int i)
+int	skip_spaces(char *s, int i)
 {
 	while (s[i] && ft_is_space(s[i]))
 		i++;
-	return i;
+	return (i);
 }
 
-
-int get_word_len(char *s, int i)
+int	acttual_len(char *s, int i)
 {
-	int start = i;
-	bool double_quots = false;
-	bool single_quots = false;
+	int		start;
+	bool	double_quots;
+	bool	single_quots;
 
-	if (s[i] == '|')
-		return (1);
-	if (ft_strchr("<>", s[i]))
-	{
-		while (ft_strchr("<>", s[i]) && s[i])
-			i++;
-		return (i - start);
-	}
+	(1) && (start = i, single_quots = false, double_quots = false);
 	while (s[i])
 	{
 		if (ft_strchr("|<>", s[i]) && !single_quots && !double_quots)
@@ -31,47 +35,71 @@ int get_word_len(char *s, int i)
 		else if (s[i] == '\"' && !single_quots)
 			double_quots = !double_quots;
 		else if (ft_is_space(s[i]) && !single_quots && !double_quots)
-			break;
+			break ;
 		i++;
 	}
 	return (i - start);
 }
 
+int	get_word_len(char *s, int i)
+{
+	int	start;
+
+	start = i;
+	if (s[i] == '|')
+		return (1);
+	if (ft_strchr("<>", s[i]))
+	{
+		while (ft_strchr("<>", s[i]) && s[i])
+			i++;
+		return (i - start);
+	}
+	return (acttual_len(s, i));
+}
+
 int	ft_countword(char *s)
 {
-	int i = 0;
-	int count = 0;
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 	{
 		i = skip_spaces(s, i);
 		if (!s[i])
-			break;
+			break ;
 		i += get_word_len(s, i);
 		count++;
 	}
-	return count;
+	return (count);
 }
 
-
-char **ft_split(char *s)
+char	**ft_split(char *s)
 {
-	int i = 0;
-	int j = 0;
-	int word_len;
-	int words = ft_countword(s);
-	char **lst = ft_malloc(sizeof(char *) * (words + 1), ALLOC);
+	int		i;
+	int		j;
+	int		word_len;
+	int		words;
+	char	**lst;
 
+	(1) && (i = 0, j = 0, words = ft_countword(s));
+	if (words == 0)
+		return (NULL);
+	lst = ft_malloc(sizeof(char *) * (words + 1), ALLOC);
 	if (!lst)
-		return NULL;
+		return (NULL);
 	while (s[i])
 	{
 		i = skip_spaces(s, i);
 		if (!s[i])
-			break;
+			break ;
 		word_len = get_word_len(s, i);
 		lst[j++] = ft_substr(s, i, word_len);
 		i += word_len;
 	}
 	lst[j] = NULL;
-	return lst;
+	return (lst);
 }

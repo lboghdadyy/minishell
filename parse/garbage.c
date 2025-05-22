@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   garbage.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 16:53:48 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/19 17:16:48 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_garbage	*ft_lstlast_garbage(t_garbage *lst)
@@ -47,7 +59,6 @@ void	clear_it(t_garbage *garbage)
 		free(garbage);
 		garbage = clear;
 	}
-	clear_fds(0, 0 ,2);
 }
 
 void	*ft_malloc(size_t size, int flag)
