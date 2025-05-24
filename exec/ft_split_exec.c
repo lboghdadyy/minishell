@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:39 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 18:14:41 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:54:51 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,3 @@ char	**ft_split_exec(char const *s, char c)
 	strs[word] = NULL;
 	return (strs);
 }
-

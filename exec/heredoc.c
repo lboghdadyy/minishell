@@ -1,15 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 21:55:12 by oufarah           #+#    #+#             */
+/*   Updated: 2025/05/24 21:57:57 by oufarah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-~ minishell 𒌐 cat << 'a'
-Syntax error
-~ minishell 𒌐 cat << "a"
-Syntax error
-
-problems in Herdoc << 
+#include "../minishell.h"
 
 int	handle_heredoc_fork(t_token *lst, t_exec *node, t_env *env, int fd_out)
 {
 	int	pid;
-	int	statu
+	int	status;
+
 	status = 0;
 	pid = fork();
 	if (pid < 0)
@@ -29,10 +36,12 @@ int	handle_heredoc_fork(t_token *lst, t_exec *node, t_env *env, int fd_out)
 		return (store_exit_status(130, 1), 1);
 	return (0);
 }
+
 int	handle_heredoc(t_token **lst, t_exec *node, t_env *env)
 {
 	char	*f_adress;
-	int		fd_ou
+	int		fd_out;
+
 	if (!(*lst)->next)
 		return (ambigous_red(), 1);
 	f_adress = ft_malloc(100, ALLOC);

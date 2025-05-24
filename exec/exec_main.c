@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/24 21:54:30 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,49 +38,50 @@ void	call_execve(t_exec *head, t_env *env)
 	exit(errno);
 }
 
-int	is_empty(char *s)
+char	*search_cmd_in_path(char **arr, char *cmd)
 {
-	int	i;
+	char	*tmp;
+	int		i;
 
 	i = 0;
-	if (!s || !*s)
-		return (1);
-	while (s[i] && ft_is_space(s[i]))
+	while (arr[i] && !is_empty(cmd))
+	{
+		tmp = ft_strj(arr[i], "/");
+		tmp = ft_strj(tmp, cmd);
+		if (access(tmp, F_OK | X_OK) == 0)
+			return (tmp);
 		i++;
-	if (!s[i])
-		return (1);
-	return (0);
+	}
+	return (NULL);
 }
 
 char	*get_cmd_path(char *cmd, char *path)
 {
 	char	**arr;
 	char	*tmp;
-	int		i;
 
+	if (!cmd)
+		exit(store_exit_status(0, 0));
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, F_OK | X_OK) == 0)
 			return (cmd);
 		return (cmd_not_found(cmd), NULL);
 	}
-	(1) && (arr = ft_split_exec(path, ':'), i = 0);
+	arr = ft_split_exec(path, ':');
 	if (!arr)
 		return (NULL);
-	while (arr[i] && !is_empty(cmd))
-	{
-		(1) && (tmp = ft_strj(arr[i], "/"), tmp = ft_strj(tmp, cmd));
-		if (access(tmp, F_OK | X_OK) == 0)
-			return (tmp);
-		i++;
-	}
-	(1) && (tmp = getcwd(NULL, 0), path = tmp, tmp = ft_strj(tmp, "/"));
+	tmp = search_cmd_in_path(arr, cmd);
+	if (tmp)
+		return (tmp);
+	tmp = getcwd(NULL, 0);
+	path = tmp;
+	tmp = ft_strj(tmp, "/");
 	free(path);
 	tmp = ft_strj(tmp, cmd);
-	if (access(tmp, F_OK | X_OK) == 0)
+	if (access(tmp, F_OK | X_OK) == 0 && !is_empty(cmd))
 		return (tmp);
-	cmd_not_found(cmd);
-	return (NULL);
+	return (cmd_not_found(cmd), NULL);
 }
 
 int	execute_cmd(t_exec *head, t_env **env)

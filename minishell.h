@@ -148,11 +148,15 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env);
 // ft_split_exec
 char	**ft_split_exec(char const *s, char c);
 
+
 //  exec_utils
 void	ft_putstr_fd(char *s, int fd);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strstr(char *str, char *to_find);
+int		is_empty(char *s);
+
+// ft_itoa_atoi
 int		ft_atoi(const char *str, int *flag);
 char	*ft_itoa(int n);
 
@@ -217,6 +221,10 @@ void	execute_builtin(t_exec *exec, t_env **env, bool forked);
 int		ft_pwd(t_env *env, int fd);
 int		pwd_and_oldpwd(t_env *env, int fd);
 char    *ft_strdup2(char *src);
+//heredoc
+void	ambigous_red(void);
+int	handle_heredoc_fork(t_token *lst, t_exec *node, t_env *env, int fd_out);
+int	handle_heredoc(t_token **lst, t_exec *node, t_env *env);
 
 void	handler(int sig);
 void handle_sigint(int sig);
