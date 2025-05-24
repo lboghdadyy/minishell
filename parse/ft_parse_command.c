@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:30:18 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/22 16:07:29 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:19:26 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,51 @@ int	ft_count_operator(char *string, int index, char c)
 	return (count);
 }
 
-int ft_check_syntax(char *string)
+static	void	skip_s(char *s, int *i)
 {
-	int		index;
+	while (s[*i] == 32 || s[*i] == '\t')
+		*i += 1;
+}
+
+int	check_pip(char *s, int *i)
+{
+	if (s[*i] == '|')
+	{
+		if (ft_count_operator(s, *i, s[*i]) > 1)
+			return (store_exit_status(2, 1), ft_syntax_error(), 1);
+		*i += 1;
+		skip_s(s, i);
+		if (!s[*i] || s[*i] == '|')
+			return (store_exit_status(2, 1), ft_syntax_error(), 1);
+	}
+	return (0);
+}
+
+int	ft_check_syntax(char *string)
+{
+	int		i;
 	int		count;
 	char	c;
 
-	index = 0;
-	count = 0;
-	while (string[index])
+	(1) && (i = 0, count = 0);
+	while (string[i])
 	{
-		if (string[index] == '<' || string[index] == '>')
+		if (string[i] == '<' || string[i] == '>')
 		{
-			c = string[index];
-			if (ft_count_operator(string, index, string[index]) > 2)
+			c = string[i];
+			if (ft_count_operator(string, i, string[i]) > 2)
 				return (store_exit_status(2, 1), ft_syntax_error(), 1);
-			while (string[index] == c)
-				index++;
-			while (string[index] == 32 || string[index] == '\t')
-				index++;
-			if (!string[index] || ft_strchr("|<>", string[index]))
+			while (string[i] == c)
+				i++;
+			skip_s(string, &i);
+			if (!string[i] || ft_strchr("|<>", string[i]))
 				return (store_exit_status(2, 1), ft_syntax_error(), 1);
 		}
-		else if (string[index] == '|')
-		{
-			if (ft_count_operator(string, index, string[index]) > 1)
-				return (store_exit_status(2, 1), ft_syntax_error(), 1);
-			index++;
-			while (string[index] == 32 || string[index] == '\t')
-				index++;
-			if (!string[index] || ft_strchr("|<>", string[index]))
-				return (store_exit_status(2, 1), ft_syntax_error(), 1);
-		}
-		index++;
+		else if (check_pip(string, &i))
+			return (1);
+		i++;
 	}
-	return 0;
+	return (0);
 }
 
 int	ft_parse_command(char *string)

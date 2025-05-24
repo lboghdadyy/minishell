@@ -5,7 +5,7 @@ void	handler(int sig)
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	// rl_redisplay();
+	rl_redisplay();
 	store_exit_status(130, 1);
 	(void)sig;
 }
@@ -43,11 +43,11 @@ int	main(int argc, char **argv, char **env)
 		if (ft_parse_command(input))
 			continue;
 		expanded = ft_expand_value(input, envp, 0);
-		free(input);
 		lst = ft_split_command(ft_split(expanded));
 		if (!lst)
 			continue ;
 		ft_expand(lst, envp);
+		free(input);
 		if (ft_stop_redirect(lst))
 		{
 			exec = convert_token_to_exec(lst, envp);

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_remove_bracets.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 18:22:13 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/24 18:23:07 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-void	 bad_substitution(void)
+void	bad_substitution(void)
 {
-	write(2, "minishell : bad substitution\n", ft_strlen("minishell : bad substitution\n"));
+	ft_putstr_fd("minishell : bad substitution\n", 2);
 }
 
 int	check_br(char *string)
@@ -43,7 +55,7 @@ int	len_without_br(char *string)
 	{
 		if (string[index] != '{' || string[index] != '}')
 			count++;
-		index++;		
+		index++;
 	}
 	return (count);
 }

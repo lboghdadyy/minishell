@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 15:59:29 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,21 @@ char	*get_cmd_path(char *cmd, char *path)
 	{
 		if (access(cmd, F_OK | X_OK) == 0)
 			return (cmd);
-		cmd_not_found(cmd);
-		return (NULL);
+		return (cmd_not_found(cmd), NULL);
 	}
-	arr = ft_split_exec(path, ':');
+	(1) && (arr = ft_split_exec(path, ':'), i = 0);
 	if (!arr)
 		return (NULL);
-	i = 0;
 	while (arr[i] && !is_empty(cmd))
 	{
-		tmp = ft_strjoin(arr[i], "/");
-		tmp = ft_strjoin(tmp, cmd);
+		(1) && (tmp = ft_strj(arr[i], "/"), tmp = ft_strj(tmp, cmd));
 		if (access(tmp, F_OK | X_OK) == 0)
 			return (tmp);
 		i++;
 	}
-	tmp = getcwd(NULL, 0);
-	path = tmp;
-	tmp = ft_strjoin(tmp, "/");
+	(1) && (tmp = getcwd(NULL, 0), path = tmp, tmp = ft_strj(tmp, "/"));
 	free(path);
-	tmp = ft_strjoin(tmp, cmd);
+	tmp = ft_strj(tmp, cmd);
 	if (access(tmp, F_OK | X_OK) == 0)
 		return (tmp);
 	cmd_not_found(cmd);

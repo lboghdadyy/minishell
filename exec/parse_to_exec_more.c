@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec_more.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 16:04:57 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int	handle_heredoc(t_token **lst, t_exec *node, t_env *env)
 		return (ambigous_red(), 1);
 	status = 0;
 	f_adress = ft_malloc(100, ALLOC);
-	f_adress = ft_strjoin("/tmp/", ft_itoa(((long)&fd_in)));
+	f_adress = ft_strj("/tmp/", ft_itoa(((long)&fd_in)));
 	fd_out = open(f_adress, O_TRUNC | O_WRONLY | O_CREAT, 0777);
 	pid = fork();
 	if (pid < 0)
-		return (perror("fork :"), close(fd_out), 1);
+		return (perror("fork"), close(fd_out), 1);
 	else if (pid == 0)
 	{
 		if (node->fd_in != 0)
@@ -45,6 +45,7 @@ int	handle_heredoc(t_token **lst, t_exec *node, t_env *env)
 	else
 		waitpid(pid, &status, 0);
 	signal(SIGINT, &handler);
+	rl_replace_line("", 0);
 	if (WIFSIGNALED(status))
 		return (store_exit_status(130, 1), 1);
 	node->fd_in = open(f_adress, O_RDONLY);
@@ -59,6 +60,7 @@ int	handle_heredoc(t_token **lst, t_exec *node, t_env *env)
 
 int	handle_redirect_in(t_token **lst, t_exec *node)
 {
+
 	if (node->fd_in != 0)
 		close(node->fd_in);
 	if (!(*lst)->next)
@@ -79,7 +81,7 @@ int	handle_redirect_in(t_token **lst, t_exec *node)
 int	handle_append(t_token **lst, t_exec *node)
 {
 	if (node->fd_out != 1)
-		close(node->fd_out);
+	close(node->fd_out);
 	if (!(*lst)->next)
 	{
 		ambigous_red();
@@ -91,7 +93,7 @@ int	handle_append(t_token **lst, t_exec *node)
 	{
 		perror("minishell");
 		while ((*lst) && (*lst)->type != PIPE)
-			(*lst) = (*lst)->next;
+		(*lst) = (*lst)->next;
 	}
 	return (0);
 }

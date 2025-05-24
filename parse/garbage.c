@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:53:48 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/19 17:16:48 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:24:33 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	*ft_malloc(size_t size, int flag)
 	{
 		clear_it(garbage);
 		return (NULL);
-		// exit(size);
 	}
 	ret = malloc(size);
 	if (!ret)
@@ -78,7 +77,6 @@ void	*ft_malloc(size_t size, int flag)
 		clear_it(garbage);
 		perror("malloc()");
 		return (NULL);
-		// exit(1);
 	}
 	add_to_garabage(&garbage, ft_new_garbage(ret));
 	return (ret);

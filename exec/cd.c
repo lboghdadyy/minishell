@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:07:07 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/23 17:20:26 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	getcwd_fail(char *path, t_env **env, char **hold_pwd, char *newpwd)
 	{
 		av[0] = ft_strdup("export");
 		if (find_env(*env, "PWD"))
-			av[1] = ft_strjoin("PWD+=/", path);
+			av[1] = ft_strj("PWD+=/", path);
 		else
 		{
-			av[1] = ft_strjoin("PWD=", ft_strjoin(*hold_pwd, "/.."));
+			av[1] = ft_strj("PWD=", ft_strj(*hold_pwd, "/.."));
 			*hold_pwd = av[1];
 		}
 		av[2] = NULL;
@@ -39,38 +39,38 @@ void	update_oldpwd(t_env **env, char *oldpwd)
 	char	*av[3];
 
 	av[0] = ft_strdup("export");
-	av[1] = ft_strjoin("OLDPWD=", oldpwd);
+	av[1] = ft_strj("OLDPWD=", oldpwd);
 	av[2] = NULL;
 	ft_export(av, env, 1);
 }
 
-int	change_dir(char *path, t_env **env, char **hold_pwd)
+int    change_dir(char *path, t_env **env, char **hold_pwd)
 {
-	char	*oldpwd;
-	char	*newpwd;
-	char	*av[3];
+    char    *oldpwd;
+    char    *newpwd;
+    char    *av[3];
 
-	oldpwd = getcwd(NULL, 0);
-	if (!oldpwd)
-		oldpwd = ft_strdup2(get_env_value(env, "PWD"));
-	else
-		update_oldpwd(env, oldpwd);
-	if (chdir(path) == -1)
-		return (free(oldpwd), perror("cd"), 1);
-	newpwd = getcwd(NULL, 0);
-	if (!newpwd)
-		getcwd_fail(path, env, hold_pwd, newpwd);
-	else
-	{
-		*hold_pwd = ft_strdup(newpwd);
-		av[0] = ft_strdup("export");
-		av[1] = ft_strjoin("PWD=", newpwd);
-		av[2] = NULL;
-		ft_export(av, env, 1);
-		free(newpwd);
-	}
-	free(oldpwd);
-	return (0);
+    oldpwd = getcwd(NULL, 0);
+    if (!oldpwd)
+        oldpwd = ft_strdup2(get_env_value(env, "PWD"));
+    else
+        update_oldpwd(env, oldpwd);
+    if (chdir(path) == -1)
+        return (free(oldpwd), perror("cd"), 1);
+    newpwd = getcwd(NULL, 0);
+    if (!newpwd)
+        getcwd_fail(path, env, hold_pwd, newpwd);
+    else
+    {
+        *hold_pwd = ft_strdup(newpwd);
+        av[0] = ft_strdup("export");
+        av[1] = ft_strj("PWD=", newpwd);
+        av[2] = NULL;
+        ft_export(av, env, 1);
+        free(newpwd);
+    }
+    free(oldpwd);
+    return (0);
 }
 
 char	*ft_cd(char **opt, t_env **env)

@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_expend.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 18:19:45 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/24 20:24:32 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int skip_variable(char *value, int index)
+int	skip_variable(char *value, int index)
 {
-	int count;
+	int	count;
 
 	count = index + 1;
-	if (value[count] == '$')
-		return 2;
+	if (value[count] == '$' || (value[count] >= '0' && value[count] <= '9'))
+		return (2);
 	if (value[count] == '{')
 	{
 		while (value[count] != '}')
@@ -15,9 +27,7 @@ int skip_variable(char *value, int index)
 		return (count - index);
 	}
 	while (value[count] && !ft_strchr("\"\' \t$.+[]={}", value[count]))
-	{
 		count++;
-	}
 	return (count - index);
 }
 
@@ -35,7 +45,7 @@ size_t	ft_len_wo_quotes(char *value)
 	{
 		if (value[i] == '\'' || value[i] == '\"')
 		{
-			c = value[i], count_inside = 0, i++;
+			(1) && (c = value[i], count_inside = 0, i++);
 			while (value[i] && value[i] != c)
 				(1) && (count_inside++, i++);
 			if (value[i] == c)
@@ -69,13 +79,13 @@ char	*ft_get_env(char *value, int *index, t_env *envp)
 
 void	ft_remove_quotes(t_token *tmp)
 {
-	int	 	index;
+	int		index;
 	char	*clean;
 	int		index_tmp;
-	bool	single_quots;
-	bool	double_quots;
-	
-	(1) && (index = 0, index_tmp = 0, single_quots = false, double_quots = false);
+	bool	s_q;
+	bool	d_q;
+
+	(1) && (index = 0, index_tmp = 0, s_q = false, d_q = false);
 	if (!tmp->value)
 	{
 		tmp->value = ft_strdup("");
@@ -84,10 +94,10 @@ void	ft_remove_quotes(t_token *tmp)
 	clean = ft_malloc(ft_len_wo_quotes(tmp->value) + 1, ALLOC);
 	while (tmp->value[index_tmp])
 	{
-		if (tmp->value[index_tmp] == '\'' && !double_quots)
-			(1) && (single_quots = !single_quots, index_tmp++);
-		else if (tmp->value[index_tmp] == '\"' && !single_quots)
-			(1) && (double_quots = !double_quots, index_tmp++);
+		if (tmp->value[index_tmp] == '\'' && !d_q)
+			(1) && (s_q = !s_q, index_tmp++);
+		else if (tmp->value[index_tmp] == '\"' && !s_q)
+			(1) && (d_q = !d_q, index_tmp++);
 		else
 			(1) && (clean[index] = tmp->value[index_tmp], index_tmp++, index++);
 	}
@@ -97,7 +107,7 @@ void	ft_remove_quotes(t_token *tmp)
 
 void	ft_expand(t_token *lst, t_env *envp)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = lst;
 	while (tmp)

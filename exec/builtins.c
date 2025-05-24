@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 15:57:09 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	**convert_t_env(t_env *env)
 	{
 		if (env->key && env->value)
 		{
-			tmp = ft_strjoin(env->key, "=");
-			ret[i] = ft_strjoin(tmp, env->value);
+			tmp = ft_strj(env->key, "=");
+			ret[i] = ft_strj(tmp, env->value);
 			i++;
 		}
 		env = env->next;

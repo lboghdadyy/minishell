@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:20:47 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 16:57:27 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handle_plus_equal(char *opt, t_env **env)
 	value = ft_strdup(ft_strstr(opt, "+=") + 2);
 	tmp = find_env(*env, key);
 	if (tmp && tmp->value)
-		tmp->value = ft_strjoin(tmp->value, value);
+		tmp->value = ft_strj(tmp->value, value);
 	else if (tmp)
 		tmp->value = value;
 	else

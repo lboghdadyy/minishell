@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 19:37:47 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/22 15:44:22 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*change_index(char	*readed)
 	return (str);
 }
 
-char	*get_it(int fd, char *readed)
+char	*get_it_gln(int fd, char *readed)
 {
 	char	*buffer;
 	int		bytes;
@@ -84,7 +84,7 @@ char	*get_it(int fd, char *readed)
 		else if ((bytes == 0 && !readed) || bytes == -1)
 			return (NULL);
 		buffer[bytes] = '\0';
-		tmp = ft_strjoin(readed, buffer);
+		tmp = ft_strj(readed, buffer);
 		readed = tmp;
 	}
 	return (readed);
@@ -97,7 +97,7 @@ char	*get_next_line(char *prompt)
 	char		*tmp;
 
 	ft_putstr_fd(prompt, 1);
-	readed = get_it(0, readed);
+	readed = get_it_gln(0, readed);
 	if (!readed)
 	{
 		return (NULL);

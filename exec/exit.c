@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 22:58:45 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 01:35:09 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:57:48 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	store_exit_status(int sts, int set)
 int	is_valid_exit(char	*opt)
 {
 	if (!opt)
+		return (1);
+	if (ft_strlen(opt) == 0)
 		return (1);
 	if (*opt == '-' || *opt == '+')
 		opt++;

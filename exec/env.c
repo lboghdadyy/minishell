@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:15:31 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 15:56:49 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_env(t_env *env, int fd)
 	char	*av[3];
 
 	av[0] = ft_strdup("export");
-	av[1] = ft_strjoin("_=", "/usr/bin/env");
+	av[1] = ft_strj("_=", "/usr/bin/env");
 	av[2] = NULL;
 	ft_export(av, &env, 1);
 	while (env)
