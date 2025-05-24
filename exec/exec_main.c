@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/16 19:28:28 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:59:29 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,26 @@
 
 void	call_execve(t_exec *head, t_env *env)
 {
-	char	**envp;
+	char		**envp;
+	struct stat	sb;
 
 	envp = convert_t_env(env);
 	execve(head->cmd, head->opt, envp);
-	perror("execve()");
+	if (stat(head->cmd, &sb) == -1)
+	{
+		perror("stat");
+		ft_malloc(0, CLEAR);
+		exit(errno);
+	}
+	if (S_ISDIR(sb.st_mode))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(head->cmd, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		ft_malloc(0, CLEAR);
+		exit(126);
+	}
+	perror(head->cmd);
 	ft_malloc(0, CLEAR);
 	exit(errno);
 }
@@ -62,6 +77,13 @@ char	*get_cmd_path(char *cmd, char *path)
 			return (tmp);
 		i++;
 	}
+	tmp = getcwd(NULL, 0);
+	path = tmp;
+	tmp = ft_strjoin(tmp, "/");
+	free(path);
+	tmp = ft_strjoin(tmp, cmd);
+	if (access(tmp, F_OK | X_OK) == 0)
+		return (tmp);
 	cmd_not_found(cmd);
 	return (NULL);
 }
@@ -76,7 +98,7 @@ int	execute_cmd(t_exec *head, t_env **env)
 	pid = fork();
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), \
-			perror("fork"), ft_malloc(0, CLEAR), 0);
+			perror("fork"), ft_malloc(0, CLEAR), 1);
 	if (pid == 0)
 	{	
 		if (is_builtin(head->cmd))
@@ -103,7 +125,7 @@ int	execution(t_exec *exec, t_env **env)
 		return (execute_builtin(exec, env, false), 1);
 	fd = dup(STDIN_FILENO);
 	if (fd == -1)
-		return (perror("dup()"), ft_malloc(0, CLEAR), 0);
+		return (perror("dup()"), ft_malloc(0, CLEAR), 1);
 	while (exec)
 	{
 		execute_cmd(exec, env);

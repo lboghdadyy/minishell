@@ -12,6 +12,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 // garbage
 # define SINGLE 20
@@ -122,98 +123,98 @@ int			check_exit_status(void);
 int			ignore_first_cmd(int res, int get);
 
 // exec
-int		execution(t_exec *exec, t_env **env);
-int		execute_cmd(t_exec *head, t_env **env);
-char	*get_cmd_path(char *cmd, char *path);
-int		is_empty(char *s);
-void	call_execve(t_exec *head, t_env *env);
+int			execution(t_exec *exec, t_env **env);
+int			execute_cmd(t_exec *head, t_env **env);
+char		*get_cmd_path(char *cmd, char *path);
+int			is_empty(char *s);
+void		call_execve(t_exec *head, t_env *env);
 
 //parse_to_exec_more
-int		handle_heredoc(t_token **lst, t_exec *node, t_env *env);
-int		handle_redirect_in(t_token **lst, t_exec *node);
-int		handle_append(t_token **lst, t_exec *node);
-int		handle_redirect_out(t_token **lst, t_exec *node);
+int			handle_heredoc(t_token **lst, t_exec *node, t_env *env);
+int			handle_redirect_in(t_token **lst, t_exec *node);
+int			handle_append(t_token **lst, t_exec *node);
+int			handle_redirect_out(t_token **lst, t_exec *node);
 
 //parse_to_exec
-int		count_until_pipe(t_token *lst);
-void	handle_word(t_token *lst, t_exec *node, int *i);
-int		handle_redirects(t_token **lst, t_exec *node, t_env *env);
-int		fill_node(t_token **lst, t_exec *node, t_env *env);
-t_exec	*convert_token_to_exec(t_token *lst, t_env *env);
+int			count_until_pipe(t_token *lst);
+void		handle_word(t_token *lst, t_exec *node, int *i);
+int			handle_redirects(t_token **lst, t_exec *node, t_env *env);
+int			fill_node(t_token **lst, t_exec *node, t_env *env);
+t_exec		*convert_token_to_exec(t_token *lst, t_env *env);
 
 // ft_split_exec
-char	**ft_split_exec(char const *s, char c);
+char		**ft_split_exec(char const *s, char c);
 
 //  exec_utils
-void	ft_putstr_fd(char *s, int fd);
-int		ft_strcmp(char *s1, char *s2);
-int		ft_strncmp(char *s1, char *s2, size_t n);
-char	*ft_strstr(char *str, char *to_find);
-int		ft_atoi(const char *str, int *flag);
-char	*ft_itoa(int n);
+void		ft_putstr_fd(char *s, int fd);
+int			ft_strcmp(char *s1, char *s2);
+int			ft_strncmp(char *s1, char *s2, size_t n);
+char		*ft_strstr(char *str, char *to_find);
+int			ft_atoi(const char *str, int *flag);
+char		*ft_itoa(int n);
 
 // exec_list
-int		ft_lstsize_env(t_env *env);
-t_exec	*new_node(void);
-void	ft_lstadd_back_exec(t_env **lst, t_env *new);
+int			ft_lstsize_env(t_env *env);
+t_exec		*new_node(void);
+void		ft_lstadd_back_exec(t_env **lst, t_env *new);
 
 //exec_more_list
-int		ft_lstsize(t_exec *exec);
-t_env	*ft_lstnew_exec(char *key, char *value);
-t_env	*ft_lstlast_exec(t_env *lst);
-void	add_back(t_exec **head, t_exec *new);
+int			ft_lstsize(t_exec *exec);
+t_env		*ft_lstnew_exec(char *key, char *value);
+t_env		*ft_lstlast_exec(t_env *lst);
+void		add_back(t_exec **head, t_exec *new);
 
 // export more
-int 	is_valid_export(char *opt);
-void	swap_env(t_env *a, t_env *b);
-void	bubble_sort_env(t_env *env);
-void	print_sorted_env(t_env *env, int fd);
+int 		is_valid_export(char *opt);
+void		swap_env(t_env *a, t_env *b);
+void		bubble_sort_env(t_env *env);
+void		print_sorted_env(t_env *env, int fd);
 
 // export
-void	handle_plus_equal(char *opt, t_env **env);
-void	handle_equal_or_none(char *opt, t_env **env);
-int		ft_export(char **opt, t_env **env, int fd);
+void		handle_plus_equal(char *opt, t_env **env);
+void		handle_equal_or_none(char *opt, t_env **env);
+int			ft_export(char **opt, t_env **env, int fd);
 
 //unset
-void	delet_node(t_env **env, char *key);
-void	ft_unset(char **opt, t_env **env);
+void		ft_unset(char **opt, t_env **env);
+void		delet_node(t_env **env, char *key);
 
 //echo
-int		is_valid_option(char *str);
-int		ft_echo(char **cmd, int fd);
+int			is_valid_option(char *str);
+int			ft_echo(char **cmd, int fd);
 
 //env
-void	init_default_env(t_env **env, char *pwd);
-t_env	*init_env(char **envp);
-char	*get_env_value(t_env **env, char *path);
-t_env	*find_env(t_env	*env, char *key);
-int		ft_env(t_env *env, int fd);
+void		init_default_env(t_env **env, char *pwd);
+t_env		*init_env(char **envp);
+char		*get_env_value(t_env **env, char *path);
+t_env		*find_env(t_env	*env, char *key);
+int			ft_env(t_env *env, int fd);
 
 // itoa
-char	*ft_itoa(int n);
-int		ft_atoi(const char *str, int *flag);
+char		*ft_itoa(int n);
+int			ft_atoi(const char *str, int *flag);
 
 // cd
-void	update_oldpwd(t_env **env, char *oldpwd);
-void	getcwd_fail(char *path, t_env **env, char **hold_pwd, char *newpwd);
-int		change_dir(char *path, t_env **env, char **hold_pwd);
-char	*ft_cd(char **opt, t_env **env);
+void		update_oldpwd(t_env **env, char *oldpwd);
+void		getcwd_fail(char *path, t_env **env, char **hold_pwd, char *newpwd);
+int			change_dir(char *path, t_env **env, char **hold_pwd);
+char		*ft_cd(char **opt, t_env **env);
 
 // exit
-int		is_valid_exit(char	*opt);
-int		ft_exec_exit(char **opt);
-int		store_exit_status(int sts, int set);
+int			is_valid_exit(char	*opt);
+int			ft_exec_exit(char **opt);
+int			store_exit_status(int sts, int set);
 
 //builtins
-int		is_builtin(char *cmd);
-char	**convert_t_env(t_env *env);
-void	execute_builtin(t_exec *exec, t_env **env, bool forked);
+int			is_builtin(char *cmd);
+char		**convert_t_env(t_env *env);
+void		execute_builtin(t_exec *exec, t_env **env, bool forked);
 
 // pwd
-int		ft_pwd(t_env *env, int fd);
-int		pwd_and_oldpwd(t_env *env, int fd);
-char    *ft_strdup2(char *src);
+int			ft_pwd(t_env *env, int fd);
+int			pwd_and_oldpwd(t_env *env, int fd);
+char    	*ft_strdup2(char *src);
 
-void	handler(int sig);
-void handle_sigint(int sig);
+void		handler(int sig);
+void		handle_sigint(int sig);
 #endif

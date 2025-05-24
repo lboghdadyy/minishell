@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 16:59:53 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 00:20:13 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ int	parent_thing(int *fd, t_exec *head)
 
 void	setup_child(int *fd, t_env *path, t_exec *head, int bltn)
 {
+	char	*pth;
+
 	if (!bltn)
 	{
-		if (!path)
-			cmd_not_found(head->cmd);
-		head->cmd = get_cmd_path(head->cmd, path->value);
+		if (path)
+			pth = path->value;
+		else
+			pth = "";
+		head->cmd = get_cmd_path(head->cmd, pth);
 	}
 	if (head->next)
 		dup2(fd[1], 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/20 16:59:32 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:01:23 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	handle_word(t_token *lst, t_exec *node, int *i)
 
 int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 {
-	int status;
-	
+	int	status;
+
 	status = 0;
 	if ((*lst)->type == HERDOC)
 		status = handle_heredoc(lst, node, env);
@@ -54,9 +54,9 @@ int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 
 int	fill_node(t_token **lst, t_exec *node, t_env *env)
 {
-	int	i;
-	int	ac;
-	t_token *tmp;
+	int		i;
+	int		ac;
+	t_token	*tmp;
 
 	i = 0;
 	tmp = *lst;

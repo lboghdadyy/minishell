@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:39 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:23:40 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/24 00:07:53 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static size_t	ft_countwords(char *str, char c)
 	i = 0;
 	rst = 0;
 	cnt = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == c)
 			rst = 0;
@@ -70,12 +70,10 @@ char	**ft_split_exec(char const *s, char c)
 	int		start;
 	char	**strs;
 
-	if (!s)
-		return (NULL);
 	(1) && (i = 0, word = 0, start = 0);
 	strs = ft_malloc((sizeof(char *)) * (ft_countwords((char *)s, c) + 1),
 			ALLOC);
-	while (s[i])
+	while (s && s[i])
 	{
 		start = ft_split_helper(&i, s, c);
 		if (i > start)
