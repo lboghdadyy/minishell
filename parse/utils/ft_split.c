@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:18:55 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/23 12:14:45 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/25 11:33:32 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**ft_split(char *s)
 		if (!s[i])
 			break ;
 		word_len = get_word_len(s, i);
-		lst[j++] = ft_substr(s, i, word_len);
+		lst[j++] = subs(s, i, word_len);
 		i += word_len;
 	}
 	lst[j] = NULL;

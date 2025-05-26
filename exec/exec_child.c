@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 18:09:33 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	check_exit_status(void)
 	while (wait(&status) != -1)
 	{
 		if (WIFEXITED(status))
-			store_exit_status(WEXITSTATUS(status), 1);
+			e_status(WEXITSTATUS(status), 1);
 		else if (WIFSIGNALED(status))
-			store_exit_status(WEXITSTATUS(status) & 128, 1);
+			e_status(WEXITSTATUS(status) & 128, 1);
 		check = status;
 	}
 	return (WEXITSTATUS(check));

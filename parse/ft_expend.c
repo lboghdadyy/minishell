@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 18:19:45 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/24 20:24:32 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:49:44 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ size_t	ft_len_wo_quotes(char *value)
 	return (count);
 }
 
-char	*ft_get_env(char *value, int *index, t_env *envp)
+char	*g_env(char *value, int *index, t_env *envp)
 {
 	char	*sub;
 	char	*found;
@@ -66,7 +66,7 @@ char	*ft_get_env(char *value, int *index, t_env *envp)
 	t_env	*tmp;
 
 	skipped = skip_variable(value, *index);
-	sub = ft_substr(value, *index + 1, skipped - 1);
+	sub = subs(value, *index + 1, skipped - 1);
 	if (ft_strchr(sub, '{') || ft_strchr(sub, '}'))
 		sub = ft_remove_bracets(sub);
 	*index += skipped;
@@ -115,10 +115,12 @@ void	ft_expand(t_token *lst, t_env *envp)
 		if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ || tmp->type == WORD)
 		{
 			if (ft_strchr(tmp->value, '$'))
-				tmp->value = ft_expand_value(tmp->value, envp, 1);
+				tmp->value = exp_val(tmp->value, envp, 1);
 			ft_remove_quotes(tmp);
 			tmp->type = WORD;
 		}
+		if (tmp->type == DELEMTER)
+			ft_remove_quotes(tmp);
 		tmp = tmp->next;
 	}
 }

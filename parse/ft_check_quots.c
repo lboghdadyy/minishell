@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:54:23 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/20 10:46:45 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:00:22 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_check_quots(char *command)
 			c = command[index];
 			resault = ft_check_end(command + index, c);
 			if (resault == -1)
-				return (store_exit_status(2, 1), 1);
+				return (e_status(2, 1), 1);
 			index += resault;
 		}
 		index++;

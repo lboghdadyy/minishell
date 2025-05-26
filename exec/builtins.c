@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	**convert_t_env(t_env *env)
 	{
 		if (env->key && env->value)
 		{
-			tmp = ft_strj(env->key, "=");
-			ret[i] = ft_strj(tmp, env->value);
+			tmp = strj(env->key, "=");
+			ret[i] = strj(tmp, env->value);
 			i++;
 		}
 		env = env->next;
@@ -74,5 +74,5 @@ void	execute_builtin(t_exec *exec, t_env **env, bool forked)
 	else if (!ft_strcmp(exec->cmd, "exit"))
 		ft_exec_exit(exec->opt);
 	if (forked)
-		exit(store_exit_status(0, 0));
+		exit(e_status(0, 0));
 }

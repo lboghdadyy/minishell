@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_command.c                                 :+:      :+:    :+:   */
+/*   s_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -33,13 +33,14 @@ t_tokentype	ft_token_type(char *string)
 	return (WORD);
 }
 
-t_token	*ft_split_command(char **command)
+t_token	*s_cmd(char **command, t_env *envp)
 {
 	t_token	*lst;
 	t_token	*tmp;
 	int		index;
 	int		delemter;
 
+	(void)envp;
 	(1) && (delemter = 0, lst = NULL, tmp = NULL, index = 0);
 	if (!command || !*command)
 		return (NULL);
@@ -51,10 +52,7 @@ t_token	*ft_split_command(char **command)
 		if (tmp->type == HERDOC)
 			delemter = 1;
 		else if (delemter)
-		{
-			tmp->type = DELEMTER;
-			delemter = 0;
-		}
+			(1) && (tmp->type = DELEMTER, delemter = 0);
 		ft_lstadd_back(&lst, tmp);
 		index++;
 	}

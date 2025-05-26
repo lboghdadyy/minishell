@@ -6,13 +6,13 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 22:58:45 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 17:57:48 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	store_exit_status(int sts, int set)
+int	e_status(int sts, int set)
 {
 	static int	status;
 
@@ -53,7 +53,7 @@ int	ft_exec_exit(char **opt)
 	i = 0;
 	ft_putstr_fd("exit\n", 1);
 	if (opt[0] && !opt[1])
-		exit(store_exit_status(0, 0));
+		exit(e_status(0, 0));
 	else if (is_valid_exit(opt[1]))
 		err_num(opt[1]);
 	else if (opt[1] && !is_valid_exit(opt[1]) && !opt[2])
@@ -66,7 +66,7 @@ int	ft_exec_exit(char **opt)
 	else
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 1);
-		return (store_exit_status(1, 1));
+		return (e_status(1, 1));
 	}
 	return (0);
 }

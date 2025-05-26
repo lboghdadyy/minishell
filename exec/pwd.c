@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 15:55:41 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/17 16:04:07 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ int	ft_pwd(t_env *env, int fd)
 		pwd_and_oldpwd(env, fd);
 		return (0);
 	}
-	store_exit_status(1, 1);
+	e_status(1, 1);
 	return (1);
 }

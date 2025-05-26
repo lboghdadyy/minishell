@@ -48,13 +48,18 @@ typedef enum e_tokentype {
 	DELEMTER,
 }	t_tokentype;
 
-struct s_expand
+typedef struct s_expand
 {
 	bool	s_q;
 	bool	d_q;
 	int		i;
-};
+}	t_expand;
 
+typedef struct s_env {
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_token {
 	t_tokentype		type;
@@ -73,20 +78,44 @@ typedef struct s_exec
     struct s_exec    *next;
 }    t_exec;
 
-typedef struct s_env {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+typedef struct s_main_ctx
+{
+	char	*input;
+	char	*expn;
+	t_token	*lst;
+	t_exec	*exec;
+	t_env	*envp;
+}	t_main_ctx;
+
+typedef struct s_expand_ctx
+{
+	char		*nv;
+	char		*sub;
+	int			b_x;
+	bool		r;
+	t_expand	e;
+	t_env		*envp;
+	char		*s;
+	int			st;
+}	t_expand_ctx;
+
+typedef struct s_heredoc_ctx
+{
+	char	*f;
+	int		fd_out;
+	int		fd_in;
+	int		st;
+	int		pid;
+}	t_heredoc_ctx;
 
 int 		ft_check_quotes_type(char *string);
 int    		ft_check_quots(char *command);
 size_t		ft_strlen(char *str);
 int    		ft_parse_command(char *string);
-char		*ft_strj(char *s1, char *s2);
+char		*strj(char *s1, char *s2);
 void		ft_syntax_error(void);
-char		*ft_substr(char *s, unsigned int start, size_t len);
-t_token		*ft_split_command(char **command);
+char		*subs(char *s, unsigned int start, size_t len);
+t_token		*s_cmd(char **command, t_env *envp);
 char		*ft_strchr( char *s, int c);
 t_token		*ft_lstnew(t_tokentype type, char *value);
 t_token		*ft_lstlast(t_token *lst);
@@ -106,15 +135,17 @@ size_t		ft_strlcat(char *s1, char *s2, size_t n);
 int 		skip_variable(char *value, int index);
 void		ft_expand(t_token *lst, t_env *envp);
 int			ft_handle_heredoc(t_token *lst, t_env *env, int fd_out);
-char		*ft_expand_value(char *value, t_env *envp, int status);
-char		*ft_get_env(char    *value, int *index, t_env *envp);
+char		*exp_val(char *value, t_env *envp, int status);
+char		*g_env(char    *value, int *index, t_env *envp);
 int			ft_check_braces(char *string);
 char		*ft_remove_bracets(char *string);
 int			check_br(char *string);
-int			ft_stop_redirect(t_token *lst);
+int			ft_stop_redirect(t_token *lst, t_env *envp);
 char		*get_next_line(char *prompt);
 void		handler(int sig);
-
+bool		should_expand(char *s, t_expand e);
+int			delimter(char *s, int index);
+bool		is_invalid_dollar_after_op(t_expand_ctx *c);
 // garbage
 void	*ft_malloc(size_t size, int flag);
 int		clear_fds(char	*file, int type, int save);
@@ -148,15 +179,11 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env);
 // ft_split_exec
 char	**ft_split_exec(char const *s, char c);
 
-
 //  exec_utils
 void	ft_putstr_fd(char *s, int fd);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strstr(char *str, char *to_find);
-int		is_empty(char *s);
-
-// ft_itoa_atoi
 int		ft_atoi(const char *str, int *flag);
 char	*ft_itoa(int n);
 
@@ -210,7 +237,7 @@ char	*ft_cd(char **opt, t_env **env);
 // exit
 int		is_valid_exit(char	*opt);
 int		ft_exec_exit(char **opt);
-int		store_exit_status(int sts, int set);
+int		e_status(int sts, int set);
 
 //builtins
 int		is_builtin(char *cmd);
@@ -221,10 +248,6 @@ void	execute_builtin(t_exec *exec, t_env **env, bool forked);
 int		ft_pwd(t_env *env, int fd);
 int		pwd_and_oldpwd(t_env *env, int fd);
 char    *ft_strdup2(char *src);
-//heredoc
-void	ambigous_red(void);
-int	handle_heredoc_fork(t_token *lst, t_exec *node, t_env *env, int fd_out);
-int	handle_heredoc(t_token **lst, t_exec *node, t_env *env);
 
 void	handler(int sig);
 void handle_sigint(int sig);

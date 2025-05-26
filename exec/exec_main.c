@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 21:54:30 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ char	*search_cmd_in_path(char **arr, char *cmd)
 	i = 0;
 	while (arr[i] && !is_empty(cmd))
 	{
-		tmp = ft_strj(arr[i], "/");
-		tmp = ft_strj(tmp, cmd);
+		tmp = strj(arr[i], "/");
+		tmp = strj(tmp, cmd);
 		if (access(tmp, F_OK | X_OK) == 0)
 			return (tmp);
 		i++;
@@ -61,7 +61,7 @@ char	*get_cmd_path(char *cmd, char *path)
 	char	*tmp;
 
 	if (!cmd)
-		exit(store_exit_status(0, 0));
+		exit(e_status(0, 0));
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, F_OK | X_OK) == 0)
@@ -76,9 +76,9 @@ char	*get_cmd_path(char *cmd, char *path)
 		return (tmp);
 	tmp = getcwd(NULL, 0);
 	path = tmp;
-	tmp = ft_strj(tmp, "/");
+	tmp = strj(tmp, "/");
 	free(path);
-	tmp = ft_strj(tmp, cmd);
+	tmp = strj(tmp, cmd);
 	if (access(tmp, F_OK | X_OK) == 0 && !is_empty(cmd))
 		return (tmp);
 	return (cmd_not_found(cmd), NULL);

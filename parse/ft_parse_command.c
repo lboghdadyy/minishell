@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:30:18 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/24 20:19:26 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/25 15:28:50 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	check_pip(char *s, int *i)
 	if (s[*i] == '|')
 	{
 		if (ft_count_operator(s, *i, s[*i]) > 1)
-			return (store_exit_status(2, 1), ft_syntax_error(), 1);
+			return (e_status(2, 1), ft_syntax_error(), 1);
 		*i += 1;
 		skip_s(s, i);
 		if (!s[*i] || s[*i] == '|')
-			return (store_exit_status(2, 1), ft_syntax_error(), 1);
+			return (e_status(2, 1), ft_syntax_error(), 1);
 	}
 	return (0);
 }
@@ -58,12 +58,12 @@ int	ft_check_syntax(char *string)
 		{
 			c = string[i];
 			if (ft_count_operator(string, i, string[i]) > 2)
-				return (store_exit_status(2, 1), ft_syntax_error(), 1);
+				return (e_status(2, 1), ft_syntax_error(), 1);
 			while (string[i] == c)
 				i++;
 			skip_s(string, &i);
 			if (!string[i] || ft_strchr("|<>", string[i]))
-				return (store_exit_status(2, 1), ft_syntax_error(), 1);
+				return (e_status(2, 1), ft_syntax_error(), 1);
 		}
 		else if (check_pip(string, &i))
 			return (1);

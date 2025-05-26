@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:01:29 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ char	*ft_expand_herdoc(char *v, t_env *envp)
 			(1) && (b_i = i, reset = false);
 		if (v[i] == '$' && v[i + 1] && !ft_strchr(". ", v[i + 1]))
 		{
-			(1) && (s = ft_substr(v, b_i, i - b_i), n_v = ft_strj(n_v, s));
-			s = ft_get_env(v, &i, envp);
-			n_v = ft_strj(n_v, s);
+			(1) && (s = subs(v, b_i, i - b_i), n_v = strj(n_v, s));
+			s = g_env(v, &i, envp);
+			n_v = strj(n_v, s);
 			reset = true;
 		}
 		else if (!v[i + 1])
-			(1) && (i++, s = ft_substr(v, b_i, i - b_i), \
-			n_v = ft_strj(n_v, s));
+			(1) && (i++, s = subs(v, b_i, i - b_i), \
+			n_v = strj(n_v, s));
 		else
 			i++;
 	}

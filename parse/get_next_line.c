@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 19:37:47 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/24 20:21:49 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:01:29 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*get_it_gln(int fd, char *readed)
 		else if ((bytes == 0 && !readed) || bytes == -1)
 			return (NULL);
 		buffer[bytes] = '\0';
-		tmp = ft_strj(readed, buffer);
+		tmp = strj(readed, buffer);
 		readed = tmp;
 	}
 	return (readed);

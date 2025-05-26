@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 20:56:05 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:21:24 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	handle_word(t_token *lst, t_exec *node, int *i)
 
 int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 {
-	int	status;
-
+	int status;
+	
 	status = 0;
 	if ((*lst)->type == HERDOC)
 		status = handle_heredoc(lst, node, env);
@@ -56,7 +56,7 @@ int	fill_node(t_token **lst, t_exec *node, t_env *env)
 {
 	int		i;
 	int		ac;
-	t_token	*tmp;
+	t_token *tmp;
 
 	i = 0;
 	tmp = *lst;
@@ -82,7 +82,9 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 {
 	t_exec	*head;
 	t_exec	*node;
+	t_token	*tmp;
 
+	tmp = lst;
 	head = NULL;
 	while (lst)
 	{
@@ -93,5 +95,7 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 		if (lst && lst->type == PIPE)
 			lst = lst->next;
 	}
+	if (ft_stop_redirect(tmp, env))
+		return (NULL);
 	return (head);
 }

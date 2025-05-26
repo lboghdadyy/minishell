@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strj.c                                       :+:      :+:    :+:   */
+/*   strj.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-char	*ft_strj(char *s1, char *s2)
+char	*strj(char *s1, char *s2)
 {
 	char	*string;
 	size_t	len;

@@ -6,23 +6,21 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 18:22:13 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/24 18:23:07 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:37:01 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	bad_substitution(void)
+void	bad_subsitution(void)
 {
-	ft_putstr_fd("minishell : bad substitution\n", 2);
+	ft_putstr_fd("minishell : bad subsitution\n", 2);
 }
 
 int	check_br(char *string)
 {
 	int	index;
 
-	if (!string)
-		return (1);
 	index = 0;
 	while (string[index])
 	{
@@ -32,14 +30,17 @@ int	check_br(char *string)
 		{
 			index++;
 			if (string[index + 1] == '}')
-				return (bad_substitution(), 1);
+				return (bad_subsitution(), 1);
 			while (string[index] && string[index] != '}')
 			{
 				if (ft_strchr("$.@#$^&*()\t ", string[index]))
-					return (bad_substitution(), 1);
+					return (bad_subsitution(), 1);
 				index++;
 			}
 		}
+		else
+			if (string[index])
+				index++;
 	}
 	return (0);
 }
@@ -71,10 +72,7 @@ char	*ft_remove_bracets(char *string)
 	i = 0;
 	len = len_without_br(string);
 	if (len == 0)
-	{
-		printf("case 3\n");
-		return (bad_substitution(), NULL);
-	}
+		return (bad_subsitution(), NULL);
 	clean = ft_malloc(len + 1, ALLOC);
 	while (string[index])
 	{

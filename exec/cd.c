@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:07:07 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/24 20:53:02 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	getcwd_fail(char *path, t_env **env, char **hold_pwd, char *newpwd)
 	{
 		av[0] = ft_strdup("export");
 		if (find_env(*env, "PWD"))
-			av[1] = ft_strj("PWD+=/", path);
+			av[1] = strj("PWD+=/", path);
 		else
 		{
-			av[1] = ft_strj("PWD=", ft_strj(*hold_pwd, "/.."));
+			av[1] = strj("PWD=", strj(*hold_pwd, "/.."));
 			*hold_pwd = av[1];
 		}
 		av[2] = NULL;
@@ -39,7 +39,7 @@ void	update_oldpwd(t_env **env, char *oldpwd)
 	char	*av[3];
 
 	av[0] = ft_strdup("export");
-	av[1] = ft_strj("OLDPWD=", oldpwd);
+	av[1] = strj("OLDPWD=", oldpwd);
 	av[2] = NULL;
 	ft_export(av, env, 1);
 }
@@ -64,7 +64,7 @@ int	change_dir(char *path, t_env **env, char **hold_pwd)
 	{
 		*hold_pwd = ft_strdup(newpwd);
 		av[0] = ft_strdup("export");
-		av[1] = ft_strj("PWD=", newpwd);
+		av[1] = strj("PWD=", newpwd);
 		av[2] = NULL;
 		ft_export(av, env, 1);
 		free(newpwd);
@@ -85,7 +85,7 @@ char	*ft_cd(char **opt, t_env **env)
 		home = get_env_value(env, "HOME");
 		if (!home)
 			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), \
-					store_exit_status(1, 1), NULL);
+					e_status(1, 1), NULL);
 		return (change_dir(home, env, &hold_pwd), NULL);
 	}
 	if (opt[2])

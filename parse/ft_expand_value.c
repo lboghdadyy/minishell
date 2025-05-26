@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_value.c                                  :+:      :+:    :+:   */
+/*   exp_val.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:56:21 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/24 20:39:30 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:01:29 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,65 +26,74 @@ int	delimter(char *s, int index)
 	return (0);
 }
 
-void	join_before_va(char *nv, char *string, int i, int b_x)
+bool	handle_quotes(char *s, t_expand *e)
 {
-	char	*sub;
-
-	sub = ft_substr(string, b_x, i - b_x);
-	nv = ft_strj(nv, sub);
+	if (s[e->i] == '\'' && !e->d_q)
+	{
+		e->s_q = !e->s_q;
+		e->i++;
+		return (true);
+	}
+	else if (s[e->i] == '\"' && !e->s_q)
+	{
+		e->d_q = !e->d_q;
+		e->i++;
+		return (true);
+	}
+	return (false);
 }
 
-char	*ft_expand_value(char *s, t_env *envp, int status)
+void	init_expand_vars(char **nv, t_expand *e, bool *reset)
 {
-	char				*nv;
-	struct	s_expand	e;
-	bool				reset;
-	int					b_x;
-	char				*sub;
+	*nv = NULL;
+	e->i = 0;
+	e->s_q = false;
+	e->d_q = false;
+	*reset = true;
+}
 
-	(1) && (nv = NULL, e.i = 0, reset = true, e.s_q = false, e.d_q = false);
-	if (!ft_strchr(s, '$'))
-		return (s);
-	while (s[e.i])
+void	expand_loop_body(t_expand_ctx *c)
+{
+	if (c->r)
+		(1) && (c->b_x = c->e.i, c->r = false);
+	if (!c->s[c->e.i + 1])
 	{
-		if (reset)
-			(1) && (b_x = e.i, reset = false);
-		if (!s[e.i + 1])
-		{
-			e.i++;
-			sub = ft_substr(s, b_x, e.i - b_x);
-			nv = ft_strj(nv, sub);
-		}
-		else if (s[e.i] == '=' && status == 0 && s[e.i + 1] && s[e.i + 1] == '$')
-			e.i += 2;
-		else if (s[e.i] == '$' && !e.s_q && s[e.i + 1] && !ft_strchr(" \".:=", s[e.i + 1]) && !delimter(s, e.i))
-		{
-			sub = ft_substr(s, b_x, e.i - b_x);
-			nv = ft_strj(nv, sub);
-			if (s[e.i] == '$' && s[e.i + 1] == '?')
-			{
-				nv = ft_strj(nv, ft_itoa(store_exit_status(0, 0)));
-				e.i += 2;
-			}
-			else
-			{
-				sub = ft_get_env(s, &e.i, envp);
-				nv = ft_strj(nv, sub);
-			}
-			reset = true;
-		}
-		else if (s[e.i] == '\'' && !e.d_q)
-		{
-			e.s_q = !e.s_q;
-			e.i++;
-		}
-		else if (s[e.i] == '\"' && !e.s_q)
-		{
-			e.d_q = !e.d_q;
-			e.i++;
-		}
-		else
-			e.i++;
+		(1) && (c->e.i++, c->sub = subs(c->s, c->b_x, c->e.i - c->b_x));
+		c->nv = strj(c->nv, c->sub);
 	}
-	return (nv);
+	else if (is_invalid_dollar_after_op(c))
+		c->e.i += 2;
+	else if (should_expand(c->s, c->e))
+	{
+		c->sub = subs(c->s, c->b_x, c->e.i - c->b_x);
+		(1) && (c->nv = strj(c->nv, c->sub), c->r = true);
+		if (c->s[c->e.i + 1] == '?')
+			(1) && (c->nv = strj(c->nv, ft_itoa(e_status(0, 0))), c->e.i += 2);
+		else
+		{
+			c->sub = g_env(c->s, &c->e.i, c->envp);
+			c->nv = strj(c->nv, c->sub);
+		}
+	}
+	else if (handle_quotes(c->s, &c->e))
+		return ;
+	else
+		c->e.i++;
+}
+
+char	*exp_val(char *s, t_env *envp, int st)
+{
+	t_expand_ctx	ctx;
+
+	ctx.nv = NULL;
+	ctx.e.i = 0;
+	ctx.e.s_q = false;
+	ctx.e.d_q = false;
+	ctx.r = true;
+	ctx.envp = envp;
+	ctx.st = st;
+	ctx.s = s;
+	while (s[ctx.e.i])
+		expand_loop_body(&ctx);
+	return (ctx.nv);
 }
