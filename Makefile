@@ -5,7 +5,7 @@ RM = rm -rf
 
 # Enable sanitizer/debug by uncommenting these
 # CFLAGS =-fsanitize=address -g3
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 SRC = minishell.c \
 	parse/utils/ft_strlen.c \
@@ -50,7 +50,8 @@ SRC = minishell.c \
 	parse/ft_check_bracets.c \
 	parse/ft_remove_bracets.c \
 	parse/ft_logic_syntax.c \
-	parse/get_next_line.c 
+	parse/get_next_line.c \
+	parse/utils/ft_isalpha.c
 
 OBJ = $(SRC:.c=.o)
 

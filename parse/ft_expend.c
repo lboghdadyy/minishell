@@ -6,11 +6,28 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 18:19:45 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/26 17:44:49 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 22:17:24 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	id_check(char *var)
+{
+	int	i;
+
+	i = 0;
+	if (!(ft_isalpha(var[i]) || var[i] == '_'))
+		return (0);
+	i++;
+	while (var[i])
+	{
+		if (!(ft_isalnum(var[i]) || var[i] == '_'))
+			return (i);
+		i++;
+	}
+	return (i);
+}
 
 int	skip_variable(char *value, int index)
 {
@@ -26,8 +43,7 @@ int	skip_variable(char *value, int index)
 		count++;
 		return (count - index);
 	}
-	while (value[count] && !ft_strchr("\"\' \t$.+[]={}", value[count]))
-		count++;
+	count += id_check(value + count);
 	return (count - index);
 }
 

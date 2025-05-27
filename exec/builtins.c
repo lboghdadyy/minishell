@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:17:27 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	execute_builtin(t_exec *exec, t_env **env, bool forked)
 	else if (!ft_strcmp(exec->cmd, "env"))
 		ft_env(*env, exec->fd_out);
 	else if (!ft_strcmp(exec->cmd, "exit"))
-		ft_exec_exit(exec->opt);
+		ft_exec_exit(exec->opt, forked);
 	if (forked)
 		exit(e_status(0, 0));
 }

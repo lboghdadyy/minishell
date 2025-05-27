@@ -12,17 +12,25 @@
 
 #include "../minishell.h"
 
-int	delimter(char *s, int index)
+int	delimter(char *s, size_t index)
 {
-	if (index == 0)
+	if (index >= ft_strlen(s))
 		return (0);
-	index--;
-	while ((s[index] == 32 || s[index] == '\t') && index >= 0)
+	while (1)
+	{
+		if (index > 0 && s[index] == '<' && s[index - 1] == '<')
+			return (1);
+		if (index == 0)
+			break ;
 		index--;
-	if (index < 1)
-		return (0);
-	if (s[index] == '<' && s[index - 1] == '<')
-		return (1);
+	}
+	// while (index >= 0 || (s[index] != 32 && s[index] != '\t'))
+	// 	index--;
+	// while (index >= 0 || (s[index] == 32 || s[index] == '\t'))
+	// 	index--;
+	// ls | << gfd$a
+	// if (index < 1)
+	// 	return (0);
 	return (0);
 }
 

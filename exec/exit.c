@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 22:58:45 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 13:26:23 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:17:06 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,15 @@ void	err_num(char *opt)
 	exit(2);
 }
 
-int	ft_exec_exit(char **opt)
+int	ft_exec_exit(char **opt, bool forked)
 {
 	int	i;
 	int	nbr;
 	int	flag;
 
 	i = 0;
-	ft_putstr_fd("exit\n", 1);
+	if (forked == false)
+		ft_putstr_fd("exit\n", 1);
 	if (opt[0] && !opt[1])
 		exit(e_status(0, 0));
 	else if (is_valid_exit(opt[1]))

@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:29:05 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/27 13:07:24 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:15:11 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ bool	should_expand(char *s, t_expand e)
 
 bool	is_invalid_dollar_after_op(t_expand_ctx *c)
 {
-	if ((c->s[c->e.i] == '$' && c->s[c->e.i + 1] == '"' \
-		&& c->e.d_q))
+	if (c->s[c->e.i] == '$' && c->s[c->e.i + 1] == '"' \
+		&& c->e.d_q)
 		return (true);
 	return ((c->s[c->e.i] == '$' && check_assi(c->s, c->e.i) \
 	&& c->st == 0));

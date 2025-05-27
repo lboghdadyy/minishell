@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_quotes_type.c                                   :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 20:28:53 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/27 20:43:34 by sbaghdad         ###   ########.fr       */
+/*   Created: 2025/05/27 22:02:22 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/05/27 22:03:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-int	ft_check_quotes_type(char *string)
+int	ft_isalpha(int c)
 {
-	int	index;
-
-	index = 0;
-	while (string[index])
-	{
-		if (string[index] == '\'')
-			return (SINGLE);
-		if (string[index] == '\"')
-			return (COUPLE);
-		index++;
-	}
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (1);
 	return (0);
 }
-
+int	ft_isalnum(int c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c));
+}
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}

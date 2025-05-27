@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 15:51:03 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:38:16 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	execution(t_exec *exec, t_env **env)
 		return (perror("dup()"), ft_malloc(0, CLEAR), 1);
 	while (exec)
 	{
-		if (exec->flag == 0)
+		if (!exec->flag)
 			execute_cmd(exec, env);
 		exec = exec->next;
 	}

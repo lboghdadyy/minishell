@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 15:59:13 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:40:32 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 
 	tmp = lst;
 	head = NULL;
-	// cut_lst(&lst);
 	while (lst)
 	{
 		node = new_node();

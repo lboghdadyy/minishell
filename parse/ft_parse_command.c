@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:30:18 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/25 15:28:50 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:33:14 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,16 @@ static	void	skip_s(char *s, int *i)
 
 int	check_pip(char *s, int *i)
 {
+	int	index;
+
+	index = *i;
 	if (s[*i] == '|')
 	{
+		index--;
+		while (index >= 0 && (s[index] == 32 || s[index] == '\t'))
+			index--;
+		if (index == -1)
+			return (e_status(2, 1), ft_syntax_error(), 1);
 		if (ft_count_operator(s, *i, s[*i]) > 1)
 			return (e_status(2, 1), ft_syntax_error(), 1);
 		*i += 1;
