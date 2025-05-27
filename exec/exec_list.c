@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 03:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/04/21 16:03:17 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:49:28 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_exec	*new_node(void)
 	ret->cmd = NULL;
 	ret->opt = NULL;
 	ret->next = NULL;
+	ret->flag = 0;
 	return (ret);
 }
 

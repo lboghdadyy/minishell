@@ -71,11 +71,12 @@ typedef struct s_token {
 
 typedef struct s_exec
 {
-    int                fd_in;
-    int                fd_out;
+    int             fd_in;
+    int             fd_out;
     char            *cmd;
     char            **opt;
-    struct s_exec    *next;
+    struct s_exec   *next;
+	int				flag;			
 }    t_exec;
 
 typedef struct s_main_ctx

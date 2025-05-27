@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 13:24:48 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:59:13 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 		status = handle_redirect_out(lst, node);
 	if (*lst && (*lst)->type != WORD)
 		*lst = (*lst)->next;
+	if (status)
+		e_status(1, 1);
 	return (status);
 }
 
@@ -69,7 +71,7 @@ int	fill_node(t_token **lst, t_exec *node, t_env *env)
 		else
 		{
 			if (handle_redirects(lst, node, env))
-				return (1);
+				node->flag = 1;
 		}
 		if (*lst)
 			*lst = (*lst)->next;
@@ -86,12 +88,11 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 
 	tmp = lst;
 	head = NULL;
-	cut_lst(&lst);
+	// cut_lst(&lst);
 	while (lst)
 	{
 		node = new_node();
-		if (fill_node(&lst, node, env))
-			return (NULL);
+		fill_node(&lst, node, env);
 		add_back(&head, node);
 		if (lst && lst->type == PIPE)
 			lst = lst->next;

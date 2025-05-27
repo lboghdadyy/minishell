@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:51:03 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ int	execution(t_exec *exec, t_env **env)
 		return (perror("dup()"), ft_malloc(0, CLEAR), 1);
 	while (exec)
 	{
-		execute_cmd(exec, env);
+		if (exec->flag == 0)
+			execute_cmd(exec, env);
 		exec = exec->next;
 	}
 	dup2(fd, 0);
