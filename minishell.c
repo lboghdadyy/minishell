@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/26 16:06:29 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:23:04 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 		define_sig();
 		ctx.input = readline("minishell➤ ");
 		if (!ctx.input)
-			return (ft_putstr_fd("Exit\n", 1), 0);
+			return (ft_putstr_fd("exit\n", 1), 0);
 		if (*ctx.input)
 			add_history(ctx.input);
 		if (ft_parse_command(ctx.input))
@@ -67,8 +67,6 @@ int	main(int argc, char **argv, char **env)
 		if (!ctx.lst)
 			continue ;
 		(ft_expand(ctx.lst, ctx.envp), free(ctx.input));
-		// for (t_token *tmp = ctx.lst; tmp ; tmp = tmp->next)
-		// 	printf("{%s}\n", tmp->value);
 		ctx.exec = convert_token_to_exec(ctx.lst, ctx.envp);
 		if (!ctx.exec)
 			continue ;

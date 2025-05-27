@@ -62,7 +62,7 @@ void	expand_loop_body(t_expand_ctx *c)
 		c->nv = strj(c->nv, c->sub);
 	}
 	else if (is_invalid_dollar_after_op(c))
-		c->e.i += 2;
+		c->e.i++;
 	else if (should_expand(c->s, c->e))
 	{
 		c->sub = subs(c->s, c->b_x, c->e.i - c->b_x);

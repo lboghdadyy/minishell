@@ -108,6 +108,12 @@ typedef struct s_heredoc_ctx
 	int		pid;
 }	t_heredoc_ctx;
 
+typedef	struct s_cut
+{
+	t_token	*tmp;
+	int		pip_i;
+} t_cut;
+
 int 		ft_check_quotes_type(char *string);
 int    		ft_check_quots(char *command);
 size_t		ft_strlen(char *str);
@@ -145,10 +151,13 @@ char		*get_next_line(char *prompt);
 void		handler(int sig);
 bool		should_expand(char *s, t_expand e);
 int			delimter(char *s, int index);
+void		cut_lst(t_token **lst);
 bool		is_invalid_dollar_after_op(t_expand_ctx *c);
+void		del_token_node(t_token **head, t_token *node_to_delete);
+void		ambigous_red(void);
+
 // garbage
 void	*ft_malloc(size_t size, int flag);
-int		clear_fds(char	*file, int type, int save);
 // exec_child
 void		setup_child(int *fd, t_env *path, t_exec *head, int bltn);
 int			parent_thing(int *fd, t_exec *head);

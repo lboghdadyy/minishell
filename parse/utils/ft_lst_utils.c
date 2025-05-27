@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/19 17:23:25 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:52:39 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ t_token	*ft_lstnew(t_tokentype type, char *value)
 	elt->previous = NULL;
 	elt->fd_reder = -1;
 	return (elt);
+}
+
+void	del_token_node(t_token **head, t_token *node_to_delete)
+{
+	if (!head || !*head || !node_to_delete)
+		return ;
+	if (node_to_delete->previous)
+		node_to_delete->previous->next = node_to_delete->next;
+	else
+		*head = node_to_delete->next;
+	if (node_to_delete->next)
+		node_to_delete->next->previous = node_to_delete->previous;
 }
 
 t_token	*ft_lstlast(t_token *lst)

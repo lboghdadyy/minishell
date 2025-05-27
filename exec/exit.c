@@ -6,11 +6,16 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 22:58:45 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/26 16:36:16 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:26:23 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ambigous_red(void)
+{
+	ft_putstr_fd("minishell : ambiguous redirect\n", 2);
+}
 
 int	e_status(int sts, int set)
 {

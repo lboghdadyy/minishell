@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/26 16:21:24 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:24:48 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	handle_word(t_token *lst, t_exec *node, int *i)
 
 int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 {
-	int status;
-	
+	int	status;
+
 	status = 0;
 	if ((*lst)->type == HERDOC)
 		status = handle_heredoc(lst, node, env);
@@ -56,7 +56,7 @@ int	fill_node(t_token **lst, t_exec *node, t_env *env)
 {
 	int		i;
 	int		ac;
-	t_token *tmp;
+	t_token	*tmp;
 
 	i = 0;
 	tmp = *lst;
@@ -86,6 +86,7 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 
 	tmp = lst;
 	head = NULL;
+	cut_lst(&lst);
 	while (lst)
 	{
 		node = new_node();
