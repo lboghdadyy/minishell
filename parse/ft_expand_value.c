@@ -12,27 +12,6 @@
 
 #include "../minishell.h"
 
-int	delimter(char *s, size_t index)
-{
-	if (index >= ft_strlen(s))
-		return (0);
-	while (1)
-	{
-		if (index > 0 && s[index] == '<' && s[index - 1] == '<')
-			return (1);
-		if (index == 0)
-			break ;
-		index--;
-	}
-	// while (index >= 0 || (s[index] != 32 && s[index] != '\t'))
-	// 	index--;
-	// while (index >= 0 || (s[index] == 32 || s[index] == '\t'))
-	// 	index--;
-	// ls | << gfd$a
-	// if (index < 1)
-	// 	return (0);
-	return (0);
-}
 
 bool	handle_quotes(char *s, t_expand *e)
 {
@@ -67,14 +46,14 @@ void	expand_loop_body(t_expand_ctx *c)
 	if (!c->s[c->e.i + 1])
 	{
 		(1) && (c->e.i++, c->sub = subs(c->s, c->b_x, c->e.i - c->b_x));
-		c->nv = strj(c->nv, c->sub);
+		c->nv = strj(c->nv, ft_remove_quotes(c->sub));
 	}
 	else if (is_invalid_dollar_after_op(c))
 		c->e.i++;
 	else if (should_expand(c->s, c->e))
 	{
 		c->sub = subs(c->s, c->b_x, c->e.i - c->b_x);
-		(1) && (c->nv = strj(c->nv, c->sub), c->r = true);
+		(1) && (c->nv = strj(c->nv, ft_remove_quotes(c->sub)), c->r = true);
 		if (c->s[c->e.i + 1] == '?')
 			(1) && (c->nv = strj(c->nv, ft_itoa(e_status(0, 0))), c->e.i += 2);
 		else

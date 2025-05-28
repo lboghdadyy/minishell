@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 17:42:54 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:43:38 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int	check_exit_status(void)
 	{
 		if (WIFEXITED(status))
 			e_status(WEXITSTATUS(status), 1);
-		else if (WIFSIGNALED(status))
-			e_status(WEXITSTATUS(status) & 128, 1);
+		else if (WTERMSIG(status) == SIGQUIT)
+			e_status(131, 1);
+		else if (WTERMSIG(status) == SIGINT)
+			e_status(130, 1);
 		check = status;
 	}
 	return (WEXITSTATUS(check));

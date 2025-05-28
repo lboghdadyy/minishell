@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 17:38:16 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:35:47 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ char	*search_cmd_in_path(char **arr, char *cmd)
 	return (NULL);
 }
 
+void	handl_sig(int sig)
+{
+	if (sig == SIGINT)
+		exit(130);
+	if (sig == SIGQUIT)
+		exit(131);
+}
+
 char	*get_cmd_path(char *cmd, char *path)
 {
 	char	**arr;
@@ -96,7 +104,8 @@ int	execute_cmd(t_exec *head, t_env **env)
 		return (close(fd[0]), close(fd[1]), \
 			perror("fork"), ft_malloc(0, CLEAR), 1);
 	if (pid == 0)
-	{	
+	{
+		signal(SIGQUIT, handl_sig);
 		if (is_builtin(head->cmd))
 		{
 			setup_child(fd, NULL, head, 1);

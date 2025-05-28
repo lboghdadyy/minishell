@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:28:53 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/27 20:43:34 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:22:37 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,3 @@ int	ft_check_quotes_type(char *string)
 	}
 	return (0);
 }
-
