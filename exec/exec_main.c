@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/28 12:35:47 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:49:58 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,6 @@ char	*search_cmd_in_path(char **arr, char *cmd)
 		i++;
 	}
 	return (NULL);
-}
-
-void	handl_sig(int sig)
-{
-	if (sig == SIGINT)
-		exit(130);
-	if (sig == SIGQUIT)
-		exit(131);
 }
 
 char	*get_cmd_path(char *cmd, char *path)
@@ -118,8 +110,7 @@ int	execute_cmd(t_exec *head, t_env **env)
 			call_execve(head, *env);
 		}
 	}
-	(pid) && (parent_thing(fd, head));
-	return (1);
+	return ((pid) && (parent_thing(fd, head)), 1);
 }
 
 int	execution(t_exec *exec, t_env **env)

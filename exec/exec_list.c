@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 03:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 17:42:58 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:50:42 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,13 @@ void	ft_lstadd_back_exec(t_env **lst, t_env *new)
 		*lst = new;
 	else
 		ft_lstlast_exec(*lst)->next = new;
+}
+
+int	ignore_first_cmd(int res, int get)
+{
+	static int	ret;
+
+	if (!get)
+		ret = res;
+	return (ret);
 }

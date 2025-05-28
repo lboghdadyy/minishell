@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/28 12:43:38 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:50:23 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ignore_first_cmd(int res, int get)
+void	handl_sig(int sig)
 {
-	static int	ret;
-
-	if (!get)
-		ret = res;
-	return (ret);
+	if (sig == SIGINT)
+		exit(130);
+	if (sig == SIGQUIT)
+		exit(131);
 }
 
 int	check_exit_status(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/28 14:34:29 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:48:50 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,6 @@ void		ambigous_red(void);
 int			ft_isalpha(int c);
 int			ft_isalnum(int c);
 int			ft_isdigit(int c);
-int			delimter(char *s, size_t index);
-char	*ft_remove_quotes(char *tmp);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 // exec_child
@@ -180,17 +178,20 @@ int			parent_thing(int *fd, t_exec *head);
 void		cmd_not_found(char *cmd);
 int			check_exit_status(void);
 int			ignore_first_cmd(int res, int get);
+
 // exec
 int			execution(t_exec *exec, t_env **env);
 int			execute_cmd(t_exec *head, t_env **env);
 char		*get_cmd_path(char *cmd, char *path);
 int			is_empty(char *s);
 void		call_execve(t_exec *head, t_env *env);
+
 //parse_to_exec_more
 int			handle_heredoc(t_token **lst, t_exec *node, t_env *env);
 int			handle_redirect_in(t_token **lst, t_exec *node);
 int			handle_append(t_token **lst, t_exec *node);
 int			handle_redirect_out(t_token **lst, t_exec *node);
+
 //parse_to_exec
 int			count_until_pipe(t_token *lst);
 void		handle_word(t_token *lst, t_exec *node, int *i);
@@ -271,5 +272,9 @@ char		*ft_strdup2(char *src);
 
 void		handler(int sig);
 void		handle_sigint(int sig);
+
+char		*ft_remove_quotes(char *tmp);
+int			delimter(char *s, size_t index);
+void		handl_sig(int sig);
 
 #endif

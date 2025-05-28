@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 bool	handle_quotes(char *s, t_expand *e)
 {
 	if (s[e->i] == '\'' && !e->d_q)

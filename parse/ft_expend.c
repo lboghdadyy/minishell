@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expend.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 18:19:45 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/28 14:12:07 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:52:39 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*ft_remove_quotes(char *tmp)
 
 	(1) && (index = 0, index_tmp = 0, s_q = false, d_q = false);
 	if (!tmp)
-		return(ft_strdup(""));
+		return (ft_strdup(""));
 	clean = ft_malloc(ft_len_wo_quotes(tmp) + 1, ALLOC);
 	while (tmp[index_tmp])
 	{
@@ -127,15 +127,15 @@ void	ft_expand(t_token *lst, t_env *envp)
 	{
 		if (tmp->type == DELEMTER)
 			tmp->value = ft_remove_quotes(tmp->value);
-		else if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ || tmp->type == WORD)
+		else if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ \
+			|| tmp->type == WORD)
 		{
 			if (ft_strchr(tmp->value, '$'))
 				tmp->value = exp_val(tmp->value, envp, 1);
 			else
 				tmp->value = ft_remove_quotes(tmp->value);
 			tmp->type = WORD;
-		}
-		
+		}	
 		tmp = tmp->next;
 	}
 }
