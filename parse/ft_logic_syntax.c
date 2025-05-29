@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_logic_syntax.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:29:05 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/28 15:44:18 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:17:06 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ bool	check_assi(char *st, int index)
 bool	should_expand(char *s, t_expand e)
 {
 	return ((s[e.i] == '$' && !e.s_q && s[e.i + 1] \
-	&& !ft_strchr(" .:=", s[e.i + 1]) \
 	&& !delimter(s, e.i)));
 }
 
@@ -65,4 +64,18 @@ bool	is_invalid_dollar_after_op(t_expand_ctx *c)
 		return (true);
 	return ((c->s[c->e.i] == '$' && check_assi(c->s, c->e.i) \
 	&& c->st == 0));
+}
+
+int	check_for_s(char	*string)
+{
+	int indx;
+
+	indx = 0;
+	while (string[indx])
+	{
+		if (ft_is_space(string[indx]))
+			return (1);
+		indx++;
+	}
+	return (0);
 }

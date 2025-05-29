@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/29 12:15:57 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:26:54 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef enum e_tokentype {
 	DOUBLEQ,
 	SINGLEQ,
 	DELEMTER,
+	EXPAN,
 }	t_tokentype;
 
 typedef struct s_expand
@@ -126,7 +127,7 @@ typedef struct s_cut
 	t_token	*tmp;
 	int		pip_i;
 }	t_cut;
-
+int			check_for_s(char	*string);
 int			ft_check_quotes_type(char *string);
 int			ft_check_quots(char *command);
 size_t		ft_strlen(char *str);
@@ -136,7 +137,7 @@ void		ft_syntax_error(void);
 char		*subs(char *s, unsigned int start, size_t len);
 t_token		*s_cmd(char **command, t_env *envp);
 char		*ft_strchr( char *s, int c);
-t_token		*ft_lstnew(t_tokentype type, char *value);
+void		ft_lstnew(t_token **lst, t_tokentype type, t_env *e, char *value);
 t_token		*ft_lstlast(t_token *lst);
 void		ft_lstadd_back(t_token **lst, t_token *new);
 int			ft_is_space(char c);
@@ -170,6 +171,7 @@ void		ambigous_red(void);
 int			ft_isalpha(int c);
 int			ft_isalnum(int c);
 int			ft_isdigit(int c);
+int			id_check(char *var);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 // exec_child
@@ -272,9 +274,10 @@ char		*ft_strdup2(char *src);
 
 void		handler(int sig);
 void		handle_sigint(int sig);
-
-void	ft_remove_quotes(t_token *tmp);
+char		*ft_remove_quotes(char *tmp);
 int			delimter(char *s, size_t index);
 void		handl_sig(int sig);
+void		expand_loop_body(t_expand_ctx *c);
+bool		handle_quotes(char *s, t_expand *e);
 
 #endif

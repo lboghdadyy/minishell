@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/27 13:23:04 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:33:57 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int	main(int argc, char **argv, char **env)
 			add_history(ctx.input);
 		if (ft_parse_command(ctx.input))
 			continue ;
-		(1) && (ctx.expn = exp_val(ctx.input, ctx.envp, 0), \
-		ctx.lst = s_cmd(ft_split(ctx.expn), ctx.envp));
+		ctx.lst = s_cmd(ft_split(ctx.input), ctx.envp);
 		if (!ctx.lst)
 			continue ;
 		(ft_expand(ctx.lst, ctx.envp), free(ctx.input));

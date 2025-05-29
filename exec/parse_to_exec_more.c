@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec_more.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/28 15:29:00 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:07:00 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	handle_heredoc(t_token **lst, t_exec *node, t_env *env)
 	node->fd_in = open(ctx.f, O_RDONLY);
 	if (node->fd_in == -1 || WIFSIGNALED(ctx.st))
 	{
-		while ((*lst)->next && (*lst)->next->type != PIPE)
+		while ((*lst)->next && (*lst)->type != PIPE)
 			(*lst) = (*lst)->next;
 		if (WIFSIGNALED(ctx.st))
 			return (e_status(130, 1), 1);
@@ -74,9 +74,14 @@ int	handle_redirect_in(t_token **lst, t_exec *node)
 	if (node->fd_in == -1)
 	{
 		perror("minishell");
-		while ((*lst) && (*lst)->type != PIPE)
+		while ((*lst)->next && (*lst)->next->type != PIPE)
 			(*lst) = (*lst)->next;
 		return (1);
+	}
+	else
+	{
+		if ((*lst)->next)
+			(*lst) = (*lst)->next;
 	}
 	return (0);
 }
@@ -95,9 +100,14 @@ int	handle_append(t_token **lst, t_exec *node)
 	if (node->fd_out == -1)
 	{
 		perror("minishell");
-		while ((*lst) && (*lst)->type != PIPE)
+		while ((*lst)->next && (*lst)->next->type != PIPE)
 			(*lst) = (*lst)->next;
 		return (1);
+	}
+	else
+	{
+		if ((*lst)->next)
+			(*lst) = (*lst)->next;
 	}
 	return (0);
 }
@@ -115,9 +125,14 @@ int	handle_redirect_out(t_token **lst, t_exec *node)
 	if (node->fd_out == -1)
 	{
 		perror("minishell");
-		while ((*lst) && (*lst)->type != PIPE)
+		while ((*lst)->next && (*lst)->next->type != PIPE)
 			(*lst) = (*lst)->next;
 		return (1);
+	}
+	else
+	{
+		if ((*lst)->next)
+			(*lst) = (*lst)->next;
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expend.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:56:36 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/28 22:56:38 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:47:53 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*g_env(char *value, int *index, t_env *envp)
 	return (found);
 }
 
-void	ft_remove_quotes(t_token *tmp)
+char	*ft_remove_quotes(char *tmp)
 {
 	int		index;
 	char	*clean;
@@ -102,23 +102,20 @@ void	ft_remove_quotes(t_token *tmp)
 	bool	d_q;
 
 	(1) && (index = 0, index_tmp = 0, s_q = false, d_q = false);
-	if (!tmp->value)
+	if (!tmp)
+		return (ft_strdup(""));
+	clean = ft_malloc(ft_len_wo_quotes(tmp) + 1, ALLOC);
+	while (tmp[index_tmp])
 	{
-		tmp->value = ft_strdup("");
-		return ;
-	}
-	clean = ft_malloc(ft_len_wo_quotes(tmp->value) + 1, ALLOC);
-	while (tmp->value[index_tmp])
-	{
-		if (tmp->value[index_tmp] == '\'' && !d_q)
+		if (tmp[index_tmp] == '\'' && !d_q)
 			(1) && (s_q = !s_q, index_tmp++);
-		else if (tmp->value[index_tmp] == '\"' && !s_q)
+		else if (tmp[index_tmp] == '\"' && !s_q)
 			(1) && (d_q = !d_q, index_tmp++);
 		else
-			(1) && (clean[index] = tmp->value[index_tmp], index_tmp++, index++);
+			(1) && (clean[index] = tmp[index_tmp], index_tmp++, index++);
 	}
 	clean[index] = '\0';
-	tmp->value = clean;
+	return (clean);
 }
 
 void	ft_expand(t_token *lst, t_env *envp)
@@ -132,11 +129,8 @@ void	ft_expand(t_token *lst, t_env *envp)
 		{
 			if (ft_strchr(tmp->value, '$'))
 				tmp->value = exp_val(tmp->value, envp, 1);
-			ft_remove_quotes(tmp);
 			tmp->type = WORD;
 		}
-		if (tmp->type == DELEMTER)
-			ft_remove_quotes(tmp);
 		tmp = tmp->next;
 	}
 }

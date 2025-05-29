@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:18:55 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/25 11:33:32 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:36:35 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,23 @@ int	skip_spaces(char *s, int i)
 int	acttual_len(char *s, int i)
 {
 	int		start;
-	bool	double_quots;
-	bool	single_quots;
+	char	c;
 
-	(1) && (start = i, single_quots = false, double_quots = false);
+	start = i;
 	while (s[i])
 	{
-		if (ft_strchr("|<>", s[i]) && !single_quots && !double_quots)
+		if (ft_strchr("|<>", s[i]))
 			return (i - start);
-		if (s[i] == '\'' && !double_quots)
-			single_quots = !single_quots;
-		else if (s[i] == '\"' && !single_quots)
-			double_quots = !double_quots;
-		else if (ft_is_space(s[i]) && !single_quots && !double_quots)
+		else if (s[i] == '\'' || s[i] == '\"')
+		{
+			c = s[i];
+			i++;
+			while (s[i] && s[i] != c)
+				i++;
+			if (!s[i])
+				return (i - start);
+		}
+		else if (ft_is_space(s[i]))
 			break ;
 		i++;
 	}
