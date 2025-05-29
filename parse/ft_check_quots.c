@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_quots.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:54:23 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/25 13:00:22 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 22:55:34 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../minishell.h"
 
 #include "../minishell.h"
 

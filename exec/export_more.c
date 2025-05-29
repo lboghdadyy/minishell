@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_more.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:55:49 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/27 21:50:10 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 22:50:23 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,12 @@ int	is_valid_export(char *opt)
 	int	i;
 
 	i = 0;
-	if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' && opt[i] <= 'z') \
-		|| opt[i] == '_'))
+	if (!(ft_isalpha(opt[i]) || opt[i] == '_'))
 		return (1);
 	i++;
 	while (opt[i])
 	{
-		if (!((opt[i] >= 'A' && opt[i] <= 'Z') || (opt[i] >= 'a' \
-			&& opt[i] <= 'z') || (opt[i] >= '0' && opt[i] <= '9') \
-			|| opt[i] == '_'))
+		if (!(ft_isalnum(opt[i]) || opt[i] == '_'))
 		{
 			if (opt[i] == '+' && opt[i +1] == '=')
 				return (0);

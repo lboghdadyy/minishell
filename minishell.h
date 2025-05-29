@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/28 15:48:50 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:15:57 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,7 @@ char		*ft_strdup2(char *src);
 void		handler(int sig);
 void		handle_sigint(int sig);
 
-char		*ft_remove_quotes(char *tmp);
+void	ft_remove_quotes(t_token *tmp);
 int			delimter(char *s, size_t index);
 void		handl_sig(int sig);
 

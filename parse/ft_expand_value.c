@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 
+
 bool	handle_quotes(char *s, t_expand *e)
 {
 	if (s[e->i] == '\'' && !e->d_q)
@@ -45,14 +46,14 @@ void	expand_loop_body(t_expand_ctx *c)
 	if (!c->s[c->e.i + 1])
 	{
 		(1) && (c->e.i++, c->sub = subs(c->s, c->b_x, c->e.i - c->b_x));
-		c->nv = strj(c->nv, ft_remove_quotes(c->sub));
+		c->nv = strj(c->nv, c->sub);
 	}
 	else if (is_invalid_dollar_after_op(c))
 		c->e.i++;
 	else if (should_expand(c->s, c->e))
 	{
 		c->sub = subs(c->s, c->b_x, c->e.i - c->b_x);
-		(1) && (c->nv = strj(c->nv, ft_remove_quotes(c->sub)), c->r = true);
+		(1) && (c->nv = strj(c->nv, c->sub), c->r = true);
 		if (c->s[c->e.i + 1] == '?')
 			(1) && (c->nv = strj(c->nv, ft_itoa(e_status(0, 0))), c->e.i += 2);
 		else

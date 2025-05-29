@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_bracets.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:56:46 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/25 13:00:22 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/28 22:55:22 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../minishell.h"
 
 #include "../minishell.h"
 
@@ -50,3 +52,4 @@ int	ft_check_braces(char *string)
 	}
 	return (0);
 }
+

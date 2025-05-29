@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/28 15:49:58 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/28 22:45:07 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int	execute_cmd(t_exec *head, t_env **env)
 			call_execve(head, *env);
 		}
 	}
-	return ((pid) && (parent_thing(fd, head)), 1);
+	(pid) && (parent_thing(fd, head));
+	return (1);
 }
 
 int	execution(t_exec *exec, t_env **env)

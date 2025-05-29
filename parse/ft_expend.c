@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 18:19:45 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/28 15:52:39 by oufarah          ###   ########.fr       */
+/*   Created: 2025/05/28 22:56:36 by oufarah           #+#    #+#             */
+/*   Updated: 2025/05/28 22:56:38 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*g_env(char *value, int *index, t_env *envp)
 	return (found);
 }
 
-char	*ft_remove_quotes(char *tmp)
+void	ft_remove_quotes(t_token *tmp)
 {
 	int		index;
 	char	*clean;
@@ -102,20 +102,23 @@ char	*ft_remove_quotes(char *tmp)
 	bool	d_q;
 
 	(1) && (index = 0, index_tmp = 0, s_q = false, d_q = false);
-	if (!tmp)
-		return (ft_strdup(""));
-	clean = ft_malloc(ft_len_wo_quotes(tmp) + 1, ALLOC);
-	while (tmp[index_tmp])
+	if (!tmp->value)
 	{
-		if (tmp[index_tmp] == '\'' && !d_q)
+		tmp->value = ft_strdup("");
+		return ;
+	}
+	clean = ft_malloc(ft_len_wo_quotes(tmp->value) + 1, ALLOC);
+	while (tmp->value[index_tmp])
+	{
+		if (tmp->value[index_tmp] == '\'' && !d_q)
 			(1) && (s_q = !s_q, index_tmp++);
-		else if (tmp[index_tmp] == '\"' && !s_q)
+		else if (tmp->value[index_tmp] == '\"' && !s_q)
 			(1) && (d_q = !d_q, index_tmp++);
 		else
-			(1) && (clean[index] = tmp[index_tmp], index_tmp++, index++);
+			(1) && (clean[index] = tmp->value[index_tmp], index_tmp++, index++);
 	}
 	clean[index] = '\0';
-	return (clean);
+	tmp->value = clean;
 }
 
 void	ft_expand(t_token *lst, t_env *envp)
@@ -125,17 +128,15 @@ void	ft_expand(t_token *lst, t_env *envp)
 	tmp = lst;
 	while (tmp)
 	{
-		if (tmp->type == DELEMTER)
-			tmp->value = ft_remove_quotes(tmp->value);
-		else if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ \
-			|| tmp->type == WORD)
+		if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ || tmp->type == WORD)
 		{
 			if (ft_strchr(tmp->value, '$'))
 				tmp->value = exp_val(tmp->value, envp, 1);
-			else
-				tmp->value = ft_remove_quotes(tmp->value);
+			ft_remove_quotes(tmp);
 			tmp->type = WORD;
-		}	
+		}
+		if (tmp->type == DELEMTER)
+			ft_remove_quotes(tmp);
 		tmp = tmp->next;
 	}
 }
