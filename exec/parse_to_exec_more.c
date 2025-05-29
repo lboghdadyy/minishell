@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/29 13:07:00 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:55:24 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int	handle_heredoc(t_token **lst, t_exec *node, t_env *env)
 	{
 		while ((*lst)->next && (*lst)->type != PIPE)
 			(*lst) = (*lst)->next;
-		if (WIFSIGNALED(ctx.st))
+		if (WTERMSIG(ctx.st) == SIGINT)
 			return (e_status(130, 1), 1);
-		perror("minishell");
+		else
+			perror("minishell");
 	}
 	return (0);
 }

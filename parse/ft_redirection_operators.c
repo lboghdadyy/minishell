@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/25 13:01:29 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:32:56 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 	}
 	free(input);
 	close(fd_out);
-	exit (0);
+	exit(0);
 	return (1);
 }

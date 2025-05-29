@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/29 18:46:53 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:40:44 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value)
 	i = 0;
 	elt = NULL;
 	exp = exp_val(value, e, 0);
-	if (ft_strchr(exp, '$'))
+	if (ft_strchr(exp, '$') || !check_for_s(exp))
 	{
 		elt = ft_malloc(sizeof(t_token), ALLOC);
 		elt->type = WORD;
@@ -34,6 +34,8 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value)
 	if(check_for_s(exp))
 	{
 		l = ft_split(exp);
+		if (!l || !*l)
+			return ;
 		while (l[i])
 		{
 			ft_lstnew(lst, WORD, e, l[i]);
@@ -45,28 +47,28 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value)
 void	ft_lstnew(t_token **lst, t_tokentype type, t_env *e, char *value)
 {
 	t_token		*elt;
-	static	int	delemter;
+	t_token		*last;
 
 	elt = ft_malloc(sizeof(t_token), ALLOC);
-	elt->type = type;
 	elt->value = value;
 	elt->next = NULL;
 	elt->previous = NULL;
 	elt->fd_reder = -1;
+	last = ft_lstlast(*lst);
+	if (last && last->type == HERDOC)
+		type = DELEMTER;
 	if (type == EXPAN)
 	{
 		ft_split_ex(lst, e, value);
 		return ;
 	}
-	else if (type == HERDOC)
-			delemter = 1;
-	else if (delemter)
-		(1) && (type = DELEMTER, delemter = 0);
-	else if (type == DOUBLEQ || type == DOUBLEQ)
+	if (type == DOUBLEQ || type == SINGLEQ || type == DELEMTER)
 	{
 		elt->value = ft_remove_quotes(value);
-		elt->type = WORD;
+		if (type != DELEMTER)
+			elt->type = WORD;
 	}
+	elt->type = type;
 	ft_lstadd_back(lst, elt);
 }
 
