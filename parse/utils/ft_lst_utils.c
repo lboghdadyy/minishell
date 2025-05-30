@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/29 21:40:44 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:34:45 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value)
 	char		**l;
 	int			i;
 
-	i = 0;
-	elt = NULL;
-	exp = exp_val(value, e, 0);
+	(1) && (i = 0, elt = NULL, exp = exp_val(value, e, 0));
 	if (ft_strchr(exp, '$') || !check_for_s(exp))
 	{
 		elt = ft_malloc(sizeof(t_token), ALLOC);
@@ -31,16 +29,13 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value)
 		elt->previous = NULL;
 		return (ft_lstadd_back(lst, elt));
 	}
-	if(check_for_s(exp))
+	if (check_for_s(exp))
 	{
 		l = ft_split(exp);
 		if (!l || !*l)
 			return ;
 		while (l[i])
-		{
-			ft_lstnew(lst, WORD, e, l[i]);
-			i++;
-		}
+			ft_lstnew(lst, WORD, e, l[i++]);
 	}
 }
 

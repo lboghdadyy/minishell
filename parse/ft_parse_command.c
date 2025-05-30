@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:30:18 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/27 21:33:14 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:21:52 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	ft_check_syntax(char *string)
 		if (string[i] == '<' || string[i] == '>')
 		{
 			c = string[i];
+			if (check_case_rp(string, &i))
+				continue ;
 			if (ft_count_operator(string, i, string[i]) > 2)
 				return (e_status(2, 1), ft_syntax_error(), 1);
 			while (string[i] == c)

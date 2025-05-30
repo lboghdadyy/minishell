@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:29:05 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/29 18:17:06 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:04:43 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ bool	is_invalid_dollar_after_op(t_expand_ctx *c)
 	&& c->st == 0));
 }
 
-int	check_for_s(char	*string)
+int	check_for_s(char *string)
 {
-	int indx;
+	int	indx;
 
 	indx = 0;
 	while (string[indx])

@@ -12,14 +12,14 @@
 
 #include "../minishell.h"
 
-int	ft_check_var(char	*string)
+int	ft_check_var(char	*s)
 {
-	int index;
+	int	index;
 
 	index = 0;
-	while (string[index])
+	while (s[index])
 	{
-		if (string[index] == '$' && string[index + 1] && id_check(string + index + 1))
+		if (s[index] == '$' && s[index + 1] && id_check(s + index + 1))
 			return (1);
 		index++;
 	}
@@ -46,19 +46,17 @@ t_tokentype	ft_token_type(char *string)
 		return (SINGLEQ);
 	if (ft_check_quotes_type(string) == COUPLE)
 		return (DOUBLEQ);
-	
 	return (WORD);
 }
 
 t_token	*s_cmd(char **command, t_env *envp)
 {
 	t_token	*lst;
-	t_token	*tmp;
 	int		index;
-	int		delemter;
 
 	(void)envp;
-	(1) && (delemter = 0, lst = NULL, tmp = NULL, index = 0);
+	lst = NULL;
+	index = 0;
 	if (!command || !*command)
 		return (NULL);
 	while (command[index])

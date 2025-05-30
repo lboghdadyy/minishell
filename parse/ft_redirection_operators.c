@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/29 21:32:56 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:04:59 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ char	*ft_expand_herdoc(char *v, t_env *envp)
 	return (n_v);
 }
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	exit(127);
-}
-
 int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 {
 	char	*input;
@@ -56,8 +50,7 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 		return (1);
 	while (1)
 	{
-		write(1, "> ", 1);
-		input = get_next_line(NULL);
+		input = readline("> ");
 		if (!input || !ft_strcmp(input, lst->next->value))
 			break ;
 		if (strchr(input, '$'))

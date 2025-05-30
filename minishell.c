@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/29 18:33:57 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:27:00 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	handler(int sig)
 {
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
+	if (!recevied_from_inp(0, 0))
+		rl_redisplay();
+	else
+		recevied_from_inp(0, 1);
 	rl_replace_line("", 0);
-	rl_redisplay();
 	e_status(130, 1);
 	(void)sig;
 }
@@ -42,6 +45,7 @@ void	init_main_ctx(t_main_ctx *ctx, char **env)
 
 void	define_sig(void)
 {
+	recevied_from_inp(0, 1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &handler);
 }
@@ -57,7 +61,7 @@ int	main(int argc, char **argv, char **env)
 		define_sig();
 		ctx.input = readline("minishell➤ ");
 		if (!ctx.input)
-			return (ft_putstr_fd("exit\n", 1), 0);
+			return (printf("exit\n"), free(ctx.input), ft_malloc(0, CLEAR), 0);
 		if (*ctx.input)
 			add_history(ctx.input);
 		if (ft_parse_command(ctx.input))
@@ -65,7 +69,7 @@ int	main(int argc, char **argv, char **env)
 		ctx.lst = s_cmd(ft_split(ctx.input), ctx.envp);
 		if (!ctx.lst)
 			continue ;
-		(ft_expand(ctx.lst, ctx.envp), free(ctx.input));
+		ft_expand(ctx.lst, ctx.envp);
 		ctx.exec = convert_token_to_exec(ctx.lst, ctx.envp);
 		if (!ctx.exec)
 			continue ;

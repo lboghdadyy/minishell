@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 17:38:42 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:33:41 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@
 # define HERED 33
 # define ALLOC 1
 # define CLEAR 2
-# define WHITE "\033[0;37m"
-# define RED "\033[0;31m"
 
 typedef struct s_garbage
 {
@@ -43,10 +41,6 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 
 }	t_garbage;
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
-# endif
 
 typedef enum e_tokentype {
 	WORD,
@@ -128,6 +122,7 @@ typedef struct s_cut
 	int		pip_i;
 }	t_cut;
 int			check_for_s(char	*string);
+char		*g_env(char *value, int *index, t_env *envp);
 int			ft_check_quotes_type(char *string);
 int			ft_check_quots(char *command);
 size_t		ft_strlen(char *str);
@@ -161,7 +156,6 @@ int			ft_check_braces(char *string);
 char		*ft_remove_bracets(char *string);
 int			check_br(char *string);
 int			ft_stop_redirect(t_token *lst, t_env *envp);
-char		*get_next_line(char *prompt);
 void		handler(int sig);
 bool		should_expand(char *s, t_expand e);
 int			delimter(char *s, size_t index);
@@ -172,11 +166,13 @@ int			ft_isalpha(int c);
 int			ft_isalnum(int c);
 int			ft_isdigit(int c);
 int			id_check(char *var);
+int			recevied_from_inp(int set, int st);
+int			check_case_rp(char *string, int *i);
+void		default_sig(void);
+void		child_sig(void);
 // garbage
 void		*ft_malloc(size_t size, int flag);
-
-
-//builtins
+// exec_child
 char		**convert_t_env(t_env *env);
 int			is_builtin(char *cmd);
 void		execute_builtin(t_exec *exec, t_env **env, bool forked);
@@ -263,10 +259,8 @@ int			ft_pwd(t_env *env, int fd);
 void		delet_node(t_env **env, char *key);
 void		ft_unset(char **opt, t_env **env);
 
-// in parse but used in exec
 int			ft_strcmp(char *s1, char *s2);
 void		handler(int sig);
-void		handle_sigint(int sig);
 char		*ft_remove_quotes(char *tmp);
 int			delimter(char *s, size_t index);
 void		expand_loop_body(t_expand_ctx *c);

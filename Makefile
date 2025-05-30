@@ -50,9 +50,9 @@ SRC = minishell.c \
 	parse/ft_check_bracets.c \
 	parse/ft_remove_bracets.c \
 	parse/ft_logic_syntax.c \
-	parse/get_next_line.c \
 	parse/utils/ft_isalpha.c \
-	parse/first_expand.c
+	parse/first_expand.c \
+	parse/ft_getenv.c
 
 OBJ = $(SRC:.c=.o)
 

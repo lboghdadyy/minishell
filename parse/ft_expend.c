@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:56:36 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/29 21:34:09 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:26:38 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,6 @@ size_t	ft_len_wo_quotes(char *value)
 	return (count);
 }
 
-char	*g_env(char *value, int *index, t_env *envp)
-{
-	char	*sub;
-	char	*found;
-	size_t	skipped;
-	t_env	*tmp;
-
-	skipped = skip_variable(value, *index);
-	sub = subs(value, *index + 1, skipped - 1);
-	if (ft_strchr(sub, '{') || ft_strchr(sub, '}'))
-		sub = ft_remove_bracets(sub);
-	*index += skipped;
-	tmp = find_env(envp, sub);
-	if (!tmp)
-		return (NULL);
-	found = tmp->value;
-	return (found);
-}
-
 char	*ft_remove_quotes(char *tmp)
 {
 	int		index;
@@ -101,7 +82,10 @@ char	*ft_remove_quotes(char *tmp)
 	bool	s_q;
 	bool	d_q;
 
-	(1) && (index = 0, index_tmp = 0, s_q = false, d_q = false);
+	index = 0;
+	index_tmp = 0;
+	s_q = false;
+	d_q = false;
 	if (!tmp)
 		return (ft_strdup(""));
 	clean = ft_malloc(ft_len_wo_quotes(tmp) + 1, ALLOC);

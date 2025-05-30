@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_bracets.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:56:46 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/28 22:55:22 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:22:00 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,12 @@ int	ft_check_braces(char *string)
 	return (0);
 }
 
+int	check_case_rp(char *string, int *i)
+{
+	if (string[*i] == '>' && string[*i + 1] && string[*i + 1] == '|')
+	{
+		*i += 2;
+		return (1);
+	}
+	return (0);
+}

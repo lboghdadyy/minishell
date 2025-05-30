@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/29 13:07:38 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:52:04 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 		status = handle_redirect_out(lst, node);
 	if (*lst && (*lst)->type != WORD)
 		*lst = (*lst)->next;
-	if (status)
+	if (status && status != 33)
 		e_status(1, 1);
 	return (status);
 }

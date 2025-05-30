@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 17:20:32 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:33:26 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,14 @@ int	execute_cmd(t_exec *head, t_env **env)
 
 	if (pipe(fd) == -1)
 		return (perror("pipe"), ft_malloc(0, CLEAR), 1);
+	child_sig();
 	pid = fork();
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), \
 			perror("fork"), ft_malloc(0, CLEAR), 1);
 	if (pid == 0)
 	{
-		signal(SIGQUIT, handl_sig);
+		default_sig();
 		if (is_builtin(head->cmd))
 		{
 			setup_child(fd, NULL, head, 1);
@@ -110,7 +111,8 @@ int	execute_cmd(t_exec *head, t_env **env)
 			call_execve(head, *env);
 		}
 	}
-	return ((pid) && (parent_thing(fd, head)), 1);
+	(pid) && (parent_thing(fd, head));
+	return (1);
 }
 
 int	execution(t_exec *exec, t_env **env)

@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec_more.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 17:18:26 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:36:22 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	init_heredoc_ctx(t_heredoc_ctx *ctx)
+int	init_heredoc_ctx(t_heredoc_ctx *ctx, t_token *lst)
 {
+	if (!lst->next)
+		return (ambigous_red(), 1);
 	ctx->f = ft_malloc(100, ALLOC);
 	if (!ctx->f)
 		return (1);
@@ -35,29 +37,27 @@ int	handle_heredoc(t_token **lst, t_exec *node, t_env *env)
 {
 	t_heredoc_ctx	ctx;
 
-	if (!(*lst)->next)
-		return (ambigous_red(), 1);
-	if (init_heredoc_ctx(&ctx))
+	recevied_from_inp(1, 1);
+	if (init_heredoc_ctx(&ctx, *lst))
 		return (1);
 	else if (ctx.pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (node->fd_in != 0)
 			close(node->fd_in);
-		signal(SIGINT, SIG_DFL);
 		ft_handle_heredoc(*lst, env, ctx.fd_out);
 	}
 	else
-		waitpid(ctx.pid, &ctx.st, 0);
-	signal(SIGINT, &handler);
+		waitpid(0, &ctx.st, 0);
 	node->fd_in = open(ctx.f, O_RDONLY);
-	if (node->fd_in == -1 || WIFSIGNALED(ctx.st))
+	if (node->fd_in == -1 || WTERMSIG(ctx.st) == SIGINT)
 	{
-		while ((*lst)->next && (*lst)->type != PIPE)
-			(*lst) = (*lst)->next;
 		if (WTERMSIG(ctx.st) == SIGINT)
-			return (e_status(130, 1), 1);
+			e_status(130, 1);
 		else
 			perror("minishell");
+		while ((*lst)->next && (*lst)->type != PIPE)
+			(*lst) = (*lst)->next;
 	}
 	return (0);
 }
@@ -122,6 +122,8 @@ int	handle_redirect_out(t_token **lst, t_exec *node)
 		ambigous_red();
 		return (1);
 	}
+	if ((*lst)->next->type == PIPE)
+		(*lst) = (*lst)->next;
 	node->fd_out = open((*lst)->next->value, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (node->fd_out == -1)
 	{

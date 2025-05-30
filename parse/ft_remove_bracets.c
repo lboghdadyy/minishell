@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 18:22:13 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/26 16:37:01 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:23:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_br(char *string)
 				return (bad_subsitution(), 1);
 			while (string[index] && string[index] != '}')
 			{
-				if (ft_strchr("$.@#$^&*()\t ", string[index]))
+				if (!(ft_isalnum(string[index]) || string[index] == '_'))
 					return (bad_subsitution(), 1);
 				index++;
 			}
@@ -85,4 +85,13 @@ char	*ft_remove_bracets(char *string)
 	}
 	clean[i] = 0;
 	return (clean);
+}
+
+int	recevied_from_inp(int set, int st)
+{
+	static int	j;
+
+	if (st)
+		j = set;
+	return (j);
 }
