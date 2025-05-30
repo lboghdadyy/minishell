@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 21:33:41 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:03:33 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void		default_sig(void);
 void		child_sig(void);
 // garbage
 void		*ft_malloc(size_t size, int flag);
-// exec_child
+//builtins
 char		**convert_t_env(t_env *env);
 int			is_builtin(char *cmd);
 void		execute_builtin(t_exec *exec, t_env **env, bool forked);
@@ -203,8 +203,7 @@ void		ft_lstadd_back_exec(t_env **lst, t_env *new);
 int			ignore_first_cmd(int res, int get);
 // exec main
 void		call_execve(t_exec *head, t_env *env);
-char		*search_cmd_in_path(char **arr, char *cmd);
-char		*get_cmd_path(char *cmd, char *path);
+void		in_child(t_exec *head, t_env **env, int *fd);
 int			execute_cmd(t_exec *head, t_env **env);
 int			execution(t_exec *exec, t_env **env);
 //exec_more_list
@@ -234,13 +233,16 @@ void		handle_plus_equal(char *opt, t_env **env);
 void		handle_equal_or_none(char *opt, t_env **env);
 void		err_identifier(char *opt);
 int			ft_export(char **opt, t_env **env, int fd);
+//find_cmd_path
+char		*search_cmd_in_path(char **arr, char *cmd);
+char		*get_cmd_path(char *cmd, char *path);
 // ft_itoa_atoi
 char		*ft_itoa(int n);
 int			ft_atoi(const char *str, int *flag);
 // ft_split_exec
 char		**ft_split_exec(char const *s, char c);
 //parse_to_exec_more
-int			init_heredoc_ctx(t_heredoc_ctx *ctx);
+int			init_heredoc_ctx(t_heredoc_ctx *ctx, t_token *lst);
 int			handle_heredoc(t_token **lst, t_exec *node, t_env *env);
 int			handle_redirect_in(t_token **lst, t_exec *node);
 int			handle_append(t_token **lst, t_exec *node);
@@ -259,8 +261,10 @@ int			ft_pwd(t_env *env, int fd);
 void		delet_node(t_env **env, char *key);
 void		ft_unset(char **opt, t_env **env);
 
+// in parse but used in exec
 int			ft_strcmp(char *s1, char *s2);
 void		handler(int sig);
+void		handle_sigint(int sig);
 char		*ft_remove_quotes(char *tmp);
 int			delimter(char *s, size_t index);
 void		expand_loop_body(t_expand_ctx *c);

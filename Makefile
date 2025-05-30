@@ -46,6 +46,7 @@ SRC = minishell.c \
 	exec/pwd.c \
 	exec/export_more.c \
 	exec/parse_to_exec_more.c \
+	exec/find_cmd_path.c \
 	parse/ft_expand_value.c \
 	parse/ft_check_bracets.c \
 	parse/ft_remove_bracets.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 21:33:26 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:57:29 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,50 +38,19 @@ void	call_execve(t_exec *head, t_env *env)
 	exit(errno);
 }
 
-char	*search_cmd_in_path(char **arr, char *cmd)
+void	in_child(t_exec *head, t_env **env, int *fd)
 {
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	while (arr[i] && !is_empty(cmd))
+	if (is_builtin(head->cmd))
 	{
-		tmp = strj(arr[i], "/");
-		tmp = strj(tmp, cmd);
-		if (access(tmp, F_OK | X_OK) == 0)
-			return (tmp);
-		i++;
+		setup_child(fd, NULL, head, 1);
+		execute_builtin(head, env, true);
+		exit(0);
 	}
-	return (NULL);
-}
-
-char	*get_cmd_path(char *cmd, char *path)
-{
-	char	**arr;
-	char	*tmp;
-
-	if (!cmd)
-		exit(e_status(0, 0));
-	if (ft_strchr(cmd, '/'))
+	else
 	{
-		if (access(cmd, F_OK | X_OK) == 0)
-			return (cmd);
-		return (cmd_not_found(cmd), NULL);
+		setup_child(fd, find_env(*env, "PATH"), head, 0);
+		call_execve(head, *env);
 	}
-	arr = ft_split_exec(path, ':');
-	if (!arr)
-		return (NULL);
-	tmp = search_cmd_in_path(arr, cmd);
-	if (tmp)
-		return (tmp);
-	tmp = getcwd(NULL, 0);
-	path = tmp;
-	tmp = strj(tmp, "/");
-	free(path);
-	tmp = strj(tmp, cmd);
-	if (access(tmp, F_OK | X_OK) == 0 && !is_empty(cmd))
-		return (tmp);
-	return (cmd_not_found(cmd), NULL);
 }
 
 int	execute_cmd(t_exec *head, t_env **env)
@@ -99,19 +68,10 @@ int	execute_cmd(t_exec *head, t_env **env)
 	if (pid == 0)
 	{
 		default_sig();
-		if (is_builtin(head->cmd))
-		{
-			setup_child(fd, NULL, head, 1);
-			execute_builtin(head, env, true);
-			exit(0);
-		}
-		else
-		{
-			setup_child(fd, find_env(*env, "PATH"), head, 0);
-			call_execve(head, *env);
-		}
+		in_child(head, env, fd);
 	}
-	(pid) && (parent_thing(fd, head));
+	else
+		parent_thing(fd, head);
 	return (1);
 }
 
