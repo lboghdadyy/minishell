@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/29 21:54:17 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:20:32 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ int	execute_cmd(t_exec *head, t_env **env)
 			call_execve(head, *env);
 		}
 	}
-	(pid) && (parent_thing(fd, head));
-	return (1);
+	return ((pid) && (parent_thing(fd, head)), 1);
 }
 
 int	execution(t_exec *exec, t_env **env)
