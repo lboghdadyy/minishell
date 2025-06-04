@@ -26,8 +26,14 @@ int	ft_check_var(char	*s)
 	return (0);
 }
 
-t_tokentype	ft_token_type(char *string)
+t_tokentype	ft_token_type(t_token *lst, char *string)
 {
+	t_token	*last;
+
+	last = ft_lstlast(lst);
+	if (last && (last->type == R_IN || last->type == R_OUT \
+	|| last->type == APPEND))
+		return (R_FILE);
 	if (!string)
 		return (WORD);
 	if (ft_check_var(string))
@@ -49,20 +55,20 @@ t_tokentype	ft_token_type(char *string)
 	return (WORD);
 }
 
-t_token	*s_cmd(char **command, t_env *envp)
+t_token	*s_cmd(char **cmd, t_env *envp)
 {
 	t_token	*lst;
-	int		index;
+	int		i;
 
 	(void)envp;
 	lst = NULL;
-	index = 0;
-	if (!command || !*command)
+	i = 0;
+	if (!cmd || !*cmd)
 		return (NULL);
-	while (command[index])
+	while (cmd[i])
 	{
-		ft_lstnew(&lst, ft_token_type(command[index]), envp, command[index]);
-		index++;
+		ft_lstnew(&lst, ft_token_type(lst, cmd[i]), envp, cmd[i]);
+		i++;
 	}
 	return (lst);
 }

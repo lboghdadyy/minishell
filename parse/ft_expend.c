@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:56:36 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 21:26:38 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/04 21:27:34 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	id_check(char *var)
 	int	i;
 
 	i = 0;
-	if (!(ft_isalpha(var[i]) || var[i] == '_'))
+	if (!(ft_isalpha(var[i]) || var[i] == '_' || var[i] == '?'))
 		return (0);
 	i++;
 	while (var[i])
 	{
-		if (!(ft_isalnum(var[i]) || var[i] == '_'))
+		if (!(ft_isalnum(var[i]) || var[i] == '_' || var[i] == '?'))
 			return (i);
 		i++;
 	}
@@ -109,11 +109,22 @@ void	ft_expand(t_token *lst, t_env *envp)
 	tmp = lst;
 	while (tmp)
 	{
-		if (tmp->type == SINGLEQ || tmp->type == DOUBLEQ || tmp->type == WORD)
+		if (tmp->type == EXPAN || tmp->type == SINGLEQ \
+		|| tmp->type == DOUBLEQ || tmp->type == WORD)
 		{
-			if (ft_strchr(tmp->value, '$'))
+			if (ft_check_var(tmp->value))
 				tmp->value = exp_val(tmp->value, envp, 1);
 			tmp->type = WORD;
+		}
+		if (tmp->type == HERDOC)
+		{
+			tmp->fd_reder = handle_heredoc(tmp, envp);
+			if (tmp->fd_reder == -1)
+			{
+				while (tmp && tmp->type != PIPE)
+					tmp = tmp->next;
+				continue ;
+			}
 		}
 		tmp = tmp->next;
 	}

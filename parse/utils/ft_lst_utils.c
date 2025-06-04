@@ -6,27 +6,29 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/30 16:34:45 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/04 21:33:08 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_split_ex(t_token **lst, t_env *e, char *value)
+void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 {
 	t_token		*elt;
 	char		*exp;
 	char		**l;
 	int			i;
 
-	(1) && (i = 0, elt = NULL, exp = exp_val(value, e, 0));
-	if (ft_strchr(exp, '$') || !check_for_s(exp))
+	(1) && (i = 0, elt = NULL, l = NULL, exp = exp_val(value, e, 0));
+	if (ft_strchr(exp, '$') || !check_for_s(exp) || !exp[0])
 	{
 		elt = ft_malloc(sizeof(t_token), ALLOC);
-		elt->type = WORD;
-		elt->value = value;
-		elt->next = NULL;
-		elt->previous = NULL;
+		elt->type = type;
+		(1) && (elt->value = exp, elt->next = NULL, elt->previous = NULL);
+		if (type == R_FILE && !exp[0])
+			elt->ambg = 1;
+		else
+			elt->ambg = 0;
 		return (ft_lstadd_back(lst, elt));
 	}
 	if (check_for_s(exp))
@@ -49,12 +51,13 @@ void	ft_lstnew(t_token **lst, t_tokentype type, t_env *e, char *value)
 	elt->next = NULL;
 	elt->previous = NULL;
 	elt->fd_reder = -1;
+	elt->ambg = 0;
 	last = ft_lstlast(*lst);
 	if (last && last->type == HERDOC)
 		type = DELEMTER;
-	if (type == EXPAN)
+	if (ft_check_var(value))
 	{
-		ft_split_ex(lst, e, value);
+		ft_split_ex(lst, e, value, type);
 		return ;
 	}
 	if (type == DOUBLEQ || type == SINGLEQ || type == DELEMTER)

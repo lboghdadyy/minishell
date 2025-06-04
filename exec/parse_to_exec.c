@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 16:52:04 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/04 21:27:03 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,22 @@ void	handle_word(t_token *lst, t_exec *node, int *i)
 	(*i)++;
 }
 
-int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
+int	handle_redirects(t_token **lst, t_exec *node)
 {
 	int	status;
 
 	status = 0;
 	if ((*lst)->type == HERDOC)
-		status = handle_heredoc(lst, node, env);
+	{
+		if ((*lst)->fd_reder == -1)
+			status = 1;
+		else
+		{
+			if (node->fd_in != -1)
+				close (node->fd_in);
+			node->fd_in = (*lst)->fd_reder;
+		}
+	}
 	else if ((*lst)->type == R_IN)
 		status = handle_redirect_in(lst, node);
 	else if ((*lst)->type == APPEND)
@@ -54,23 +63,26 @@ int	handle_redirects(t_token **lst, t_exec *node, t_env *env)
 	return (status);
 }
 
-int	fill_node(t_token **lst, t_exec *node, t_env *env)
+int	fill_node(t_token **lst, t_exec *node)
 {
 	int		i;
 	int		ac;
-	t_token	*tmp;
 
-	i = 0;
-	tmp = *lst;
-	ac = count_until_pipe(*lst);
+	(1) && (i = 0, ac = count_until_pipe(*lst));
 	node->opt = ft_malloc(sizeof(char *) * (ac + 1), ALLOC);
 	while (*lst && (*lst)->type != PIPE)
 	{
 		if ((*lst)->type == WORD)
 			handle_word(*lst, node, &i);
+		else if ((*lst)->type == HERDOC)
+		{
+			if ((*lst)->fd_reder == -1)
+				node->flag = 1;
+			node->fd_in = (*lst)->fd_reder;
+		}
 		else
 		{
-			if (handle_redirects(lst, node, env))
+			if (handle_redirects(lst, node))
 				node->flag = 1;
 		}
 		if (*lst)
@@ -91,7 +103,7 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 	while (lst)
 	{
 		node = new_node();
-		fill_node(&lst, node, env);
+		fill_node(&lst, node);
 		add_back(&head, node);
 		if (lst && lst->type == PIPE)
 			lst = lst->next;

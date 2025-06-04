@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 22:03:33 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/04 21:21:57 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef enum e_tokentype {
 	SINGLEQ,
 	DELEMTER,
 	EXPAN,
+	R_FILE,
 }	t_tokentype;
 
 typedef struct s_expand
@@ -74,6 +75,7 @@ typedef struct s_token {
 	struct s_token	*next;
 	struct s_token	*previous;
 	int				fd_reder;
+	int				ambg;
 }	t_token;
 
 typedef struct s_exec
@@ -113,7 +115,6 @@ typedef struct s_heredoc_ctx
 	int		fd_out;
 	int		fd_in;
 	int		st;
-	int		pid;
 }	t_heredoc_ctx;
 
 typedef struct s_cut
@@ -121,6 +122,7 @@ typedef struct s_cut
 	t_token	*tmp;
 	int		pip_i;
 }	t_cut;
+
 int			check_for_s(char	*string);
 char		*g_env(char *value, int *index, t_env *envp);
 int			ft_check_quotes_type(char *string);
@@ -142,7 +144,8 @@ bool		ft_check_pip(char *string);
 bool		ft_check_redirect_in(char *string);
 bool		ft_check_redirect_out(char *string);
 bool		ft_check_append(char *string);
-t_tokentype	ft_token_type(char *string);
+t_tokentype	ft_token_type(t_token *lst, char *string);
+int			ft_check_var(char	*s);
 char		*ft_strdup(char *src);
 bool		ft_check_heredoc(char *string);
 size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
@@ -170,6 +173,7 @@ int			recevied_from_inp(int set, int st);
 int			check_case_rp(char *string, int *i);
 void		default_sig(void);
 void		child_sig(void);
+void		ft_open_herdoc(t_token **lst, t_env *envp);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 //builtins
@@ -242,8 +246,8 @@ int			ft_atoi(const char *str, int *flag);
 // ft_split_exec
 char		**ft_split_exec(char const *s, char c);
 //parse_to_exec_more
-int			init_heredoc_ctx(t_heredoc_ctx *ctx, t_token *lst);
-int			handle_heredoc(t_token **lst, t_exec *node, t_env *env);
+int			init_heredoc_ctx(t_heredoc_ctx *ctx, t_token **lst);
+int			handle_heredoc(t_token *lst, t_env *env);
 int			handle_redirect_in(t_token **lst, t_exec *node);
 int			handle_append(t_token **lst, t_exec *node);
 int			handle_redirect_out(t_token **lst, t_exec *node);
@@ -251,8 +255,8 @@ int			handle_redirect_out(t_token **lst, t_exec *node);
 //parse_to_exec
 int			count_until_pipe(t_token *lst);
 void		handle_word(t_token *lst, t_exec *node, int *i);
-int			handle_redirects(t_token **lst, t_exec *node, t_env *env);
-int			fill_node(t_token **lst, t_exec *node, t_env *env);
+int			handle_redirects(t_token **lst, t_exec *node);
+int			fill_node(t_token **lst, t_exec *node);
 t_exec		*convert_token_to_exec(t_token *lst, t_env *env);
 // pwd
 int			pwd_and_oldpwd(t_env *env, int fd);
@@ -264,7 +268,6 @@ void		ft_unset(char **opt, t_env **env);
 // in parse but used in exec
 int			ft_strcmp(char *s1, char *s2);
 void		handler(int sig);
-void		handle_sigint(int sig);
 char		*ft_remove_quotes(char *tmp);
 int			delimter(char *s, size_t index);
 void		expand_loop_body(t_expand_ctx *c);

@@ -53,7 +53,7 @@ SRC = minishell.c \
 	parse/ft_logic_syntax.c \
 	parse/utils/ft_isalpha.c \
 	parse/first_expand.c \
-	parse/ft_getenv.c
+	parse/ft_getenv.c 
 
 OBJ = $(SRC:.c=.o)
 
