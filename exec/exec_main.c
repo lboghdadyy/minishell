@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 21:57:29 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/05 17:55:20 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	execute_cmd(t_exec *head, t_env **env)
 
 	if (pipe(fd) == -1)
 		return (perror("pipe"), ft_malloc(0, CLEAR), 1);
-	child_sig();
+	child_sig(head->cmd);
 	pid = fork();
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), \

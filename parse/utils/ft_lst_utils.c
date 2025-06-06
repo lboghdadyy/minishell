@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/04 21:33:08 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:55:34 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,24 @@ void	ft_lstnew(t_token **lst, t_tokentype type, t_env *e, char *value)
 	t_token		*last;
 
 	elt = ft_malloc(sizeof(t_token), ALLOC);
-	elt->value = value;
-	elt->next = NULL;
-	elt->previous = NULL;
-	elt->fd_reder = -1;
-	elt->ambg = 0;
+	(1) && (elt->value = value, elt->next = NULL);
+	(1) && (elt->previous = NULL,elt->fd_reder = -1);
+	(1) && (elt->ambg = 0, elt->heredoc_expn = 0);
 	last = ft_lstlast(*lst);
 	if (last && last->type == HERDOC)
 		type = DELEMTER;
 	if (ft_check_var(value))
-	{
-		ft_split_ex(lst, e, value, type);
-		return ;
-	}
-	if (type == DOUBLEQ || type == SINGLEQ || type == DELEMTER)
+		return (ft_split_ex(lst, e, value, type));
+	if (type == DOUBLEQ || type == SINGLEQ)
 	{
 		elt->value = ft_remove_quotes(value);
 		if (type != DELEMTER)
 			elt->type = WORD;
+	}
+	if (type == DELEMTER && (ft_strchr(value, '\'') || ft_strchr(value, '\"')))
+	{
+		elt->value = ft_remove_quotes(value);
+		elt->heredoc_expn = 1;
 	}
 	elt->type = type;
 	ft_lstadd_back(lst, elt);

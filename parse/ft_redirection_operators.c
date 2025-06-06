@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/04 21:30:37 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:45:14 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 		input = readline("> ");
 		if (!input || !ft_strcmp(input, lst->next->value))
 			break ;
-		if (strchr(input, '$'))
+		if (ft_check_var(input) && !lst->next->heredoc_expn)
 			expanded = ft_expand_herdoc(input, env);
 		else
 			expanded = input;

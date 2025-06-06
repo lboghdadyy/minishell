@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/04 21:21:57 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:56:48 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_token {
 	struct s_token	*next;
 	struct s_token	*previous;
 	int				fd_reder;
+	int				heredoc_expn;
 	int				ambg;
 }	t_token;
 
@@ -172,8 +173,7 @@ int			id_check(char *var);
 int			recevied_from_inp(int set, int st);
 int			check_case_rp(char *string, int *i);
 void		default_sig(void);
-void		child_sig(void);
-void		ft_open_herdoc(t_token **lst, t_env *envp);
+void		child_sig(char	*cmd);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 //builtins

@@ -89,7 +89,6 @@ char	*exp_val(char *s, t_env *envp, int st)
 	ctx.s = s;
 	if (st == 1)
 	{
-		printf("here\n");
 		while (s[ctx.e.i])
 			expand_loop_body(&ctx);
 	}

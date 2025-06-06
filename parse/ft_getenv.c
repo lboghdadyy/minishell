@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:26:02 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/30 21:34:12 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:56:17 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,14 @@ void	default_sig(void)
 	signal(SIGINT, SIG_DFL);
 }
 
-void	child_sig(void)
+void	child_sig(char	*cmd)
 {
+	if (!ft_strcmp(cmd, "./minishell"))
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+		signal(SIGQUIT, handler);
 	recevied_from_inp(1, 1);
-	signal(SIGQUIT, handler);
 }
