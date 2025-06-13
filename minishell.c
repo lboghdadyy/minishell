@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/05 10:51:47 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:37:44 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,21 @@ int	main(int argc, char **argv, char **env)
 
 	check_ac(argc);
 	(1) && (init_main_ctx(&ctx, env), argv = NULL);
-	while (20052002)
+	while (20052)
 	{
 		define_sig();
 		ctx.input = readline("minishell➤ ");
 		if (!ctx.input)
-			return (printf("exit\n"), free(ctx.input), ft_malloc(0, CLEAR), 0);
+			return (printf("exit\n"), free(ctx.input), \
+			ft_malloc(0, CLEAR), e_status(0, 0));
 		if (*ctx.input)
 			add_history(ctx.input);
 		if (ft_parse_command(ctx.input))
 			continue ;
 		ctx.lst = s_cmd(ft_split(ctx.input), ctx.envp);
-		if (!ctx.lst)
+		free(ctx.input);
+		if (!ctx.lst || ft_expand(ctx.lst, ctx.envp))
 			continue ;
-		ft_expand(ctx.lst, ctx.envp);
 		ctx.exec = convert_token_to_exec(ctx.lst, ctx.envp);
 		if (!ctx.exec)
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:29:05 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/04 17:11:32 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:23:05 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	check_for_s(char *string)
 	int	indx;
 
 	indx = 0;
+	if (!string)
+		return (0);
 	while (string[indx])
 	{
 		if (ft_is_space(string[indx]))

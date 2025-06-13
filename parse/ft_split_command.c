@@ -15,11 +15,19 @@
 int	ft_check_var(char	*s)
 {
 	int	index;
+	int	s_q;
+	int	d_q;
 
+	s_q = 0;
+	d_q = 0;
 	index = 0;
 	while (s[index])
 	{
-		if (s[index] == '$' && s[index + 1] && id_check(s + index + 1))
+		if (s[index] == '\'' && !d_q)
+			s_q = !s_q;
+		if (s[index] == '\"' && !s_q)
+			d_q = !d_q;
+		if (s[index] == '$' && s[index + 1] && id_check(s + index + 1) && !s_q)
 			return (1);
 		index++;
 	}
@@ -57,17 +65,19 @@ t_tokentype	ft_token_type(t_token *lst, char *string)
 
 t_token	*s_cmd(char **cmd, t_env *envp)
 {
-	t_token	*lst;
-	int		i;
+	t_token		*lst;
+	int			i;
+	t_spli_cmd	s;
 
-	(void)envp;
 	lst = NULL;
 	i = 0;
 	if (!cmd || !*cmd)
 		return (NULL);
 	while (cmd[i])
 	{
-		ft_lstnew(&lst, ft_token_type(lst, cmd[i]), envp, cmd[i]);
+		s.cmd = cmd[i];
+		s.type = ft_token_type(lst, cmd[i]);
+		ft_lstnew(&lst, s, envp, 0);
 		i++;
 	}
 	return (lst);

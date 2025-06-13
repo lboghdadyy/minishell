@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/05 17:56:48 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:01:31 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_token {
 	int				fd_reder;
 	int				heredoc_expn;
 	int				ambg;
+	int				removed;
 }	t_token;
 
 typedef struct s_exec
@@ -124,6 +125,15 @@ typedef struct s_cut
 	int		pip_i;
 }	t_cut;
 
+typedef struct s_spli_cmd
+{
+	char		*cmd;
+	t_tokentype	type;
+}	t_spli_cmd;
+
+int			skip_spaces(char *s, int i);
+void		ft_split_expanded(char *val, t_token **lst, t_env *env);
+char		**acttual_split(char *s);
 int			check_for_s(char	*string);
 char		*g_env(char *value, int *index, t_env *envp);
 int			ft_check_quotes_type(char *string);
@@ -135,7 +145,7 @@ void		ft_syntax_error(void);
 char		*subs(char *s, unsigned int start, size_t len);
 t_token		*s_cmd(char **command, t_env *envp);
 char		*ft_strchr( char *s, int c);
-void		ft_lstnew(t_token **lst, t_tokentype type, t_env *e, char *value);
+void		ft_lstnew(t_token **lst, t_spli_cmd s, t_env *e, int r);
 t_token		*ft_lstlast(t_token *lst);
 void		ft_lstadd_back(t_token **lst, t_token *new);
 int			ft_is_space(char c);
@@ -152,13 +162,11 @@ bool		ft_check_heredoc(char *string);
 size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t		ft_strlcat(char *s1, char *s2, size_t n);
 int			skip_variable(char *value, int index);
-void		ft_expand(t_token *lst, t_env *envp);
+int			ft_expand(t_token *lst, t_env *envp);
 int			ft_handle_heredoc(t_token *lst, t_env *env, int fd_out);
 char		*exp_val(char *value, t_env *envp, int status);
 char		*g_env(char *value, int *index, t_env *envp);
 int			ft_check_braces(char *string);
-char		*ft_remove_bracets(char *string);
-int			check_br(char *string);
 int			ft_stop_redirect(t_token *lst, t_env *envp);
 void		handler(int sig);
 bool		should_expand(char *s, t_expand e);
@@ -174,6 +182,10 @@ int			recevied_from_inp(int set, int st);
 int			check_case_rp(char *string, int *i);
 void		default_sig(void);
 void		child_sig(char	*cmd);
+size_t		skip_tillvar(char *val, size_t i);
+int			check_type_exp(t_tokentype type);
+int			dollar_case(char *string);
+int			check_env(char *value, t_env *e);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 //builtins

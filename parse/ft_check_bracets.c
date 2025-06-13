@@ -6,11 +6,9 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:56:46 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/30 21:22:00 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:55:02 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../minishell.h"
 
 #include "../minishell.h"
 
@@ -45,11 +43,6 @@ int	ft_check_braces(char *string)
 		else
 			index++;
 	}
-	if (ft_strchr(string, '{') || ft_strchr(string, '}'))
-	{
-		if (check_br(string))
-			return (1);
-	}
 	return (0);
 }
 
@@ -57,7 +50,7 @@ int	check_case_rp(char *string, int *i)
 {
 	if (string[*i] == '>' && string[*i + 1] && string[*i + 1] == '|')
 	{
-		*i += 2;
+		*i += 1;
 		return (1);
 	}
 	return (0);

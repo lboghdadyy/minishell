@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:56:36 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/04 21:27:34 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:01:04 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,16 @@ char	*ft_remove_quotes(char *tmp)
 	return (clean);
 }
 
-void	ft_expand(t_token *lst, t_env *envp)
+int	ft_expand(t_token *lst, t_env *envp)
 {
 	t_token	*tmp;
 
 	tmp = lst;
 	while (tmp)
 	{
-		if (tmp->type == EXPAN || tmp->type == SINGLEQ \
-		|| tmp->type == DOUBLEQ || tmp->type == WORD)
+		if (check_type_exp(tmp->type))
 		{
-			if (ft_check_var(tmp->value))
+			if (ft_check_var(tmp->value) || dollar_case(tmp->value))
 				tmp->value = exp_val(tmp->value, envp, 1);
 			tmp->type = WORD;
 		}
@@ -120,12 +119,13 @@ void	ft_expand(t_token *lst, t_env *envp)
 		{
 			tmp->fd_reder = handle_heredoc(tmp, envp);
 			if (tmp->fd_reder == -1)
-			{
-				while (tmp && tmp->type != PIPE)
-					tmp = tmp->next;
 				continue ;
-			}
+			else if (tmp->fd_reder == -2)
+				return (1);
 		}
+		if (!tmp->removed)
+			tmp->value = ft_remove_quotes(tmp->value);
 		tmp = tmp->next;
 	}
+	return (0);
 }

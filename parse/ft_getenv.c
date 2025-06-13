@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:26:02 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/05 17:56:17 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:54:44 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ char	*g_env(char *value, int *index, t_env *envp)
 
 	skipped = skip_variable(value, *index);
 	sub = subs(value, *index + 1, skipped - 1);
-	if (ft_strchr(sub, '{') || ft_strchr(sub, '}'))
-		sub = ft_remove_bracets(sub);
 	*index += skipped;
 	tmp = find_env(envp, sub);
 	if (!tmp)
@@ -47,4 +45,12 @@ void	child_sig(char	*cmd)
 	else
 		signal(SIGQUIT, handler);
 	recevied_from_inp(1, 1);
+}
+
+int	check_type_exp(t_tokentype type)
+{
+	if (type == EXPAN || type == SINGLEQ \
+		|| type == DOUBLEQ || type == WORD)
+		return (1);
+	return (0);
 }

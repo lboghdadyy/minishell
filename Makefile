@@ -53,7 +53,9 @@ SRC = minishell.c \
 	parse/ft_logic_syntax.c \
 	parse/utils/ft_isalpha.c \
 	parse/first_expand.c \
-	parse/ft_getenv.c 
+	parse/ft_getenv.c \
+	parse/utils/split_expn.c \
+	parse/utils/ft_acctual_split.c
 
 OBJ = $(SRC:.c=.o)
 

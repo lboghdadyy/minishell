@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/04 21:24:05 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:36:45 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,13 @@ int	handle_heredoc(t_token *lst, t_env *env)
 
 	recevied_from_inp(1, 1);
 	if (init_heredoc_ctx(&ctx, &lst))
+	{
+		while (lst && lst->type != PIPE)
+			lst = lst->next;
 		return (-1);
+	}
 	if (ft_handle_heredoc(lst, env, ctx.fd_out))
-		return (-1);
+		return (-2);
 	return (ctx.fd_in);
 }
 
@@ -58,7 +62,7 @@ int	handle_redirect_in(t_token **lst, t_exec *node)
 	if (node->fd_in == -1)
 	{
 		perror("minishell");
-		while ((*lst)->next && (*lst)->next->type != PIPE)
+		while ((*lst)->next && (*lst)->type != PIPE)
 			(*lst) = (*lst)->next;
 		return (1);
 	}
@@ -99,7 +103,7 @@ int	handle_redirect_out(t_token **lst, t_exec *node)
 		close(node->fd_out);
 	if ((*lst)->next->ambg)
 		return (ambigous_red(), 1);
-	if ((*lst)->next->type == PIPE)
+	if ((*lst)->next && !ft_strcmp((*lst)->next->value, "|"))
 		(*lst) = (*lst)->next;
 	node->fd_out = open((*lst)->next->value, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (node->fd_out == -1)

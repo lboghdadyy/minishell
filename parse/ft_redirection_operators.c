@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/05 10:45:14 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:37:29 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 		write(fd_out, "\n", 1);
 		free(input);
 	}
-	free(input);
-	close(fd_out);
 	if (g_check)
-		return (dup2(fd, 0), close(fd), e_status(130, 1), 1);
-	return (0);
+		return (free(input), dup2(fd, 0), close(fd), e_status(130, 1), 1);
+	return (close(fd_out), free(input), 0);
 }

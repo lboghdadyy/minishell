@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_syntax_error.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:54:11 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/05/28 15:52:10 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/13 21:01:39 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,24 @@ int	delimter(char *s, size_t index)
 		index--;
 	}
 	return (0);
+}
+
+int	check_env(char *value, t_env *e)
+{
+	int		f;
+	int		i;
+	char	*exp;
+
+	i = 0;
+	f = 0;
+	while (value[i])
+	{
+		i += skip_tillvar(value, i);
+		if (!value[i])
+			break ;
+		exp = g_env(value, &i, e);
+		if (check_for_s(exp))
+			f = 1;
+	}
+	return (f);
 }
