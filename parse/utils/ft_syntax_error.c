@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:54:11 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/13 21:01:39 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/14 20:49:01 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	check_env(char *value, t_env *e)
 		i += skip_tillvar(value, i);
 		if (!value[i])
 			break ;
-		exp = g_env(value, &i, e);
+		exp = g_env(value, e);
+		i += skip_variable(value, i);
 		if (check_for_s(exp))
 			f = 1;
 	}

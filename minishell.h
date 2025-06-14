@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/13 21:01:31 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/14 21:53:57 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ typedef struct s_expand_ctx
 	char		*sub;
 	int			b_x;
 	bool		r;
+	int			i;
 	t_expand	e;
 	t_env		*envp;
 	char		*s;
-	int			st;
 }	t_expand_ctx;
 
 typedef struct s_heredoc_ctx
@@ -131,11 +131,26 @@ typedef struct s_spli_cmd
 	t_tokentype	type;
 }	t_spli_cmd;
 
+typedef enum s_vartype
+{
+	WORD_V,
+	VAR,
+} t_vartype;
+
+typedef struct s_var
+{
+	char			*value;
+	struct s_var	*next;
+	t_vartype		type;
+} t_var;
+
+
+void		init_expan(t_expand_ctx *ctx, char *s, t_env *envp);
 int			skip_spaces(char *s, int i);
 void		ft_split_expanded(char *val, t_token **lst, t_env *env);
 char		**acttual_split(char *s);
 int			check_for_s(char	*string);
-char		*g_env(char *value, int *index, t_env *envp);
+char		*g_env(char *value, t_env *envp);
 int			ft_check_quotes_type(char *string);
 int			ft_check_quots(char *command);
 size_t		ft_strlen(char *str);
@@ -164,15 +179,13 @@ size_t		ft_strlcat(char *s1, char *s2, size_t n);
 int			skip_variable(char *value, int index);
 int			ft_expand(t_token *lst, t_env *envp);
 int			ft_handle_heredoc(t_token *lst, t_env *env, int fd_out);
-char		*exp_val(char *value, t_env *envp, int status);
-char		*g_env(char *value, int *index, t_env *envp);
+char		*exp_val(char *value, t_env *envp);
 int			ft_check_braces(char *string);
 int			ft_stop_redirect(t_token *lst, t_env *envp);
 void		handler(int sig);
 bool		should_expand(char *s, t_expand e);
 int			delimter(char *s, size_t index);
 bool		is_invalid_dollar_after_op(t_expand_ctx *c);
-void		del_token_node(t_token **head, t_token *node_to_delete);
 void		ambigous_red(void);
 int			ft_isalpha(int c);
 int			ft_isalnum(int c);
@@ -186,6 +199,8 @@ size_t		skip_tillvar(char *val, size_t i);
 int			check_type_exp(t_tokentype type);
 int			dollar_case(char *string);
 int			check_env(char *value, t_env *e);
+char		*handle_shlvl(char  *value);
+t_var		*split_var(char *s);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 //builtins
@@ -280,9 +295,9 @@ void		ft_unset(char **opt, t_env **env);
 // in parse but used in exec
 int			ft_strcmp(char *s1, char *s2);
 void		handler(int sig);
-char		*ft_remove_quotes(char *tmp);
+char		*ft_remove_quotes(t_expand_ctx *c, char  *tmp);
 int			delimter(char *s, size_t index);
-void		expand_loop_body(t_expand_ctx *c);
 bool		handle_quotes(char *s, t_expand *e);
+char		*remove_q(char *tmp);
 
 #endif

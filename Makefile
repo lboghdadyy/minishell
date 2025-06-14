@@ -5,7 +5,7 @@ RM = rm -rf
 
 # Enable sanitizer/debug by uncommenting these
 # CFLAGS =-fsanitize=address -g3
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 
 SRC = minishell.c \
 	parse/utils/ft_strlen.c \
@@ -55,7 +55,8 @@ SRC = minishell.c \
 	parse/first_expand.c \
 	parse/ft_getenv.c \
 	parse/utils/split_expn.c \
-	parse/utils/ft_acctual_split.c
+	parse/utils/ft_acctual_split.c \
+	parse/utils/split_var.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -64,7 +65,7 @@ HEADER = minishell.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@ -lreadline -lncurses
+	$(CC) $(CFLAGS) $(OBJ) -o $@ -lreadline
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@

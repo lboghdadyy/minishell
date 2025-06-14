@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:27:12 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/30 21:55:51 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/14 13:33:07 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,19 @@ int	is_builtin(char *cmd)
 
 void	execute_builtin(t_exec *exec, t_env **env, bool forked)
 {
-	if (!ft_strcmp(exec->cmd, "echo"))
+	if (!ft_strcmp(exec->cmd, "echo") && !exec->flag)
 		ft_echo(exec->opt, exec->fd_out);
-	else if (!ft_strcmp(exec->cmd, "cd"))
+	else if (!ft_strcmp(exec->cmd, "cd") && !exec->flag)
 		ft_cd(exec->opt, env);
-	else if (!ft_strcmp(exec->cmd, "pwd"))
+	else if (!ft_strcmp(exec->cmd, "pwd") && !exec->flag)
 		ft_pwd(*env, exec->fd_out);
-	else if (!ft_strcmp(exec->cmd, "export"))
+	else if (!ft_strcmp(exec->cmd, "export") && !exec->flag)
 		ft_export(exec->opt, env, exec->fd_out);
-	else if (!ft_strcmp(exec->cmd, "unset"))
+	else if (!ft_strcmp(exec->cmd, "unset") && !exec->flag)
 		ft_unset(exec->opt, env);
-	else if (!ft_strcmp(exec->cmd, "env"))
+	else if (!ft_strcmp(exec->cmd, "env") && !exec->flag)
 		ft_env(*env, exec->fd_out);
-	else if (!ft_strcmp(exec->cmd, "exit"))
+	else if (!ft_strcmp(exec->cmd, "exit") && !exec->flag)
 		ft_exec_exit(exec->opt, forked);
 	if (forked)
 		exit(e_status(0, 0));

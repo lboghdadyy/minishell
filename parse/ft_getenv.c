@@ -6,22 +6,19 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:26:02 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/13 15:54:44 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/14 17:13:14 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*g_env(char *value, int *index, t_env *envp)
+char	*g_env(char *value, t_env *envp)
 {
 	char	*sub;
 	char	*found;
-	size_t	skipped;
 	t_env	*tmp;
 
-	skipped = skip_variable(value, *index);
-	sub = subs(value, *index + 1, skipped - 1);
-	*index += skipped;
+	sub = subs(value, 1, ft_strlen(value) - 1);
 	tmp = find_env(envp, sub);
 	if (!tmp)
 		return (NULL);

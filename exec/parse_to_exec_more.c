@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/13 18:36:45 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:04:16 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	handle_redirect_out(t_token **lst, t_exec *node)
 		close(node->fd_out);
 	if ((*lst)->next->ambg)
 		return (ambigous_red(), 1);
-	if ((*lst)->next && !ft_strcmp((*lst)->next->value, "|"))
+	if ((*lst)->next && !ft_strcmp((*lst)->next->value, "|") && (*lst)->next->next)
 		(*lst) = (*lst)->next;
 	node->fd_out = open((*lst)->next->value, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (node->fd_out == -1)

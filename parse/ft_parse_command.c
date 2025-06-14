@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:30:18 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/13 15:44:41 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:24:39 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,16 @@ int	check_pip(char *s, int *i)
 	return (0);
 }
 
+void	skip_quotes(char *string, int *i)
+{
+	char	c;
+	
+	c = string[*i];
+	(*i)++;
+	while (string[*i] && string[*i] != c)
+		(*i)++;
+}
+
 int	ft_check_syntax(char *string)
 {
 	int		i;
@@ -62,7 +72,9 @@ int	ft_check_syntax(char *string)
 	(1) && (i = 0, count = 0);
 	while (string[i])
 	{
-		if (string[i] == '<' || string[i] == '>')
+		if (string[i] == '\'' || string[i] == '\"')
+			skip_quotes(string, &i);
+		else if (string[i] && (string[i] == '<' || string[i] == '>'))
 		{
 			c = string[i];
 			if (check_case_rp(string, &i))
@@ -75,7 +87,7 @@ int	ft_check_syntax(char *string)
 			if (!string[i] || ft_strchr("|<>", string[i]))
 				return (e_status(2, 1), ft_syntax_error(), 1);
 		}
-		else if (check_pip(string, &i))
+		else if (string[i] && check_pip(string, &i))
 			return (1);
 		i++;
 	}

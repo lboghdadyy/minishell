@@ -6,11 +6,25 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/13 21:01:22 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/14 21:53:15 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	shouldnt_split(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 {
@@ -21,11 +35,12 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 
 	(1) && (elt = NULL, l = NULL, f = 0);
 	f = check_env(value, e);
-	exp = exp_val(value, e, 0);
-	if (!exp[0] || ft_strchr(exp, '$') || !f || (f && type == R_FILE))
+	if (shouldnt_split(value) || !f || (f && type == R_FILE))
 	{
+		exp = exp_val(value, e);
 		(1) && (elt = ft_malloc(sizeof(t_token), ALLOC), elt->type = type);
 		(1) && (elt->value = exp, elt->next = NULL, elt->previous = NULL);
+		elt->removed = 1;
 		if (type == R_FILE && (!exp[0] || f))
 			elt->ambg = 1;
 		else
@@ -34,7 +49,7 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 			type = WORD;
 		return (ft_lstadd_back(lst, elt));
 	}
-	if (f)
+	else
 		ft_split_expanded(value, lst, e);
 }
 
@@ -55,23 +70,11 @@ void	ft_lstnew(t_token **lst, t_spli_cmd s, t_env *e, int r)
 	if (s.type == DELEMTER && (ft_strchr(s.cmd, '\'') \
 	|| ft_strchr(s.cmd, '\"')))
 	{
-		elt->value = ft_remove_quotes(s.cmd);
+		elt->value = remove_q(s.cmd);
 		elt->heredoc_expn = 1;
 	}
 	elt->type = s.type;
 	ft_lstadd_back(lst, elt);
-}
-
-void	del_token_node(t_token **head, t_token *node_to_delete)
-{
-	if (!head || !*head || !node_to_delete)
-		return ;
-	if (node_to_delete->previous)
-		node_to_delete->previous->next = node_to_delete->next;
-	else
-		*head = node_to_delete->next;
-	if (node_to_delete->next)
-		node_to_delete->next->previous = node_to_delete->previous;
 }
 
 t_token	*ft_lstlast(t_token *lst)

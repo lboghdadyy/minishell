@@ -38,64 +38,41 @@ void	init_expand_vars(char **nv, t_expand *e, bool *reset)
 	*reset = true;
 }
 
-char	*join_remove_quotes(char	*nv, char *sub)
-{
-	char	*unqoted;
-
-	unqoted = ft_remove_quotes(sub);
-	return (strj(nv, unqoted));
-}
-
 void	first_expand(t_expand_ctx *c)
 {
-	if (c->r)
-		(1) && (c->b_x = c->e.i, c->r = false);
-	if (!c->s[c->e.i + 1])
+	t_var	*list;
+
+	list = split_var(c->s);
+	while (list)
 	{
-		(1) && (c->e.i++, c->sub = subs(c->s, c->b_x, c->e.i - c->b_x));
-		c->nv = join_remove_quotes(c->nv, c->sub);
-	}
-	else if (is_invalid_dollar_after_op(c))
-		c->e.i++;
-	else if (should_expand(c->s, c->e))
-	{
-		c->sub = subs(c->s, c->b_x, c->e.i - c->b_x);
-		(1) && (c->nv = join_remove_quotes(c->nv, c->sub), c->r = true);
-		if (c->s[c->e.i + 1] == '?')
-			(1) && (c->nv = strj(c->nv, ft_itoa(e_status(0, 0))), c->e.i += 2);
+		if (!ft_strcmp(list->value, "$?"))
+			list->value = ft_itoa(e_status(0, 0));
+		else if (list->type == VAR)
+			list->value = g_env(list->value, c->envp);
 		else
-		{
-			c->sub = g_env(c->s, &c->e.i, c->envp);
-			c->nv = strj(c->nv, c->sub);
-		}
+			list->value = ft_remove_quotes(c, list->value);
+		c->nv = strj(c->nv, list->value);
+		list = list->next;
 	}
-	else if (handle_quotes(c->s, &c->e))
-		return ;
-	else
-		c->e.i++;
 }
 
-char	*exp_val(char *s, t_env *envp, int st)
+void	init_expan(t_expand_ctx *ctx, char *s, t_env *envp)
+{
+	ctx->nv = NULL;
+	ctx->e.i = 0;
+	ctx->e.s_q = false;
+	ctx->e.d_q = false;
+	ctx->r = true;
+	ctx->envp = envp;
+	ctx->s = s;
+	ctx->i = 0;
+}
+
+char	*exp_val(char *s, t_env *envp)
 {
 	t_expand_ctx	ctx;
 
-	ctx.nv = NULL;
-	ctx.e.i = 0;
-	ctx.e.s_q = false;
-	ctx.e.d_q = false;
-	ctx.r = true;
-	ctx.envp = envp;
-	ctx.st = st;
-	ctx.s = s;
-	if (st == 1)
-	{
-		while (s[ctx.e.i])
-			expand_loop_body(&ctx);
-	}
-	else
-	{
-		while (s[ctx.e.i])
-			first_expand(&ctx);
-	}
+	init_expan(&ctx, s, envp);
+	first_expand(&ctx);
 	return (ctx.nv);
 }
