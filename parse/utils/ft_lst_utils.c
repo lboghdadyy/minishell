@@ -6,21 +6,35 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/14 21:53:15 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:24:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	shouldnt_split(char *value)
+int	shouldnt_split(char *v, t_tokentype type, int f)
 {
-	int	i;
+	int		i;
+	bool	d_q;
+	bool	s_q;
+	int		operator;
 
 	i = 0;
-	while (value[i])
+	d_q = false;
+	s_q = false;
+	operator = 0;
+	if (type == R_FILE)
+		return (1);
+	while (v[i])
 	{
-		if (value[i] == '=')
+		if (v[i] == '\'' && !d_q)
+			s_q = !s_q;
+		if (v[i] == '\"' && !s_q)
+			d_q = !d_q;
+		if (v[i] == '$' && v[i + 1] && id_check(v + 1 + i) && operator && f)
 			return (1);
+		if (v[i] == '=' && !d_q)
+			operator = 1;
 		i++;
 	}
 	return (0);
@@ -35,13 +49,13 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 
 	(1) && (elt = NULL, l = NULL, f = 0);
 	f = check_env(value, e);
-	if (shouldnt_split(value) || !f || (f && type == R_FILE))
+	if (!f || (shouldnt_split(value, type, f)) || (f && type == R_FILE))
 	{
 		exp = exp_val(value, e);
 		(1) && (elt = ft_malloc(sizeof(t_token), ALLOC), elt->type = type);
 		(1) && (elt->value = exp, elt->next = NULL, elt->previous = NULL);
 		elt->removed = 1;
-		if (type == R_FILE && (!exp[0] || f))
+		if (type == R_FILE && (!exp || f))
 			elt->ambg = 1;
 		else
 			elt->ambg = 0;

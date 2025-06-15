@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:54:11 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/14 20:49:01 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:47:39 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,29 @@ int	delimter(char *s, size_t index)
 	return (0);
 }
 
-int	check_env(char *value, t_env *e)
+int	check_env(char *v, t_env *e)
 {
-	int		f;
-	int		i;
-	char	*exp;
+	int			f;
+	t_expand	ex;
+	char		*exp;
 
-	i = 0;
-	f = 0;
-	while (value[i])
+	(1) && (f = 0, ex.i = 0, ex.d_q = false, ex.s_q = false);
+	while (v[ex.i])
 	{
-		i += skip_tillvar(value, i);
-		if (!value[i])
+		while (v[ex.i])
+		{
+			if (v[ex.i] == '$' && v[ex.i + 1] \
+				&& id_check(v + ex.i + 1) && !ex.s_q && !ex.d_q)
+				break ;
+			if (v[ex.i] == '\'' && !ex.d_q)
+				ex.s_q = !ex.s_q;
+			else if (v[ex.i] == '\"' && !ex.s_q)
+				ex.d_q = !ex.d_q;
+			ex.i++;
+		}
+		if (!v[ex.i])
 			break ;
-		exp = g_env(value, e);
-		i += skip_variable(value, i);
+		(1) && (exp = g_env(v + ex.i, e), ex.i += skip_variable(v, ex.i));
 		if (check_for_s(exp))
 			f = 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 06:19:28 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/14 18:33:40 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/15 16:51:58 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	ft_putstr_fd(char *s, int fd)
 {
 	if (fd >= 0 && s)
-		while (*s)
-			write(fd, s++, 1);
+		write(fd, s, ft_strlen(s));
 }
 
 int	ft_strncmp(char *s1, char *s2, size_t n)

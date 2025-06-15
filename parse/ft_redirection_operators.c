@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/14 21:39:41 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:47:49 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ char	*ft_expand_herdoc(char *v, t_env *envp)
 		if (v[i] == '$' && v[i + 1] && id_check(v + i + 1))
 		{
 			(1) && (s = subs(v, b_i, i - b_i), n_v = strj(n_v, s));
-			s = g_env(v, envp);
-			i += skip_variable(v, i);
-			n_v = strj(n_v, s);
-			reset = true;
+			(1) && (s = g_env(v + i, envp), i += skip_variable(v, i));
+			(1) && (n_v = strj(n_v, s), reset = true);
 		}
 		else if (!v[i + 1])
 			(1) && (i++, s = subs(v, b_i, i - b_i), \
@@ -67,7 +65,7 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 		input = readline("> ");
 		if (!input || !ft_strcmp(input, lst->next->value))
 			break ;
-		if (ft_check_var(input) && !lst->next->heredoc_expn)
+		if (ft_strchr(input, '$') && !lst->next->heredoc_expn)
 			expanded = ft_expand_herdoc(input, env);
 		else
 			expanded = input;
@@ -77,5 +75,5 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 	}
 	if (g_check)
 		return (free(input), dup2(fd, 0), close(fd), e_status(130, 1), 1);
-	return (close(fd_out), free(input), 0);
+	return (close(fd_out), close(fd), free(input), 0);
 }

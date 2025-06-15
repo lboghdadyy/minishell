@@ -42,11 +42,13 @@ void	first_expand(t_expand_ctx *c)
 {
 	t_var	*list;
 
-	list = split_var(c->s);
+	list = s_var(c->s);
 	while (list)
 	{
 		if (!ft_strcmp(list->value, "$?"))
 			list->value = ft_itoa(e_status(0, 0));
+		else if (!ft_strcmp(list->value, "$"))
+			list->value = list->value;
 		else if (list->type == VAR)
 			list->value = g_env(list->value, c->envp);
 		else

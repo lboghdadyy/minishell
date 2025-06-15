@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 17:37:03 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/13 17:38:34 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/15 19:05:42 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static size_t	count_words(char *s)
 	return (count);
 }
 
-char	**acttual_split(char *s)
+char	**a_split(char *s)
 {
 	char	**str;
 	size_t	i;
@@ -64,7 +64,7 @@ char	**acttual_split(char *s)
 	if (!s)
 	{
 		str = ft_malloc(sizeof(char *) * 2, ALLOC);
-		(1) && (str[0] = ft_strdup(""), str[1] = NULL);
+		(1) && (str[0] = ft_strdup("\0"), str[1] = NULL);
 		return (str);
 	}
 	str = ft_malloc(sizeof(char *) * (count_words(s) + 1), ALLOC);

@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:56:36 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/14 21:50:47 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:16:03 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ int	id_check(char *var)
 	int	i;
 
 	i = 0;
-	if (!(ft_isalpha(var[i]) || var[i] == '_' || var[i] == '?'))
+	if (!(ft_isalnum(var[i]) || var[i] == '?' \
+	|| var[i] == '_' || var[i] == '$'))
 		return (0);
 	i++;
 	while (var[i])
 	{
-		if (!(ft_isalnum(var[i]) || var[i] == '_' || var[i] == '?'))
+		if (!(ft_isalnum(var[i]) || var[i] == '?' \
+		|| var[i] == '_' || var[i] == '$'))
 			return (i);
 		i++;
 	}
@@ -34,8 +36,11 @@ int	skip_variable(char *value, int index)
 	int	count;
 
 	count = index + 1;
-	if (value[count] == '$' || value[count] == '?' || (value[count] >= '0' && value[count] <= '9'))
+	if (value[count] == '$' || value[count] == '?' \
+		|| (value[count] >= '0' && value[count] <= '9'))
+	{
 		return (2);
+	}
 	count += id_check(value + count);
 	return (count - index);
 }
@@ -85,64 +90,8 @@ char	*ft_remove_quotes(t_expand_ctx *c, char *tmp)
 			(1) && (c->e.s_q = !c->e.s_q, index_tmp++);
 		else if (tmp[index_tmp] == '\"' && !c->e.s_q)
 			(1) && (c->e.d_q = !c->e.d_q, index_tmp++);
-		else if (tmp[index_tmp] == '$' && !c->e.d_q && !c->e.s_q && ft_strchr("\'\"", tmp[index + 1]))
-			index_tmp++;
-		else
-			(1) && (clean[index] = tmp[index_tmp], index_tmp++, index++);
-	}
-	clean[index] = '\0';
-	return (clean);
-}
-
-size_t	ft_len_wo_q(char *value)
-{
-	size_t	count;
-	size_t	i;
-	size_t	count_inside;
-	char	c;
-
-	(1) && (i = 0, count = 0);
-	if (!value)
-		return (0);
-	while (value[i])
-	{
-		if (value[i] == '\'' || value[i] == '\"')
-		{
-			(1) && (c = value[i], count_inside = 0, i++);
-			while (value[i] && value[i] != c)
-				(1) && (count_inside++, i++);
-			if (value[i] == c)
-				i++;
-			count += count_inside;
-		}
-		else
-			(1) && (count++, i++);
-	}
-	return (count);
-}
-
-char	*remove_q(char *tmp)
-{
-	int		index;
-	char	*clean;
-	int		index_tmp;
-	bool	s_q;
-	bool	d_q;
-
-	index = 0;
-	index_tmp = 0;
-	s_q = false;
-	d_q = false;
-	if (!tmp)
-		return (ft_strdup(""));
-	clean = ft_malloc(ft_len_wo_q(tmp) + 1, ALLOC);
-	while (tmp[index_tmp])
-	{
-		if (tmp[index_tmp] == '\'' && !d_q)
-			(1) && (s_q = !s_q, index_tmp++);
-		else if (tmp[index_tmp] == '\"' && !s_q)
-			(1) && (d_q = !d_q, index_tmp++);
-		else if (tmp[index_tmp] == '$' && !d_q && !s_q && ft_strchr("\'\"", tmp[index + 1]))
+		else if (tmp[index_tmp] == '$' && !c->e.d_q \
+			&& !c->e.s_q && ft_strchr("\'\"", tmp[index + 1]))
 			index_tmp++;
 		else
 			(1) && (clean[index] = tmp[index_tmp], index_tmp++, index++);

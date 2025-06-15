@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_var.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/15 11:53:50 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/06/15 20:37:59 by sbaghdad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 t_var	*last_var(t_var *lst)
@@ -24,39 +36,45 @@ void	add_var_back(t_var **lst, t_var *elt)
 	last->next = elt;
 }
 
-t_var	*new_var(char *value, t_vartype type)
+void	new_var(t_var **lst, char *value, t_vartype type)
 {
 	t_var	*elt;
 
-	elt = ft_malloc(sizeof(t_var), ALLOC);
-	elt->next = NULL;
-	elt->type = type;
-	elt->value = value;
-	return (elt);
+	if (value)
+	{
+		elt = ft_malloc(sizeof(t_var), ALLOC);
+		elt->next = NULL;
+		elt->type = type;
+		elt->value = value;
+		add_var_back(lst, elt);
+	}
 }
 
-t_var	*split_var(char *s)
+t_var	*s_var(char *s)
 {
-	int		i;
-	int		b;
-	int		sub_len;
-	t_var	*lst;
-	t_var	*tmp;
+	t_expand	e;
+	t_var		*lst;
 
-	i = 0;
-	lst = NULL;
-	while (s[i])
+	(1) && (e.i = 0, e.d_q = false, e.s_q = false, lst = NULL);
+	while (s[e.i])
 	{
-		(1) && (b = i, sub_len = skip_tillvar(s, i));
-		tmp = new_var(subs(s, b, sub_len), WORD_V);
-		i += sub_len;
-		if (tmp->value)
-			add_var_back(&lst, tmp);
-		if (!s[i])
-			break;
-		tmp = new_var(subs(s, i, skip_variable(s, i)), VAR);
-		add_var_back(&lst, tmp);
-		i += skip_variable(s, i);
+		e.b = e.i;
+		while (s[e.i])
+		{
+			if (s[e.i] == '$' && s[e.i + 1] && id_check(s + e.i + 1) && !e.s_q)
+				break ;
+			if (s[e.i] == '\'' && !e.d_q)
+				(1) && (e.i++, e.s_q = !e.s_q);
+			else if (s[e.i] == '\"' && !e.s_q)
+				(1) && (e.i++, e.d_q = !e.d_q);
+			else
+				e.i++;
+		}
+		new_var(&lst, subs(s, e.b, e.i - e.b), WORD_V);
+		if (!s[e.i])
+			break ;
+		new_var(&lst, subs(s, e.i, skip_variable(s, e.i)), VAR);
+		e.i += skip_variable(s, e.i);
 	}
 	return (lst);
 }

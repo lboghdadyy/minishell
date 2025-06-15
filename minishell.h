@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/14 21:53:57 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:37:59 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_expand
 	bool	s_q;
 	bool	d_q;
 	int		i;
+	int		b;
+
 }	t_expand;
 
 typedef struct s_env {
@@ -129,26 +131,29 @@ typedef struct s_spli_cmd
 {
 	char		*cmd;
 	t_tokentype	type;
+	int			j;
 }	t_spli_cmd;
 
 typedef enum s_vartype
 {
 	WORD_V,
 	VAR,
-} t_vartype;
+}	t_vartype;
 
 typedef struct s_var
 {
 	char			*value;
 	struct s_var	*next;
 	t_vartype		type;
-} t_var;
+}	t_var;
 
-
+void		skip_s(char *s, int *i);
+char		*remove_q(char *tmp);
+int			check_pip(char *s, int *i);
 void		init_expan(t_expand_ctx *ctx, char *s, t_env *envp);
 int			skip_spaces(char *s, int i);
 void		ft_split_expanded(char *val, t_token **lst, t_env *env);
-char		**acttual_split(char *s);
+char		**a_split(char *s);
 int			check_for_s(char	*string);
 char		*g_env(char *value, t_env *envp);
 int			ft_check_quotes_type(char *string);
@@ -199,8 +204,8 @@ size_t		skip_tillvar(char *val, size_t i);
 int			check_type_exp(t_tokentype type);
 int			dollar_case(char *string);
 int			check_env(char *value, t_env *e);
-char		*handle_shlvl(char  *value);
-t_var		*split_var(char *s);
+int			ft_count_operator(char *string, int index, char c);
+t_var		*s_var(char *s);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 //builtins
@@ -278,7 +283,6 @@ int			handle_heredoc(t_token *lst, t_env *env);
 int			handle_redirect_in(t_token **lst, t_exec *node);
 int			handle_append(t_token **lst, t_exec *node);
 int			handle_redirect_out(t_token **lst, t_exec *node);
-
 //parse_to_exec
 int			count_until_pipe(t_token *lst);
 void		handle_word(t_token *lst, t_exec *node, int *i);
@@ -291,11 +295,10 @@ int			ft_pwd(t_env *env, int fd);
 //unset
 void		delet_node(t_env **env, char *key);
 void		ft_unset(char **opt, t_env **env);
-
 // in parse but used in exec
 int			ft_strcmp(char *s1, char *s2);
 void		handler(int sig);
-char		*ft_remove_quotes(t_expand_ctx *c, char  *tmp);
+char		*ft_remove_quotes(t_expand_ctx *c, char *tmp);
 int			delimter(char *s, size_t index);
 bool		handle_quotes(char *s, t_expand *e);
 char		*remove_q(char *tmp);
