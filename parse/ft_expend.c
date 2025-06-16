@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:56:36 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/15 20:16:03 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:47:48 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	id_check(char *var)
 	while (var[i])
 	{
 		if (!(ft_isalnum(var[i]) || var[i] == '?' \
-		|| var[i] == '_' || var[i] == '$'))
+		|| var[i] == '_'))
 			return (i);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:26:02 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/15 19:00:40 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:39:10 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*g_env(char *value, t_env *envp)
 
 	skipped = skip_variable(value, 0);
 	sub = subs(value, 1, skipped - 1);
+	if (!ft_strcmp(sub, "?"))
+		return (ft_itoa(e_status(0, 0)));
 	tmp = find_env(envp, sub);
 	if (!tmp)
 		return (NULL);
