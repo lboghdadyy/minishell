@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/14 13:58:22 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:54:18 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ void	in_child(t_exec *head, t_env **env, int *fd)
 	}
 }
 
-int	execute_cmd(t_exec *head, t_env **env)
+pid_t	execute_cmd(t_exec *head, t_env **env)
 {
 	int		fd[2];
-	int		pid;
+	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		return (perror("pipe"), ft_malloc(0, CLEAR), 1);
+		return (perror("pipe"), ft_malloc(0, CLEAR), -1);
 	child_sig(head->cmd);
 	pid = fork();
 	if (pid == -1)
-		return (close(fd[0]), close(fd[1]), \
-			perror("fork"), ft_malloc(0, CLEAR), 1);
+		return (close(fd[0]), close(fd[1]), perror("fork"), \
+		ft_malloc(0, CLEAR), -1);
 	if (pid == 0)
 	{
 		default_sig();
@@ -72,13 +72,15 @@ int	execute_cmd(t_exec *head, t_env **env)
 	}
 	else
 		parent_thing(fd, head);
-	return (1);
+	return (pid);
 }
 
 int	execution(t_exec *exec, t_env **env)
 {
-	int	fd;
+	int		fd;
+	pid_t	last_pid;
 
+	last_pid = -1;
 	if (ft_lstsize(exec) == 1 && is_builtin(exec->cmd))
 		return (execute_builtin(exec, env, false), 1);
 	fd = dup(STDIN_FILENO);
@@ -87,10 +89,10 @@ int	execution(t_exec *exec, t_env **env)
 	while (exec)
 	{
 		if (!exec->flag)
-			execute_cmd(exec, env);
+			last_pid = execute_cmd(exec, env);
 		exec = exec->next;
 	}
 	dup2(fd, 0);
 	close(fd);
-	return (check_exit_status());
+	return (check_exit_status(last_pid));
 }

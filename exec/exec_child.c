@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/05/29 21:54:20 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:56:02 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,29 @@ void	handl_sig(int sig)
 		exit(131);
 }
 
-int	check_exit_status(void)
+int	check_exit_status(pid_t last_pid)
 {
-	int	status;
-	int	check;
+	int		status;
+	pid_t	pid;
+	int		exit_code;
 
-	while (wait(&status) != -1)
+	exit_code = 0;
+	pid = wait(&status);
+	while (pid != -1)
 	{
-		if (WIFEXITED(status))
-			e_status(WEXITSTATUS(status), 1);
-		else if (WTERMSIG(status) == SIGQUIT)
-			e_status(131, 1);
-		else if (WTERMSIG(status) == SIGINT)
-			e_status(130, 1);
-		check = status;
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+			write(2, "Quit (core dumped)\n", 20);
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				exit_code = 128 + WTERMSIG(status);
+		}
+		pid = wait(&status);
 	}
-	return (WEXITSTATUS(check));
+	e_status(exit_code, 1);
+	return (exit_code);
 }
 
 void	cmd_not_found(char *cmd)

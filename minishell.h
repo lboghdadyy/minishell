@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/15 20:37:59 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:52:51 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ t_env		*find_env(t_env	*env, char *key);
 int			ft_env(t_env *env, int fd);
 // exec_child
 void		handl_sig(int sig);
-int			check_exit_status(void);
+int			check_exit_status(pid_t last_pid);
 void		cmd_not_found(char *cmd);
 int			parent_thing(int *fd, t_exec *head);
 void		setup_child(int *fd, t_env *path, t_exec *head, int bltn);
@@ -240,7 +240,7 @@ int			ignore_first_cmd(int res, int get);
 // exec main
 void		call_execve(t_exec *head, t_env *env);
 void		in_child(t_exec *head, t_env **env, int *fd);
-int			execute_cmd(t_exec *head, t_env **env);
+pid_t		execute_cmd(t_exec *head, t_env **env);
 int			execution(t_exec *exec, t_env **env);
 //exec_more_list
 t_env		*ft_lstlast_exec(t_env *lst);
