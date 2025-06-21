@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 16:54:18 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:38:51 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ pid_t	execute_cmd(t_exec *head, t_env **env)
 int	execution(t_exec *exec, t_env **env)
 {
 	int		fd;
+	int		j;
 	pid_t	last_pid;
 
 	last_pid = -1;
+	j = 2;
 	if (ft_lstsize(exec) == 1 && is_builtin(exec->cmd))
 		return (execute_builtin(exec, env, false), 1);
 	fd = dup(STDIN_FILENO);
@@ -94,5 +96,7 @@ int	execution(t_exec *exec, t_env **env)
 	}
 	dup2(fd, 0);
 	close(fd);
+	while (++j < 1024)
+		close(j);
 	return (check_exit_status(last_pid));
 }

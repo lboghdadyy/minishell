@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:18:55 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/11 15:45:42 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:06:03 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ char	**ft_split(char *s)
 
 	(1) && (i = 0, j = 0, words = ft_countword(s));
 	if (words == 0)
-		return (NULL);
+		return (free(s), NULL);
 	lst = ft_malloc(sizeof(char *) * (words + 1), ALLOC);
 	if (!lst)
-		return (NULL);
+		return (free(s), NULL);
 	while (s[i])
 	{
 		i = skip_spaces(s, i);
@@ -105,5 +105,5 @@ char	**ft_split(char *s)
 		i += word_len;
 	}
 	lst[j] = NULL;
-	return (lst);
+	return (free(s), lst);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 16:56:02 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/21 18:10:34 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,13 @@ int	check_exit_status(pid_t last_pid)
 
 void	cmd_not_found(char *cmd)
 {
+	int	k;
+
+	k = 2;
 	write(2, cmd, ft_strlen(cmd));
 	ft_putstr_fd(": command not found\n", 2);
+	while (++k < 1024)
+		close(k);
 	ft_malloc(0, CLEAR);
 	exit(127);
 }

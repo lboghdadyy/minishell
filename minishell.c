@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/16 11:22:41 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:26:14 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,23 @@ void	handler(int sig)
 	(void)sig;
 }
 
+void	define_sig(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, &handler);
+}
+
 void	check_ac(int argc)
 {
 	if (argc > 1)
 	{
 		ft_putstr_fd("minishell : no arguments please\n", 2);
 		exit(127);
+	}
+	if (!isatty(STDIN_FILENO))
+	{
+		ft_putstr_fd("use terminal please.\n", 2);
+		exit(1);
 	}
 }
 
@@ -43,13 +54,6 @@ void	init_main_ctx(t_main_ctx *ctx, char **env)
 	ctx->envp = init_env(env);
 }
 
-void	define_sig(void)
-{
-	recevied_from_inp(0, 1);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, &handler);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_main_ctx	ctx;
@@ -60,6 +64,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		define_sig();
 		ctx.input = readline("minishell➤ ");
+		recevied_from_inp(0, 1);
 		if (!ctx.input)
 			return (printf("exit\n"), free(ctx.input), \
 			ft_malloc(0, CLEAR), e_status(0, 0));
@@ -68,7 +73,6 @@ int	main(int argc, char **argv, char **env)
 		if (ft_parse_command(ctx.input))
 			continue ;
 		ctx.lst = s_cmd(ft_split(ctx.input), ctx.envp);
-		free(ctx.input);
 		if (!ctx.lst || ft_expand(ctx.lst, ctx.envp))
 			continue ;
 		ctx.exec = convert_token_to_exec(ctx.lst, ctx.envp);

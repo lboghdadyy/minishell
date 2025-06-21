@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 16:52:51 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/21 18:07:59 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_expand
 	bool	d_q;
 	int		i;
 	int		b;
-
+	char	*c;
 }	t_expand;
 
 typedef struct s_env {
@@ -147,6 +147,7 @@ typedef struct s_var
 	t_vartype		type;
 }	t_var;
 
+void		skip_till_pipe(t_token **lst);
 void		skip_s(char *s, int *i);
 char		*remove_q(char *tmp);
 int			check_pip(char *s, int *i);
@@ -206,6 +207,7 @@ int			dollar_case(char *string);
 int			check_env(char *value, t_env *e);
 int			ft_count_operator(char *string, int index, char c);
 t_var		*s_var(char *s);
+void		signal_heredoc(int sig);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 //builtins

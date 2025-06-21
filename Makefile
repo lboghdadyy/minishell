@@ -3,9 +3,7 @@ NAME = minishell
 CC = cc
 RM = rm -rf
 
-# Enable sanitizer/debug by uncommenting these
-# CFLAGS =-fsanitize=address -g3
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 SRC = minishell.c \
 	parse/utils/ft_strlen.c \
@@ -55,7 +53,8 @@ SRC = minishell.c \
 	parse/ft_getenv.c \
 	parse/utils/split_expn.c \
 	parse/utils/ft_acctual_split.c \
-	parse/utils/split_var.c
+	parse/utils/split_var.c \
+	parse/skip_till_pipe.c
 
 OBJ = $(SRC:.c=.o)
 

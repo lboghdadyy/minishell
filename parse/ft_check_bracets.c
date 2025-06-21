@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:56:46 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/15 20:29:18 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:11:15 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,33 @@ size_t	ft_len_wo_q(char *value)
 	return (count);
 }
 
-char	*remove_q(char *tmp)
+char	*remove_q(char *v)
 {
-	int		index;
-	char	*clean;
-	int		index_tmp;
-	bool	s_q;
-	bool	d_q;
+	t_expand	s;
 
-	index = 0;
-	(1) && (index_tmp = 0, s_q = false, d_q = false);
-	if (!tmp)
+	(1) && (s.b = 0, s.s_q = false, s.d_q = false, s.i = 0);
+	if (!v)
 		return (ft_strdup(""));
-	clean = ft_malloc(ft_len_wo_q(tmp) + 1, ALLOC);
-	while (tmp[index_tmp])
+	s.c = ft_malloc(ft_len_wo_q(v) + 1, ALLOC);
+	while (v[s.b])
 	{
-		if (tmp[index_tmp] == '\'' && !d_q)
-			(1) && (s_q = !s_q, index_tmp++);
-		else if (tmp[index_tmp] == '\"' && !s_q)
-			(1) && (d_q = !d_q, index_tmp++);
-		else if (tmp[index_tmp] == '$' && !d_q && \
-			!s_q && tmp[index_tmp + 1] && ft_strchr("\'\"", tmp[index_tmp + 1]))
-			index_tmp++;
+		if (v[s.b] == '\'' && !s.d_q)
+			(1) && (s.s_q = !s.s_q, s.b++);
+		else if (v[s.b] == '\"' && !s.s_q)
+			(1) && (s.d_q = !s.d_q, s.b++);
+		else if (v[s.b] == '$' && !s.d_q && \
+			!s.s_q && v[s.b + 1] && ft_strchr("\'\"", v[s.b + 1]))
+			s.b++;
+		else if (v[s.b] == '$' && v[s.b + 1] && v[s.b + 1] == '$')
+		{
+			(1) && (s.c[s.i] = v[s.b], s.c[s.i + 1] = v[s.b + 1]);
+			(1) && (s.b += 2, s.i += 2);
+		}
 		else
-			(1) && (clean[index] = tmp[index_tmp], index_tmp++, index++);
+			(1) && (s.c[s.i] = v[s.b], s.b++, s.i++);
 	}
-	clean[index] = '\0';
-	return (clean);
+	s.c[s.i] = '\0';
+	return (s.c);
 }
 
 int	check_end(char *string, char c, int *index)

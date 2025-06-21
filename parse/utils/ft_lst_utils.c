@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/15 18:24:49 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:20:45 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,18 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 	char		**l;
 	int			f;
 
-	(1) && (elt = NULL, l = NULL, f = 0);
-	f = check_env(value, e);
-	if (!f || (shouldnt_split(value, type, f)) || (f && type == R_FILE))
+	(1) && (elt = NULL, l = NULL, f = check_env(value, e));
+	if (!f || (f && type == R_FILE))
 	{
 		exp = exp_val(value, e);
 		(1) && (elt = ft_malloc(sizeof(t_token), ALLOC), elt->type = type);
 		(1) && (elt->value = exp, elt->next = NULL, elt->previous = NULL);
 		elt->removed = 1;
-		if (type == R_FILE && (!exp || f))
-			elt->ambg = 1;
+		if (type == R_FILE)
+		{
+			if (!exp || !exp[0] || f)
+				elt->ambg = 1;
+		}
 		else
 			elt->ambg = 0;
 		if (type == R_FILE)
@@ -79,7 +81,7 @@ void	ft_lstnew(t_token **lst, t_spli_cmd s, t_env *e, int r)
 	last = ft_lstlast(*lst);
 	if (last && last->type == HERDOC)
 		s.type = DELEMTER;
-	if (ft_check_var(s.cmd))
+	if (ft_check_var(s.cmd) && s.type != DELEMTER)
 		return (ft_split_ex(lst, e, s.cmd, s.type));
 	if (s.type == DELEMTER && (ft_strchr(s.cmd, '\'') \
 	|| ft_strchr(s.cmd, '\"')))
