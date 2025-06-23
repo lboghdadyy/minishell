@@ -54,8 +54,6 @@ void	first_expand(t_expand_ctx *c)
 		else
 			list->value = ft_remove_quotes(c, list->value);
 		c->nv = strj(c->nv, list->value);
-		if (!c->nv)
-			c->nv = ft_strdup("");
 		list = list->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection_operators.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/21 16:56:49 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:16:08 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	signal_heredoc(int sig)
 {
 	(void)sig;
 	close(0);
+	recevied_from_inp(1, 1);
 	write(1, "\n", 1);
 	g_check = 1;
 }

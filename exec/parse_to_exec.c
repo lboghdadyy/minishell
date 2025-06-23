@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/16 17:17:12 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:13:48 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	fill_node(t_token **lst, t_exec *node)
 	while (*lst && (*lst)->type != PIPE)
 	{
 		if ((*lst)->type == WORD)
-			handle_word(*lst, node, &i);
+		{
+			if ((*lst)->value)
+				handle_word(*lst, node, &i);
+		}
 		else if ((*lst)->type == HERDOC)
 		{
 			if ((*lst)->fd_reder == -1)
@@ -79,15 +82,12 @@ int	fill_node(t_token **lst, t_exec *node)
 			node->fd_in = (*lst)->fd_reder;
 		}
 		else
-		{
 			if (handle_redirects(lst, node))
 				node->flag = 1;
-		}
 		if (*lst && (*lst)->type != PIPE)
 			*lst = (*lst)->next;
 	}
-	node->opt[i] = NULL;
-	return (0);
+	return (node->opt[i] = NULL, 0);
 }
 
 t_exec	*convert_token_to_exec(t_token *lst, t_env *env)

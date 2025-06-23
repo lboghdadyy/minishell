@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_acctual_split.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 17:37:03 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/15 19:05:42 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:04:15 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ char	**a_split(char *s)
 
 	if (!s)
 	{
-		str = ft_malloc(sizeof(char *) * 2, ALLOC);
-		(1) && (str[0] = ft_strdup("\0"), str[1] = NULL);
+		str = ft_malloc(sizeof(char *), ALLOC);
+		str[0] = NULL;
 		return (str);
 	}
 	str = ft_malloc(sizeof(char *) * (count_words(s) + 1), ALLOC);

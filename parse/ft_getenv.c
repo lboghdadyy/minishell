@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:26:02 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/16 14:39:10 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:02:46 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*g_env(char *value, t_env *envp)
 	if (!tmp)
 		return (NULL);
 	found = tmp->value;
+	if (!found[0])
+		return (NULL);
 	return (found);
 }
 

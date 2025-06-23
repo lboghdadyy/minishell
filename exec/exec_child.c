@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 18:10:34 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:00:12 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	cmd_not_found(char *cmd)
 	int	k;
 
 	k = 2;
+	if (!cmd)
+		exit(0);
 	write(2, cmd, ft_strlen(cmd));
 	ft_putstr_fd(": command not found\n", 2);
 	while (++k < 1024)

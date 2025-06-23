@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_exec_more.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 16:58:26 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:15:52 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,8 @@ int	handle_heredoc(t_token *lst, t_env *env)
 {
 	t_heredoc_ctx	ctx;
 
-	recevied_from_inp(1, 1);
 	if (init_heredoc_ctx(&ctx, &lst))
-	{
-		while (lst && lst->type != PIPE)
-			lst = lst->next;
-		return (-1);
-	}
+		return (skip_till_pipe(&lst), -1);
 	signal(SIGINT, &signal_heredoc);
 	if (ft_handle_heredoc(lst, env, ctx.fd_out))
 		return (close(ctx.fd_in), -2);
