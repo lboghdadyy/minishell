@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:32:18 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 17:38:51 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:42:10 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,13 @@ int	execution(t_exec *exec, t_env **env)
 	{
 		if (!exec->flag)
 			last_pid = execute_cmd(exec, env);
+		if (exec->fd_in != 0)
+			close(exec->fd_in);
+		if (exec->fd_out > 2)
+			close(exec->fd_out);
 		exec = exec->next;
 	}
 	dup2(fd, 0);
 	close(fd);
-	while (++j < 1024)
-		close(j);
 	return (check_exit_status(last_pid));
 }

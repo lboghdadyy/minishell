@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/21 19:16:08 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:30:21 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 
 	if (fd_out == -1)
 		return (1);
-	(1) && (g_check = 0, fd = dup(0));
+	(1) && (g_check = 0, fd = dup(STDIN_FILENO));
 	while (1)
 	{
 		input = readline("> ");
@@ -74,7 +74,7 @@ int	ft_handle_heredoc(t_token *lst, t_env *env, int fd_out)
 		free(input);
 	}
 	if (g_check)
-		return (free(input), dup2(fd, 0), close(fd_out), \
+		return (free(input), dup2(fd, STDIN_FILENO), close(fd_out), \
 		close(fd), e_status(130, 1), 1);
-	return (close(fd_out), close(fd), free(input), 0);
+	return (close(fd_out), close(fd), e_status(0, 1), free(input), 0);
 }

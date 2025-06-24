@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 19:13:48 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:51:54 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,25 @@ t_exec	*convert_token_to_exec(t_token *lst, t_env *env)
 	t_exec	*node;
 	t_token	*tmp;
 
-	tmp = lst;
-	head = NULL;
+	(1) && (tmp = lst, head = NULL);
 	while (lst)
 	{
 		node = new_node();
-		fill_node(&lst, node);
-		add_back(&head, node);
+		(fill_node(&lst, node), add_back(&head, node));
 		if (lst && lst->type == PIPE)
 			lst = lst->next;
 	}
 	if (ft_stop_redirect(tmp, env))
+	{
+		while (head)
+		{
+			if (head->fd_in != 0)
+				close(head->fd_in);
+			if (head->fd_out > 2)
+				close(head->fd_out);
+			head = head->next;
+		}
 		return (NULL);
+	}
 	return (head);
 }

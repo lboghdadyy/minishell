@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 16:33:02 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 19:15:52 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:19:37 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ int	handle_redirect_in(t_token **lst, t_exec *node)
 		close(node->fd_in);
 	if ((*lst)->next->ambg)
 	{
+		if (node->fd_in > 0)
+			close(node->fd_in);
+		if (node->fd_out > 2)
+			close(node->fd_out);
 		skip_till_pipe(lst);
 		return (ambigous_red(), 1);
 	}
@@ -57,8 +61,7 @@ int	handle_redirect_in(t_token **lst, t_exec *node)
 	{
 		node->flag = 1;
 		perror("minishell");
-		while ((*lst)->next && (*lst)->type != PIPE)
-			(*lst) = (*lst)->next;
+		skip_till_pipe(lst);
 		return (1);
 	}
 	else

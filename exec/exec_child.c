@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/21 19:00:12 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:48:15 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	handl_sig(int sig)
 {
+	write(1, "\n", 1);
 	if (sig == SIGINT)
 		exit(130);
 	if (sig == SIGQUIT)
@@ -54,8 +55,6 @@ void	cmd_not_found(char *cmd)
 		exit(0);
 	write(2, cmd, ft_strlen(cmd));
 	ft_putstr_fd(": command not found\n", 2);
-	while (++k < 1024)
-		close(k);
 	ft_malloc(0, CLEAR);
 	exit(127);
 }
