@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/24 19:47:29 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:05:00 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
-# include <limits.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -208,6 +207,7 @@ int			check_env(char *value, t_env *e);
 int			ft_count_operator(char *string, int index, char c);
 t_var		*s_var(char *s);
 void		signal_heredoc(int sig);
+int			handle_redirects(t_token **lst, t_exec *node);
 // garbage
 void		*ft_malloc(size_t size, int flag);
 //builtins

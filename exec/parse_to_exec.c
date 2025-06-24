@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:23:56 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/24 16:51:54 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:01:55 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,15 @@ void	handle_word(t_token *lst, t_exec *node, int *i)
 	(*i)++;
 }
 
-int	handle_redirects(t_token **lst, t_exec *node)
+void	check_word(t_token **lst, t_exec *node, int *i)
 {
-	int	status;
-
-	status = 0;
-	if ((*lst)->type == HERDOC)
+	if ((*lst)->value)
+		handle_word(*lst, node, i);
+	if (ft_strstr((*lst)->value, "minishell"))
 	{
-		if ((*lst)->fd_reder == -1)
-			status = 1;
-		else
-		{
-			if (node->fd_in != -1)
-				close (node->fd_in);
-			node->fd_in = (*lst)->fd_reder;
-		}
+		while ((*lst))
+			*lst = (*lst)->next;
 	}
-	else if ((*lst)->type == R_IN)
-		status = handle_redirect_in(lst, node);
-	else if ((*lst)->type == APPEND)
-		status = handle_append(lst, node);
-	else if ((*lst)->type == R_OUT)
-		status = handle_redirect_out(lst, node);
-	if (status && status != 33)
-		e_status(1, 1);
-	return (status);
 }
 
 int	fill_node(t_token **lst, t_exec *node)
@@ -71,10 +55,7 @@ int	fill_node(t_token **lst, t_exec *node)
 	while (*lst && (*lst)->type != PIPE)
 	{
 		if ((*lst)->type == WORD)
-		{
-			if ((*lst)->value)
-				handle_word(*lst, node, &i);
-		}
+			check_word(lst, node, &i);
 		else if ((*lst)->type == HERDOC)
 		{
 			if ((*lst)->fd_reder == -1)

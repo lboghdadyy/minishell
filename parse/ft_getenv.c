@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:26:02 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/24 16:28:10 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 21:55:30 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	default_sig(void)
 
 void	child_sig(char	*cmd)
 {
-	if (!ft_strcmp(cmd, "./minishell"))
+	if (ft_strstr(cmd, "minishell"))
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);

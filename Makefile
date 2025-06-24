@@ -6,7 +6,7 @@
 #    By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/21 18:32:58 by oufarah           #+#    #+#              #
-#    Updated: 2025/06/24 19:38:11 by oufarah          ###   ########.fr        #
+#    Updated: 2025/06/24 22:04:19 by oufarah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CC = cc
 RM = rm -rf
 
 CFLAGS = -Wall -Wextra -Werror
+
 
 SRC = minishell.c \
 	parse/utils/ft_strlen.c \

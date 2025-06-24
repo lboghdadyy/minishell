@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/24 19:58:29 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:06:05 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **env)
 		recevied_from_inp(0, 1);
 		ctx.input = readline("minishell➤ ");
 		if (!ctx.input)
-			return (printf("exit\n"), free(ctx.input), \
+			return (ft_putstr_fd("exit\n", 1), free(ctx.input), \
 			ft_malloc(0, CLEAR), e_status(0, 0));
 		if (*ctx.input)
 			add_history(ctx.input);
