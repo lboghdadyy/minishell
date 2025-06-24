@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:14:28 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/21 19:09:45 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 18:04:54 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ void	ft_split_ex(t_token **lst, t_env *e, char *value, t_tokentype type)
 {
 	t_token		*elt;
 	char		*exp;
-	char		**l;
 	int			f;
 
-	(1) && (elt = NULL, l = NULL, f = check_env(value, e));
+	(1) && (elt = NULL, f = check_env(value, e));
 	if (!f || (f && type == R_FILE))
 	{
 		exp = exp_val(value, e);

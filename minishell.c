@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/21 19:19:02 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 20:05:17 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	handler(int sig)
 {
-	ft_putstr_fd("\n", 1);
+	if (!recevied_from_inp(0, 0))
+		ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	if (!recevied_from_inp(0, 0))
 		rl_redisplay();
@@ -63,8 +64,8 @@ int	main(int argc, char **argv, char **env)
 	while (20052)
 	{
 		define_sig();
-		ctx.input = readline("minishell➤ ");
 		recevied_from_inp(0, 1);
+		ctx.input = readline("minishell➤ ");
 		if (!ctx.input)
 			return (printf("exit\n"), free(ctx.input), \
 			ft_malloc(0, CLEAR), e_status(0, 0));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/24 16:48:15 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:47:22 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	handl_sig(int sig)
 {
-	write(1, "\n", 1);
+	// write(1, "\n", 1);
+	// rl_on_new_line();
+	// rl_redisplay();
+	// rl_replace_line("", 0);
 	if (sig == SIGINT)
 		exit(130);
 	if (sig == SIGQUIT)

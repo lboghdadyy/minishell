@@ -63,6 +63,27 @@ t_tokentype	ft_token_type(t_token *lst, char *string)
 	return (WORD);
 }
 
+int	count_heredoc(t_token *lst)
+{
+	t_token	*tmp;
+	int 	count;
+
+	count = 0;
+	tmp = lst;
+	while (tmp)
+	{
+		if (tmp->type == HERDOC)
+			count++;
+		tmp = tmp->next;
+	}
+	if (count >= 16)
+	{
+		ft_putstr_fd("minishell : maximum here-document count exceeded\n", 2);		
+		return (e_status(2, 1), 1);
+	}
+	return (0);
+}
+
 t_token	*s_cmd(char **cmd, t_env *envp)
 {
 	t_token		*lst;
@@ -80,5 +101,7 @@ t_token	*s_cmd(char **cmd, t_env *envp)
 		ft_lstnew(&lst, s, envp, 0);
 		i++;
 	}
+	if (count_heredoc(lst))
+		return (NULL);
 	return (lst);
 }

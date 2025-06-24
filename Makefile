@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+         #
+#    By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/21 18:32:58 by oufarah           #+#    #+#              #
-#    Updated: 2025/06/21 18:32:59 by oufarah          ###   ########.fr        #
+#    Updated: 2025/06/24 19:35:50 by sbaghdad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 CC = cc
 RM = rm -rf
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = 
 
 SRC = minishell.c \
 	parse/utils/ft_strlen.c \

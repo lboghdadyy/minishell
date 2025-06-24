@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection_operators.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:04:39 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/24 16:30:21 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:58:31 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	signal_heredoc(int sig)
 	close(0);
 	recevied_from_inp(1, 1);
 	write(1, "\n", 1);
+	rl_on_new_line();
 	g_check = 1;
 }
 
