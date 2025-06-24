@@ -66,7 +66,7 @@ t_tokentype	ft_token_type(t_token *lst, char *string)
 int	count_heredoc(t_token *lst)
 {
 	t_token	*tmp;
-	int 	count;
+	int		count;
 
 	count = 0;
 	tmp = lst;
@@ -78,7 +78,7 @@ int	count_heredoc(t_token *lst)
 	}
 	if (count >= 16)
 	{
-		ft_putstr_fd("minishell : maximum here-document count exceeded\n", 2);		
+		ft_putstr_fd("minishell : maximum here-document count exceeded\n", 2);
 		return (e_status(2, 1), 1);
 	}
 	return (0);

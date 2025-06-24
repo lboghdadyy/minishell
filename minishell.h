@@ -6,7 +6,7 @@
 /*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:22 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/24 16:47:39 by oufarah          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:47:29 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,6 @@ char		*get_env_value(t_env **env, char *path);
 t_env		*find_env(t_env	*env, char *key);
 int			ft_env(t_env *env, int fd);
 // exec_child
-void		handl_sig(int sig);
 int			check_exit_status(pid_t last_pid);
 void		cmd_not_found(char *cmd);
 int			parent_thing(int *fd, t_exec *head);

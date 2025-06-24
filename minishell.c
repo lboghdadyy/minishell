@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 13:06:27 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/24 20:05:17 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:58:29 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handler(int sig)
 		rl_redisplay();
 	else
 		recevied_from_inp(0, 1);
-	rl_replace_line("", 0);
+	rl_replace_line("", 1);
 	e_status(130, 1);
 	(void)sig;
 }

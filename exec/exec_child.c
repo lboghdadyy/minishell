@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:16:24 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/24 19:47:22 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:53:47 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	handl_sig(int sig)
-{
-	// write(1, "\n", 1);
-	// rl_on_new_line();
-	// rl_redisplay();
-	// rl_replace_line("", 0);
-	if (sig == SIGINT)
-		exit(130);
-	if (sig == SIGQUIT)
-		exit(131);
-}
 
 int	check_exit_status(pid_t last_pid)
 {
@@ -34,14 +22,17 @@ int	check_exit_status(pid_t last_pid)
 	pid = wait(&status);
 	while (pid != -1)
 	{
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-			write(2, "Quit (core dumped)\n", 20);
 		if (pid == last_pid)
 		{
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+				write(2, "Quit (core dumped)", 19);
 			if (WIFEXITED(status))
 				exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
+			{
+				write(1, "\n", 1);
 				exit_code = 128 + WTERMSIG(status);
+			}
 		}
 		pid = wait(&status);
 	}
