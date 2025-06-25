@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oufarah <oufarah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 06:19:28 by oufarah           #+#    #+#             */
-/*   Updated: 2025/06/15 16:51:58 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/25 20:25:20 by oufarah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*ft_strstr(char *str, char *to_find)
 
 	i = 0;
 	j = 0;
+	if (!str || !to_find)
+		return (NULL);
 	if (to_find[i] == '\0')
 		return (str);
 	while (str[i])
